@@ -13,16 +13,12 @@ function Currency(name = DUMMY_CURRENCY, availableSwapList) {
     this.availableSwapList = availableSwapList;
 }
 
-function Swap(address = DUMMY_ADDRESS, from = DUMMY_CURRENCY, to = DUMMY_CURRENCY, ratio = 0, fee_rate = 0.3) {
-    this.address = address;
+function Swap(from = DUMMY_CURRENCY, to = DUMMY_CURRENCY, ratio = 0) {
     this.from = from;
     this.to = to;
     this.ratio = ratio; 
     // value : to_currency / from_currency
     // default : 0
-    this.fee_rate = fee_rate;
-    // value : percentage
-    // default : 0.3%
 }
 
 // let CurrencyLists = [
