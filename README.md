@@ -2,3 +2,4 @@
 
 ### Start Date : July 30th, 2021
 ### Goal       : This project aims to provide service that searches the most benficial swap between two currencies by routing through pools and De-ex's.
+### Collaborators : 김태웅, 서원용, 서지혜, 이가은, 조민규
