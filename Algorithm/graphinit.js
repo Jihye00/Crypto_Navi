@@ -74,7 +74,7 @@ for (let i = 0; i < MATRIX_SIZE; i++) {
 for (i = 0; i < MATRIX_SIZE; i++) {
     for (j = 0; j < MATRIX_SIZE; j++) {
         if (i == j) swap_matrix[i][j].ratio = 1;
-        else if (i > j) swap_matrix[i][j].ratio = Math.random() * (MAX_RATIO - MIN_RATIO) + MIN_RATIO;
+        else if (i > j) swap_matrix[i][j].ratio = safemath.safeMule(Math.random(), (MAX_RATIO - MIN_RATIO) + MIN_RATIO);
     }
 }
 
@@ -83,7 +83,7 @@ for (i = 0; i < MATRIX_SIZE; i++) {
 // Todo : exchange fee
 for(i = 0; i < MATRIX_SIZE; i++){
     for(j = 0; j < MATRIX_SIZE; j++){
-        if (swap_matrix[i][j].ratio == DUMMY_RATIO) swap_matrix[i][j].ratio = 1/swap_matrix[j][i].ratio;
+        if (swap_matrix[i][j].ratio == DUMMY_RATIO) swap_matrix[i][j].ratio = safemath.safeDiv(1 ,swap_matrix[j][i].ratio);
         else if(i != j) swap_matrix[i][j].ratio *= (1 - KLAYSWAP_FEE);
     }
 }
@@ -102,7 +102,7 @@ for(t=0; t<MATRIX_SIZE; t++){
     for(i=0; i<MATRIX_SIZE; i++){
         for(j=0; j<MATRIX_SIZE; j++){
             for(k=0; k<MATRIX_SIZE; k++){
-                swap_matrix[i][k].ratio = Math.max(swap_matrix[i][k].ratio, swap_matrix[i][j].ratio*swap_matrix[j][k].ratio);
+                swap_matrix[i][k].ratio = Math.max(swap_matrix[i][k].ratio, safemath.safeMule(swap_matrix[i][j].ratio ,swap_matrix[j][k].ratio));
             }
         }
     }
