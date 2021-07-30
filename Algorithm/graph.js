@@ -5,6 +5,8 @@ const DUMMY_MARKET = 'COINONE';
 const dex = [
     'KLAYSWAP',
     'DEFINIX'];
+const KLAYSWAP_FEE = 0.003;
+const DEFINIX_FEE = 0.002;
 
 function Currency(name = DUMMY_CURRENCY, availableSwapList) {
     this.name = name;
