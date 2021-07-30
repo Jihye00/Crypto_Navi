@@ -37,7 +37,7 @@ function Swap(from = DUMMY_CURRENCY, to = DUMMY_CURRENCY, ratio = DUMMY_RATIO) {
     this.from = from;
     this.to = to;
     this.ratio = ratio;
-    this.path = [(from, to)];
+    this.path = [from.name];
 }
 const DUMMY_SWAP = new Swap();
 
@@ -98,7 +98,7 @@ fs.writeFile("initial.txt", jsondata1, function(err) {
     }
 });
 
-for(t=0; t<MATRIX_SIZE; t++){
+for(t=0; t<2; t++){
     for(i=0; i<MATRIX_SIZE; i++){
         for(j=0; j<MATRIX_SIZE; j++){
             for(k=0; k<MATRIX_SIZE; k++){
@@ -110,7 +110,7 @@ for(t=0; t<MATRIX_SIZE; t++){
                         swap_matrix2[i][k].ratio = max_val;
                         break;
                     case safemath.safeMule(swap_matrix[i][j].ratio, swap_matrix[j][k].ratio):
-                        swap_matrix2[i][k].path = JSON.parse(JSON.stringify(swap_matrix[i][j].path))+JSON.parse(JSON.stringify(swap_matrix[j][k].path));
+                        swap_matrix2[i][k].path = JSON.parse(JSON.stringify(swap_matrix[i][j].path.concat(swap_matrix[j][k].path)));
                         swap_matrix2[i][k].ratio = max_val;
                         break;
                 }
