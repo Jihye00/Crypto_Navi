@@ -1,0 +1,594 @@
+[
+  [
+    {
+      "from": {
+        "name": "KLAY"
+      },
+      "to": {
+        "name": "KLAY"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "KLAY"
+      },
+      "to": {
+        "name": "BNB"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "KLAY"
+      },
+      "to": {
+        "name": "USDT"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "KLAY"
+      },
+      "to": {
+        "name": "DAI"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "KLAY"
+      },
+      "to": {
+        "name": "XRP"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "KLAY"
+      },
+      "to": {
+        "name": "BTC"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "KLAY"
+      },
+      "to": {
+        "name": "SIX"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "KLAY"
+      },
+      "to": {
+        "name": "KSP"
+      },
+      "ratio": null
+    }
+  ],
+  [
+    {
+      "from": {
+        "name": "BNB"
+      },
+      "to": {
+        "name": "KLAY"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "BNB"
+      },
+      "to": {
+        "name": "BNB"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "BNB"
+      },
+      "to": {
+        "name": "USDT"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "BNB"
+      },
+      "to": {
+        "name": "DAI"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "BNB"
+      },
+      "to": {
+        "name": "XRP"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "BNB"
+      },
+      "to": {
+        "name": "BTC"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "BNB"
+      },
+      "to": {
+        "name": "SIX"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "BNB"
+      },
+      "to": {
+        "name": "KSP"
+      },
+      "ratio": null
+    }
+  ],
+  [
+    {
+      "from": {
+        "name": "USDT"
+      },
+      "to": {
+        "name": "KLAY"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "USDT"
+      },
+      "to": {
+        "name": "BNB"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "USDT"
+      },
+      "to": {
+        "name": "USDT"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "USDT"
+      },
+      "to": {
+        "name": "DAI"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "USDT"
+      },
+      "to": {
+        "name": "XRP"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "USDT"
+      },
+      "to": {
+        "name": "BTC"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "USDT"
+      },
+      "to": {
+        "name": "SIX"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "USDT"
+      },
+      "to": {
+        "name": "KSP"
+      },
+      "ratio": null
+    }
+  ],
+  [
+    {
+      "from": {
+        "name": "DAI"
+      },
+      "to": {
+        "name": "KLAY"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "DAI"
+      },
+      "to": {
+        "name": "BNB"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "DAI"
+      },
+      "to": {
+        "name": "USDT"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "DAI"
+      },
+      "to": {
+        "name": "DAI"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "DAI"
+      },
+      "to": {
+        "name": "XRP"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "DAI"
+      },
+      "to": {
+        "name": "BTC"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "DAI"
+      },
+      "to": {
+        "name": "SIX"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "DAI"
+      },
+      "to": {
+        "name": "KSP"
+      },
+      "ratio": null
+    }
+  ],
+  [
+    {
+      "from": {
+        "name": "XRP"
+      },
+      "to": {
+        "name": "KLAY"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "XRP"
+      },
+      "to": {
+        "name": "BNB"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "XRP"
+      },
+      "to": {
+        "name": "USDT"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "XRP"
+      },
+      "to": {
+        "name": "DAI"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "XRP"
+      },
+      "to": {
+        "name": "XRP"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "XRP"
+      },
+      "to": {
+        "name": "BTC"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "XRP"
+      },
+      "to": {
+        "name": "SIX"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "XRP"
+      },
+      "to": {
+        "name": "KSP"
+      },
+      "ratio": null
+    }
+  ],
+  [
+    {
+      "from": {
+        "name": "BTC"
+      },
+      "to": {
+        "name": "KLAY"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "BTC"
+      },
+      "to": {
+        "name": "BNB"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "BTC"
+      },
+      "to": {
+        "name": "USDT"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "BTC"
+      },
+      "to": {
+        "name": "DAI"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "BTC"
+      },
+      "to": {
+        "name": "XRP"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "BTC"
+      },
+      "to": {
+        "name": "BTC"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "BTC"
+      },
+      "to": {
+        "name": "SIX"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "BTC"
+      },
+      "to": {
+        "name": "KSP"
+      },
+      "ratio": null
+    }
+  ],
+  [
+    {
+      "from": {
+        "name": "SIX"
+      },
+      "to": {
+        "name": "KLAY"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "SIX"
+      },
+      "to": {
+        "name": "BNB"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "SIX"
+      },
+      "to": {
+        "name": "USDT"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "SIX"
+      },
+      "to": {
+        "name": "DAI"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "SIX"
+      },
+      "to": {
+        "name": "XRP"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "SIX"
+      },
+      "to": {
+        "name": "BTC"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "SIX"
+      },
+      "to": {
+        "name": "SIX"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "SIX"
+      },
+      "to": {
+        "name": "KSP"
+      },
+      "ratio": null
+    }
+  ],
+  [
+    {
+      "from": {
+        "name": "KSP"
+      },
+      "to": {
+        "name": "KLAY"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "KSP"
+      },
+      "to": {
+        "name": "BNB"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "KSP"
+      },
+      "to": {
+        "name": "USDT"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "KSP"
+      },
+      "to": {
+        "name": "DAI"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "KSP"
+      },
+      "to": {
+        "name": "XRP"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "KSP"
+      },
+      "to": {
+        "name": "BTC"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "KSP"
+      },
+      "to": {
+        "name": "SIX"
+      },
+      "ratio": null
+    },
+    {
+      "from": {
+        "name": "KSP"
+      },
+      "to": {
+        "name": "KSP"
+      },
+      "ratio": null
+    }
+  ]
+]

@@ -1,0 +1,594 @@
+[
+  [
+    {
+      "from": {
+        "name": "KLAY"
+      },
+      "to": {
+        "name": "KLAY"
+      },
+      "ratio": 1
+    },
+    {
+      "from": {
+        "name": "KLAY"
+      },
+      "to": {
+        "name": "BNB"
+      },
+      "ratio": 1.0609264234054379
+    },
+    {
+      "from": {
+        "name": "KLAY"
+      },
+      "to": {
+        "name": "USDT"
+      },
+      "ratio": 1.0926006557069228
+    },
+    {
+      "from": {
+        "name": "KLAY"
+      },
+      "to": {
+        "name": "DAI"
+      },
+      "ratio": 0.9234178037734246
+    },
+    {
+      "from": {
+        "name": "KLAY"
+      },
+      "to": {
+        "name": "XRP"
+      },
+      "ratio": 1.076983801561525
+    },
+    {
+      "from": {
+        "name": "KLAY"
+      },
+      "to": {
+        "name": "BTC"
+      },
+      "ratio": 0.9583968220786265
+    },
+    {
+      "from": {
+        "name": "KLAY"
+      },
+      "to": {
+        "name": "SIX"
+      },
+      "ratio": 1.0352280985660718
+    },
+    {
+      "from": {
+        "name": "KLAY"
+      },
+      "to": {
+        "name": "KSP"
+      },
+      "ratio": 0.9856464923877434
+    }
+  ],
+  [
+    {
+      "from": {
+        "name": "BNB"
+      },
+      "to": {
+        "name": "KLAY"
+      },
+      "ratio": 0.93974471556638
+    },
+    {
+      "from": {
+        "name": "BNB"
+      },
+      "to": {
+        "name": "BNB"
+      },
+      "ratio": 1
+    },
+    {
+      "from": {
+        "name": "BNB"
+      },
+      "to": {
+        "name": "USDT"
+      },
+      "ratio": 0.9816819895750409
+    },
+    {
+      "from": {
+        "name": "BNB"
+      },
+      "to": {
+        "name": "DAI"
+      },
+      "ratio": 1.0755256881115096
+    },
+    {
+      "from": {
+        "name": "BNB"
+      },
+      "to": {
+        "name": "XRP"
+      },
+      "ratio": 1.0376882482469079
+    },
+    {
+      "from": {
+        "name": "BNB"
+      },
+      "to": {
+        "name": "BTC"
+      },
+      "ratio": 0.9339784550604598
+    },
+    {
+      "from": {
+        "name": "BNB"
+      },
+      "to": {
+        "name": "SIX"
+      },
+      "ratio": 0.9173013418648969
+    },
+    {
+      "from": {
+        "name": "BNB"
+      },
+      "to": {
+        "name": "KSP"
+      },
+      "ratio": 0.9305208833184547
+    }
+  ],
+  [
+    {
+      "from": {
+        "name": "USDT"
+      },
+      "to": {
+        "name": "KLAY"
+      },
+      "ratio": 0.9125017404963315
+    },
+    {
+      "from": {
+        "name": "USDT"
+      },
+      "to": {
+        "name": "BNB"
+      },
+      "ratio": 1.0156038417610067
+    },
+    {
+      "from": {
+        "name": "USDT"
+      },
+      "to": {
+        "name": "USDT"
+      },
+      "ratio": 1
+    },
+    {
+      "from": {
+        "name": "USDT"
+      },
+      "to": {
+        "name": "DAI"
+      },
+      "ratio": 0.9200145316036086
+    },
+    {
+      "from": {
+        "name": "USDT"
+      },
+      "to": {
+        "name": "XRP"
+      },
+      "ratio": 0.9861403629883196
+    },
+    {
+      "from": {
+        "name": "USDT"
+      },
+      "to": {
+        "name": "BTC"
+      },
+      "ratio": 0.9157108259569156
+    },
+    {
+      "from": {
+        "name": "USDT"
+      },
+      "to": {
+        "name": "SIX"
+      },
+      "ratio": 0.9439493161403536
+    },
+    {
+      "from": {
+        "name": "USDT"
+      },
+      "to": {
+        "name": "KSP"
+      },
+      "ratio": 1.0954648971298515
+    }
+  ],
+  [
+    {
+      "from": {
+        "name": "DAI"
+      },
+      "to": {
+        "name": "KLAY"
+      },
+      "ratio": 1.0796846193845206
+    },
+    {
+      "from": {
+        "name": "DAI"
+      },
+      "to": {
+        "name": "BNB"
+      },
+      "ratio": 0.9269885517570566
+    },
+    {
+      "from": {
+        "name": "DAI"
+      },
+      "to": {
+        "name": "USDT"
+      },
+      "ratio": 1.083678535231616
+    },
+    {
+      "from": {
+        "name": "DAI"
+      },
+      "to": {
+        "name": "DAI"
+      },
+      "ratio": 1
+    },
+    {
+      "from": {
+        "name": "DAI"
+      },
+      "to": {
+        "name": "XRP"
+      },
+      "ratio": 0.964411531690649
+    },
+    {
+      "from": {
+        "name": "DAI"
+      },
+      "to": {
+        "name": "BTC"
+      },
+      "ratio": 1.0581579718175527
+    },
+    {
+      "from": {
+        "name": "DAI"
+      },
+      "to": {
+        "name": "SIX"
+      },
+      "ratio": 0.925659109258233
+    },
+    {
+      "from": {
+        "name": "DAI"
+      },
+      "to": {
+        "name": "KSP"
+      },
+      "ratio": 0.970431885096659
+    }
+  ],
+  [
+    {
+      "from": {
+        "name": "XRP"
+      },
+      "to": {
+        "name": "KLAY"
+      },
+      "ratio": 0.9257335147979423
+    },
+    {
+      "from": {
+        "name": "XRP"
+      },
+      "to": {
+        "name": "BNB"
+      },
+      "ratio": 0.9607895258372179
+    },
+    {
+      "from": {
+        "name": "XRP"
+      },
+      "to": {
+        "name": "USDT"
+      },
+      "ratio": 1.01101226297925
+    },
+    {
+      "from": {
+        "name": "XRP"
+      },
+      "to": {
+        "name": "DAI"
+      },
+      "ratio": 1.0337910396531886
+    },
+    {
+      "from": {
+        "name": "XRP"
+      },
+      "to": {
+        "name": "XRP"
+      },
+      "ratio": 1
+    },
+    {
+      "from": {
+        "name": "XRP"
+      },
+      "to": {
+        "name": "BTC"
+      },
+      "ratio": 0.9278567650372331
+    },
+    {
+      "from": {
+        "name": "XRP"
+      },
+      "to": {
+        "name": "SIX"
+      },
+      "ratio": 1.0805504203357374
+    },
+    {
+      "from": {
+        "name": "XRP"
+      },
+      "to": {
+        "name": "KSP"
+      },
+      "ratio": 0.9349164472202897
+    }
+  ],
+  [
+    {
+      "from": {
+        "name": "BTC"
+      },
+      "to": {
+        "name": "KLAY"
+      },
+      "ratio": 1.0402789085189668
+    },
+    {
+      "from": {
+        "name": "BTC"
+      },
+      "to": {
+        "name": "BNB"
+      },
+      "ratio": 1.067476444020821
+    },
+    {
+      "from": {
+        "name": "BTC"
+      },
+      "to": {
+        "name": "USDT"
+      },
+      "ratio": 1.088771664305855
+    },
+    {
+      "from": {
+        "name": "BTC"
+      },
+      "to": {
+        "name": "DAI"
+      },
+      "ratio": 0.9422033633480035
+    },
+    {
+      "from": {
+        "name": "BTC"
+      },
+      "to": {
+        "name": "XRP"
+      },
+      "ratio": 1.074519298202231
+    },
+    {
+      "from": {
+        "name": "BTC"
+      },
+      "to": {
+        "name": "BTC"
+      },
+      "ratio": 1
+    },
+    {
+      "from": {
+        "name": "BTC"
+      },
+      "to": {
+        "name": "SIX"
+      },
+      "ratio": 1.0575881924690655
+    },
+    {
+      "from": {
+        "name": "BTC"
+      },
+      "to": {
+        "name": "KSP"
+      },
+      "ratio": 1.0987412223021458
+    }
+  ],
+  [
+    {
+      "from": {
+        "name": "SIX"
+      },
+      "to": {
+        "name": "KLAY"
+      },
+      "ratio": 0.9630727772758266
+    },
+    {
+      "from": {
+        "name": "SIX"
+      },
+      "to": {
+        "name": "BNB"
+      },
+      "ratio": 1.0868838346764802
+    },
+    {
+      "from": {
+        "name": "SIX"
+      },
+      "to": {
+        "name": "USDT"
+      },
+      "ratio": 1.0562007757752943
+    },
+    {
+      "from": {
+        "name": "SIX"
+      },
+      "to": {
+        "name": "DAI"
+      },
+      "ratio": 1.0770703707533709
+    },
+    {
+      "from": {
+        "name": "SIX"
+      },
+      "to": {
+        "name": "XRP"
+      },
+      "ratio": 0.9226779067747921
+    },
+    {
+      "from": {
+        "name": "SIX"
+      },
+      "to": {
+        "name": "BTC"
+      },
+      "ratio": 0.9427109787150562
+    },
+    {
+      "from": {
+        "name": "SIX"
+      },
+      "to": {
+        "name": "SIX"
+      },
+      "ratio": 1
+    },
+    {
+      "from": {
+        "name": "SIX"
+      },
+      "to": {
+        "name": "KSP"
+      },
+      "ratio": 1.1006665607044095
+    }
+  ],
+  [
+    {
+      "from": {
+        "name": "KSP"
+      },
+      "to": {
+        "name": "KLAY"
+      },
+      "ratio": 1.011518843418955
+    },
+    {
+      "from": {
+        "name": "KSP"
+      },
+      "to": {
+        "name": "BNB"
+      },
+      "ratio": 1.0714429067346294
+    },
+    {
+      "from": {
+        "name": "KSP"
+      },
+      "to": {
+        "name": "USDT"
+      },
+      "ratio": 0.9101158810402485
+    },
+    {
+      "from": {
+        "name": "KSP"
+      },
+      "to": {
+        "name": "DAI"
+      },
+      "ratio": 1.027377619502573
+    },
+    {
+      "from": {
+        "name": "KSP"
+      },
+      "to": {
+        "name": "XRP"
+      },
+      "ratio": 1.0664054557648421
+    },
+    {
+      "from": {
+        "name": "KSP"
+      },
+      "to": {
+        "name": "BTC"
+      },
+      "ratio": 0.9074020158368394
+    },
+    {
+      "from": {
+        "name": "KSP"
+      },
+      "to": {
+        "name": "SIX"
+      },
+      "ratio": 0.9058147449868337
+    },
+    {
+      "from": {
+        "name": "KSP"
+      },
+      "to": {
+        "name": "KSP"
+      },
+      "ratio": 1
+    }
+  ]
+]
