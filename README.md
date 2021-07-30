@@ -9,7 +9,7 @@
 ## Algorithm : modification of matrix multiplication.
 ### The theoretical background is the following
 Form a matrix of exchange ratio between currencies.
-Replacing Matrix[i][j] with MaxValue(Matrix[ i ][ j ], Matrix[ i ][ k ] * Matrix[ k ][ j ]) would give a better routing for that currency exchange.
+Replacing Matrix[ i ][ j ] with MaxValue(Matrix[ i ][ j ], Matrix[ i ][ k ] * Matrix[ k ][ j ]) would give a better routing for that currency exchange.
 Iterating through the whole matrix, above matrix would be replaced to the maximum exchange ratio. 
 If we record the routing for every exchange, we would get the optimum exchange route.
 This usually ends in n^2.67 given that n is the total number of currencies used for swaps.
