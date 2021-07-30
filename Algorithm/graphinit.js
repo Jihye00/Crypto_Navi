@@ -1,6 +1,8 @@
+// import
 const Math = require("mathjs");
+
+// constant variables
 const DUMMY_ADDRESS = '0x0000000000000000000000000000000000000000';
-const DUMMY_CURRENCY = 'MOUND';
 const DUMMY_MARKET = 'COINONE';
 const dex = [
     'KLAYSWAP',
@@ -8,11 +10,14 @@ const dex = [
 const KLAYSWAP_FEE = 0.003;
 const DEFINIX_FEE = 0.002;
 
-function Currency(name = DUMMY_CURRENCY, availableSwapList) {
+// Currency Class
+function Currency(name = DUMMY_CURRENCY) {
     this.name = name;
-    this.availableSwapList = availableSwapList;
+    // this.availableSwapList = availableSwapList;
 }
+const DUMMY_CURRENCY = new Currency('KLAY');
 
+// Swap Class
 function Swap(from = DUMMY_CURRENCY, to = DUMMY_CURRENCY, ratio = 0) {
     this.from = from;
     this.to = to;
@@ -20,25 +25,46 @@ function Swap(from = DUMMY_CURRENCY, to = DUMMY_CURRENCY, ratio = 0) {
     // value : to_currency / from_currency
     // default : 0
 }
+const DUMMY_SWAP = new Swap();
 
-// let CurrencyLists = [
-//     new Currency('KLAY', 'au'),
-//     new Currency('mary', 'us'),
-//     new Currency('mary', 'us'),
-//     new Currency('mary', 'us'),
-//     new Currency('mary', 'us'),
-//     new Currency('mary', 'us'),
-//     new Currency('mary', 'us'),
-//     new Currency('mary', 'us'),
-//     new Currency('mary', 'us'),
-//     new Currency('mary', 'us')
-// ];
-// ​
-function Market(nmae = DUMMY_MARKET, address = DUMMY_ADDRESS, pricelist = []) {
+function Market(name = DUMMY_MARKET, address = DUMMY_ADDRESS, pricelist = []) {
     this.name = name;
     this.address = address;
     this.pricelist = pricelist;
 }
+
+// given that we have list of cureency to deal with,
+var klay = new Currency('KLAY');
+var bnb = new Currency('BNB');
+var usdt = new Currency('USDT');
+var dai = new Currency('dai');
+var xrp = new Currency('XRP');
+var btc = new Currency('BTC');
+var six = new Currency('SIX');
+var ksp = new Currency('KSP');
+// const klay = new Currency('KLAY');
+var CurrencyLists = [klay, bnb, usdt, dai, xrp, btc, six, ksp];
+// given that exhcange rate is given as 
+// _from _to _ratio, run the code bleow.
+var swap_matrix = [
+    [DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP,   DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP],
+    [DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP,   DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP],
+    [DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP,   DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP],
+    [DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP,   DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP],
+
+    [DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP,   DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP],
+    [DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP,   DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP],
+    [DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP,   DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP],
+    [DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP,   DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP, DUMMY_SWAP]
+];
+
+for (curr_from in CurrencyLists) {
+    for (curr_to in CurrencyLists) {
+        matrix
+    } 
+}
+
+
 
 // var matrix = {'KLAY':{'KLAY':1, 'USDT':1.006862, 'ETH':0.000437}, 
 // 'USDT':{'KLAY':0.993184, 'USDT':1, 'ETH':0.000435}, 
