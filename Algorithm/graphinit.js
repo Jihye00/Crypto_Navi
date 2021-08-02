@@ -15,15 +15,20 @@ const MIN_RATIO = 0.9;
 
 // given that we have list of cureency to deal with,
 var klay = new Currency('KLAY');
-var bnb = new Currency('BNB');
-var usdt = new Currency('USDT');
-var dai = new Currency('DAI');
-var xrp = new Currency('XRP');
-var btc = new Currency('BTC');
-var six = new Currency('SIX');
+var kbnb = new Currency('KBNB');
+var kusdt = new Currency('KUSDT');
+var kdai = new Currency('KDAI');
+var kxrp = new Currency('KXRP');
+var keth = new Currency('KETH');
 var ksp = new Currency('KSP');
+var six = new Currency('SIX');
+var korc = new Currency('KORC');
+
+var kwbtc = new Currency('KWBTC');
+
+
 // const klay = new Currency('KLAY');
-var CurrencyLists = [klay, bnb, usdt, dai, xrp, btc, six, ksp]; // xrp, btc, six, ksp
+var CurrencyLists = [klay, kbnb, kusdt, kdai, kxrp, keth, ksp, six, korc, kwbtc]; // xrp, btc, six, ksp
 const MATRIX_SIZE = CurrencyLists.length;
 // Currency Class
 function Currency(name = DUMMY_CURRENCY) {
@@ -84,7 +89,8 @@ for (i = 0; i < MATRIX_SIZE; i++) {
 for(i = 0; i < MATRIX_SIZE; i++){
     for(j = 0; j < MATRIX_SIZE; j++){
         if (swap_matrix[i][j].ratio == DUMMY_RATIO) swap_matrix[i][j].ratio = safemath.safeDiv(1 ,swap_matrix[j][i].ratio);
-        else if(i != j) swap_matrix[i][j].ratio *= (1 - KLAYSWAP_FEE);
+        // else if(i != j) swap_matrix[i][j].ratio *= (1 - KLAYSWAP_FEE);
+        // Todo : dex 에 해당하는 fee 를 적용시켜줘야함
     }
 }
 console.log(JSON.stringify(swap_matrix));
