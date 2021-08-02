@@ -3,7 +3,6 @@ const Math = require("mathjs");
 const safemath = require("safemath");
 const type =  require('./type.js');
 const fs = require('fs');
-
 // constant variables
 const DUMMY_ADDRESS = '0x0000000000000000000000000000000000000000';
 const DUMMY_MARKET = 'COINONE';
@@ -69,20 +68,6 @@ for (i = 0; i < MATRIX_SIZE; i++) {
 //make matrix_klayswap and matrix_definix from csv file
 const matrix_klayswap, matrix_definix;
 
-// filling ratio of upper diagonal
-// and, should add exchange fee for now 0.3%
-// Todo : exchange fee
-// for(i = 0; i < MATRIX_SIZE; i++) {
-//     for(j = 0; j < MATRIX_SIZE; j++) {
-//         if (matrix_klayswap[i][j] == DUMMY_RATIO) {
-//             matrix_klayswap[i][j] = 1/matrix_klayswap[j][i];
-//         }
-//         if (matrix_definix[i][j] == DUMMY_RATIO) {
-//             matrix_definix[i][j] = 1/matrix_definix[j][i];
-//         }
-//     }
-// }
-
 for(i = 0; i< MATRIX_SIZE; i++) {
     for(j = 0; j<MATRIX_SIZE; j++) {
         if(i != j) {
@@ -147,3 +132,8 @@ fs.writeFile("result.txt", jsondata, function(err) {
         console.log(err);
     }
 });
+
+
+module.exports = {
+    
+}

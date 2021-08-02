@@ -6,17 +6,17 @@ const type = require('../Algorithm/type.js');
 const ACCESS_KEY = "KASKQO63SLJW75Q0FJB61B4N";//"KASKBDIFAXVXK14IEVRJDFVS"; 
 const PRIVATE_KEY = "QAXbYjYlXCf5BAgax7Dm-C0j-kk8RRcW0yfJYNcH";//"xW5VfL4rS6lOuEENPBs5jt0UeVDYMxgRIA14EAoS";  
 caver.initKASAPI(8217, ACCESS_KEY, PRIVATE_KEY);
-
+​
 const Web3 = require('web3');
 const web3 = new Web3();
 web3.setProvider(new Web3.providers.HttpProvider());//'http://localhost:8551'
-
-
+​
+​
 const KSLP_ADDRESS = {
-
+​
   KLAY_KUSDT_ADDRESS: "0x94f390a8438b5de00b868d3ae47863db90fb92c3",
   KLAY_KUSDT_ADDRESS: "0xd83f1b074d81869eff2c46c530d7308ffec18036",
-
+​
   KLAY_KDAI_ADDRESS: '0xa3987cf6C14F1992e8b4a9E23192Eb79dC2969b8',
   KLAY_KXRP_ADDRESS: "0x86e614ef51b305c36a0608baa57fcaaa45844d87",
   KLAY_KETH_ADDRESS: "0x27f80731dddb90c51cd934e9bd54bff2d4e99e8a",
@@ -24,20 +24,20 @@ const KSLP_ADDRESS = {
   KLAY_SIX_ADDRESS: "0x64b4ee8a878d785c9c06a18966d51a33345e5610",
   KLAY_KORC_ADDRESS: "0xe9ddb7a6994bd9cdf97cf11774a72894597d878b",
   KLAY_KBNB_ADDRESS: "0xe20b9aeacac615da0fdbeb05d4f75e16fa1f6b95",
-
+​
   KETH_KUSDT_ADDRESS: "0x029e2a1b2bb91b66bd25027e1c211e5628dbcb93",
   KUSDT_KDAI_ADDRESS: "0xc320066b25b731a11767834839fe57f9b2186f84",
   KWBTC_KUSDT_ADDRESS: "0x9103beb39283da9c49b020d6546fd7c39f9bbc5b",
   KSP_KUSDT_ADDRESS: "0xe75a6a3a800a2c5123e67e3bde911ba761fe0705",
   KORC_KUSDT_ADRESS: "0x94F390a8438b5De00B868d3aE47863Db90fB92c3",
-
+​
   KLAY_KBELT_ADDRESS: "0x157c39202fae6233fec3f8b3bcb2158200d0a863",
-
-
+​
+​
   KSP_KBNB_ADDRESS: "0x7328b85eff28c3068f69fe662632d37d48ba227f",
   KETH_KBNB_ADDRESS: "0x8119f0CeC72a26fE23CA1aB076137Ea5D8a19d54",
   // KLAY_AGOV_ADDRESS: "0x5c6795e72c47d7fa2b0c7a6446d671aa2e381d1e",
-
+​
   KSP_KWBTC_ADDRESS: '0x85Fae50259EbB9a86F49BDBfb8dBaEC84a7ED5fe',
   // KLAY_CLBK_ADDRESS: "0x55a5dcc23a7a697052ab5d881530849ca0efad34",
   // AGOV_HINT_ADDRESS: "0x194896a1fbd33a13d71e0a2053d4f8129f435e31",
@@ -88,16 +88,16 @@ const DEFINIXLP_ADDRESS = {
   KLAY_KETH_ADDRESS: "0xF33DB5D2E5d5d628462f6eaCA906DdCd16073e69",
   KLAY_KWBTC_ADDRESS: "0x84CD5b54dAa59E7Ae5a9d45f630ce690292FC4c1",
   KLAY_KXRP_ADDRESS: "0xd16B4B651c8A6A58086A1449eF852Fdf38922047",
-
+​
   FINIX_SIX_ADDRESS: "0x36C53ecBD87d105E8d2D71984cE4eB4f3f341402",
   FINIX_KSP_ADDRESS: "0x0754Be11a1a1a58358B70441142643981e47d796",
   SIX_KUSDT_ADDRESS: "0x7433d3F86D9aE8D8989bAc87C2a1c06d29121D35",
   SIX_KLAY_ADDRESS: "0x92f204c1d9D31A70e40A50D744fF0aA3b2600FD9",
-
+​
   KETH_KUSDT_ADDRESS: "0x925bB55693857F33fE2df12E7DB6cFe63C308533",
   KWBTC_KUSDT_ADDRESS: "0xd7e66f34d76779396Ed62e0F097Be4a82D2F4B57",
   KLAY_KUSDT_ADDRESS: "0xcCCd396490e84823Ad17ab9781476a17150AD8e2",
-
+​
   KDAI_KUSDT_ADDRESS: "0x12Fd4576aBC462A1FBbD933a7af3D4895517BAF2",
   KBNB_KUSDT_ADDRESS: "0x10592D608Aeb69DEd0C792127526e25D2b171185",
   KBNB_FINIX_ADDRESS: "0x85234cf8FAc4D5e03a553d766C64901b811A31e4"
@@ -193,69 +193,97 @@ const TOKEN_DECIMAL = {
   FINIX: "18"
 };
 async function getCurrentPool(contract_address) {
-
+​
   return await caver.kas.wallet.callContract(contract_address, 'getCurrentPool');//tokenA와 tokenB의 balance가 연달아 담겨져 옵니다.
-
+​
 };
-var data =  []
+var klayswap_data =  [];
+var definix_data = [];
+const CurrencyLists = ['KLAY', 'KBNB', 'KUSDT', 'KDAI', 'KXRP', 'KETH', 'KSP', 'SIX', 'KORC', 'KWBTC'];
+const MATRIX_SIZE = CurrencyLists.length;
 async function test() {
-
+  for(i=0; i<MATRIX_SIZE; i++){
+    var row = [];
+    for(j=0; j<MATRIX_SIZE; j++){
+      row.push(type.DUMMY_SWAP);
+    }
+    klayswap_data.push(row);
+    definix_data.push(row);
+  }
+​
   for (let contract_name in KSLP_ADDRESS) {
-
+​
     let getCurrentPool_res = await getCurrentPool(KSLP_ADDRESS[contract_name]);
     let tokenA_hex = (getCurrentPool_res.result).substring(0, 66);
     let tokenB_hex = (getCurrentPool_res.result).substring(66, 132);
     let tokenA_decimal = web3.eth.abi.decodeParameter("uint256", tokenA_hex);
     let tokenB_decimal = web3.eth.abi.decodeParameter("uint256", "0x" + tokenB_hex);
-
+​
     let [tokenAName, tokenBName] = contract_name.split("_");
-
+​
     tokenA_decimal = tokenA_decimal / Math.pow(10, Number(TOKEN_DECIMAL[tokenAName]));
     tokenB_decimal = tokenB_decimal / Math.pow(10, Number(TOKEN_DECIMAL[tokenBName]));
-
+​
     let ratio1 = tokenB_decimal / tokenA_decimal;
     let ratio2 = tokenA_decimal / tokenB_decimal;
-
+​
     console.log(` 1 ${tokenAName} = ${ratio1} ${tokenBName}`);
     console.log(` 1 ${tokenBName} = ${ratio2} ${tokenAName}`);
-
+​
     let temp_swap1 = new type.Swap(tokenAName, tokenBName, ratio1, 'KLAYSWAP');
     let temp_swap2 = new type.Swap(tokenBName, tokenAName, ratio2, 'KLAYSWAP');
-
-    data.push(temp_swap1);
-    data.push(temp_swap2);
+    var i, j;
+    for(i=0; i<MATRIX_SIZE; i++){
+      if(CurrencyLists[i] == tokenAName) break;
+    }
+    for(j=0; j<MATRIX_SIZE; j++){
+      if(CurrencyLists[j] == tokenBName) break;
+    }
+    if(i < MATRIX_SIZE && j < MATRIX_SIZE){
+      klayswap_data[i][j] = temp_swap1;
+      klayswap_data[j][i] = temp_swap2;
+    }
     //console.log(` 1 ${tokenAName} = ${ratio} ${tokenBName}`);
-
+​
   }
   for (let contract_name in DEFINIXLP_ADDRESS) {
-
+​
     let [tokenAName, tokenBName] = contract_name.split("_");
-
+​
     let tokenA_hex = await caver.kas.wallet.callContract(TOKEN_ADDRESS[tokenAName], 'balanceOf', [{ type: 'address', value: DEFINIXLP_ADDRESS[contract_name] }]);
     let tokenB_hex = await caver.kas.wallet.callContract(TOKEN_ADDRESS[tokenBName], 'balanceOf', [{ type: 'address', value: DEFINIXLP_ADDRESS[contract_name] }]);
     let tokenA_decimal = web3.eth.abi.decodeParameter("uint256", tokenA_hex.result);
     let tokenB_decimal = web3.eth.abi.decodeParameter("uint256", tokenB_hex.result);
-
+​
     tokenA_decimal = tokenA_decimal / Math.pow(10, Number(TOKEN_DECIMAL[tokenAName]));
     tokenB_decimal = tokenB_decimal / Math.pow(10, Number(TOKEN_DECIMAL[tokenBName]));
-
+​
     let ratio1 = tokenB_decimal / tokenA_decimal;
     let ratio2 = tokenA_decimal / tokenB_decimal;
-
+​
     console.log(` 1 ${tokenAName} = ${ratio1} ${tokenBName}`);
     console.log(` 1 ${tokenBName} = ${ratio2} ${tokenAName}`);
-
+​
     let temp_swap1 = new type.Swap(tokenAName, tokenBName, ratio1, 'DEFINIX');
     let temp_swap2 = new type.Swap(tokenBName, tokenAName, ratio2, 'DEFINIX');
-
-    data.push(temp_swap1);
-    data.push(temp_swap2);
+    
+    var i, j;
+    for(i=0; i<MATRIX_SIZE; i++){
+      if(CurrencyLists[i] == tokenAName) break;
+    }
+    for(j=0; j<MATRIX_SIZE; j++){
+      if(CurrencyLists[j] == tokenBName) break;
+    }
+    if(i < MATRIX_SIZE && j < MATRIX_SIZE){
+      definix_data[i][j] = temp_swap1;
+      definix_data[j][i] = temp_swap2;
+    }
   }
-  console.log(JSON.stringify(data));
+  return [klayswap_data, definix_data];
 }
 test();
-
-
+​
+​
 // var fs = require('fs');
 //     fs.writeFile("data.txt", data, function(err) {
 //         if (err) {
