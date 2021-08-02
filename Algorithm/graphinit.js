@@ -120,16 +120,16 @@ for(i=0; i < MATRIX_SIZE; i++){
     }
 }
 
-console.log(JSON.stringify(swap_matrix));
-// -------------------------------------------------------- for test
-var jsondata1 = JSON.stringify(swap_matrix,null,2);
-// jsondata.split();
-var fs = require('fs');
-fs.writeFile("initial.txt", jsondata1, function(err) {
-    if (err) {
-        console.log(err);
-    }
-});
+// console.log(JSON.stringify(swap_matrix));
+// // -------------------------------------------------------- for test
+// var jsondata1 = JSON.stringify(swap_matrix,null,2);
+// // jsondata.split();
+// var fs = require('fs');
+// fs.writeFile("initial.txt", jsondata1, function(err) {
+//     if (err) {
+//         console.log(err);
+//     }
+// });
 
 for(t=0; t<2; t++){
     for(i=0; i<MATRIX_SIZE; i++){
