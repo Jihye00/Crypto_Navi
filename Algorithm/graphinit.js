@@ -88,13 +88,20 @@ const matrix_klayswap, matrix_definix;
 // Todo : exchange fee
 for(i = 0; i < MATRIX_SIZE; i++) {
     for(j = 0; j < MATRIX_SIZE; j++) {
-        if (swap_matrix[i][j].ratio == DUMMY_RATIO) {
-            matrix_klayswap[i][j].ratio = 1/matrix_klayswap[j][i].ratio;
-            matrix_definix[i][j].ratio = 1/matrix_definix[j][i].ratio;
+        if (matrix_klayswap[i][j] == DUMMY_RATIO) {
+            matrix_klayswap[i][j] = 1/matrix_klayswap[j][i];
         }
-        else if(i != j) {
-            matrix_klayswap[i][j].ratio *= (1 - KLAYSWAP_FEE);
-            matrix_definix[i][j].ratio += (1 - DEFINIX_FEE);
+        if (matrix_definix[i][j] == DUMMY_RATIO) {
+            matrix_definix[i][j] = 1/matrix_definix[j][i];
+        }
+    }
+}
+
+for(i = 0; i< MATRIX_SIZE; i++) {
+    for(j = 0; j<MATRIX_SIZE; j++) {
+        if(i != j) {
+            matrix_klayswap[i][j] *= (1 - KLAYSWAP_FEE);
+            matrix_definix[i][j] += (1 - DEFINIX_FEE);
         }
     }
 }
