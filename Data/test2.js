@@ -1,6 +1,6 @@
 const CaverExtKAS = require('caver-js-ext-kas');
 const caver = new CaverExtKAS();
-const init = require('../Algorithm/graphinit.js');
+const type = require('../Algorithm/type.js');
 //메인넷은 8217, 테스트넷은 1001
 //KAS console을 사용하기위한 access key 입니다. => 트랜잭션 보내는게 무료(하루에 10000번까지)
 const ACCESS_KEY = "KASKQO63SLJW75Q0FJB61B4N";//"KASKBDIFAXVXK14IEVRJDFVS"; 
@@ -70,7 +70,7 @@ const KSLP_ADDRESS = {
   KETH_KWBTC_ADDRESS: "0x2a6a4b0c96ca98eb691a5ddcee3c7b7788c1a8e3",
   KSP_sKAI_ADDRESS: "0x6456acb56f9eeedb976d5d72b60fb31720155b75",
   KLAY_sKAI_ADDRESS: "0x0734f80fbc2051e98e6c7cb37e08e067a9630c06",
-  KBELT_KORC_ADDRESS: "0x0f14648ed03a4172a0d186da51b66e7e9af6af66",
+  KBELT_KORC_ADDRESS: "0x0f14648ed03a4172a0d186da51b66e7e9af6af66"
   // KUSDT_KAI_ADDRESS: "0x5787492d753d5f59365e2f98e2f18c3ae3bad6e7",
   // KLAY_KSTPL_ADDRESS: "0xfc61fbb57dd00765838a914e7d72a9eceb23ad80",
   // KLAY_KRAI_ADDRESS: "0xc19fe316a03f6bcc48498b67342b29d146fed349",
@@ -197,7 +197,7 @@ async function getCurrentPool(contract_address) {
   return await caver.kas.wallet.callContract(contract_address, 'getCurrentPool');//tokenA와 tokenB의 balance가 연달아 담겨져 옵니다.
 
 };
-var data =  ''
+var data =  []
 async function test() {
 
   for (let contract_name in KSLP_ADDRESS) {
@@ -213,8 +213,17 @@ async function test() {
     tokenA_decimal = tokenA_decimal / Math.pow(10, Number(TOKEN_DECIMAL[tokenAName]));
     tokenB_decimal = tokenB_decimal / Math.pow(10, Number(TOKEN_DECIMAL[tokenBName]));
 
-    let ratio = tokenB_decimal / tokenA_decimal;
+    let ratio1 = tokenB_decimal / tokenA_decimal;
+    let ratio2 = tokenA_decimal / tokenB_decimal;
 
+    console.log(` 1 ${tokenAName} = ${ratio1} ${tokenBName}`);
+    console.log(` 1 ${tokenBName} = ${ratio2} ${tokenAName}`);
+
+    let temp_swap1 = new type.Swap(tokenAName, tokenBName, ratio1, 'KLAYSWAP');
+    let temp_swap2 = new type.Swap(tokenBName, tokenAName, ratio2, 'KLAYSWAP');
+
+    data.push(temp_swap1);
+    data.push(temp_swap2);
     //console.log(` 1 ${tokenAName} = ${ratio} ${tokenBName}`);
 
   }
@@ -235,13 +244,21 @@ async function test() {
 
     console.log(` 1 ${tokenAName} = ${ratio1} ${tokenBName}`);
     console.log(` 1 ${tokenBName} = ${ratio2} ${tokenAName}`);
-    var fs = require('fs');
-    fs.writeFile("data.txt", data, function(err) {
-        if (err) {
-            console.log(err);
-        }
-    });
+
+    let temp_swap1 = new type.Swap(tokenAName, tokenBName, ratio1, 'DEFINIX');
+    let temp_swap2 = new type.Swap(tokenBName, tokenAName, ratio2, 'DEFINIX');
+
+    data.push(temp_swap1);
+    data.push(temp_swap2);
   }
+  console.log(JSON.stringify(data));
 }
 test();
 
+
+// var fs = require('fs');
+//     fs.writeFile("data.txt", data, function(err) {
+//         if (err) {
+//             console.log(err);
+//         }
+//     });

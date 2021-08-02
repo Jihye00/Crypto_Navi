@@ -1,6 +1,7 @@
 // import
 const Math = require("mathjs");
 const safemath = require("safemath");
+const type =  require('./type.js');
 // constant variables
 const DUMMY_ADDRESS = '0x0000000000000000000000000000000000000000';
 const DUMMY_MARKET = 'COINONE';
@@ -10,8 +11,6 @@ const dex = [
     'DEFINIX'];
 const KLAYSWAP_FEE = 0.003;
 const DEFINIX_FEE = 0.002;
-const MAX_RATIO = 1.1;
-const MIN_RATIO = 0.9;
 const DUMMY_DEX = 'MOUND';
 // given that we have list of cureency to deal with,
 var klay = new Currency('KLAY');
@@ -31,21 +30,21 @@ var kwbtc = new Currency('KWBTC');
 var CurrencyLists = [klay, kbnb, kusdt, kdai, kxrp, keth, ksp, six, korc, kwbtc]; // xrp, btc, six, ksp
 const MATRIX_SIZE = CurrencyLists.length;
 // Currency Class
-function Currency(name = DUMMY_CURRENCY) {
-    this.name = name;
-    // this.availableSwapList = availableSwapList;
-}
-const DUMMY_CURRENCY = new Currency('KLAY');
+// function Currency(name = DUMMY_CURRENCY) {
+//     this.name = name;
+//     // this.availableSwapList = availableSwapList;
+// }
+const DUMMY_CURRENCY = new type.Currency('KLAY');
 
 // Swap Class
-function Swap(from = DUMMY_CURRENCY, to = DUMMY_CURRENCY, ratio = DUMMY_RATIO, dex = DUMMY_DEX) {
-    this.from = from;
-    this.to = to;
-    this.ratio = ratio;
-    this.path = [from.name];
-    this.dex = dex;
-}
-const DUMMY_SWAP = new Swap();
+// function Swap(from = DUMMY_CURRENCY, to = DUMMY_CURRENCY, ratio = DUMMY_RATIO, dex = DUMMY_DEX) {
+//     this.from = from;
+//     this.to = to;
+//     this.ratio = ratio;
+//     this.path = [from.name];
+//     this.dex = dex;
+// }
+const DUMMY_SWAP = new type.Swap();
 
 function Market(name = DUMMY_MARKET, address = DUMMY_ADDRESS, pricelist = []) {
     this.name = name;
@@ -178,3 +177,8 @@ fs.writeFile("result.txt", jsondata, function(err) {
         console.log(err);
     }
 });
+
+module.exports = {
+    Swap,
+    Currency
+}
