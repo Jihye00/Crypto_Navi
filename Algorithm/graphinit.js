@@ -44,18 +44,21 @@ function graph(matrix_klayswap, matrix_definix){
             else if(matrix_klayswap[i][j].ratio >= matrix_definix[i][j].ratio){
                 swap_matrix[i][j].ratio = matrix_klayswap[i][j].ratio;
                 swap_matrix[i][j].dex = 'KLAYSWAP';
+                type.refresh(swap_matrix[i][j]);
             }
             else{
                 swap_matrix[i][j].ratio = matrix_definix[i][j].ratio;
                 swap_matrix[i][j].dex = 'DEFINIX';
+                type.refresh(swap_matrix[i][j]);
             }
         }
     }
-
-    for(t=0; t<MATRIX_SIZE; t++){
+    var set = new Set();
+    for(t=0; t<4; t++){
         for(i=0; i<MATRIX_SIZE; i++){
             for(j=0; j<MATRIX_SIZE; j++){
                 for(k=0; k<MATRIX_SIZE; k++){
+                    if(swap_matrix[i][j].ratio < 0 || swap_matrix[j][k].ratio < 0) continue;
                     const max_val = Math.max(swap_matrix[i][k].ratio, swap_matrix2[i][k].ratio, safemath.safeMule(swap_matrix[i][j].ratio, swap_matrix[j][k].ratio));
                     switch(max_val){
                         case swap_matrix[i][k].ratio:
@@ -67,16 +70,15 @@ function graph(matrix_klayswap, matrix_definix){
                             swap_matrix2[i][k].ratio = max_val;
                             break;
                     }
-                    if(t < 10000 && swap_matrix2[i][i].ratio > 1) {
-                        console.log("Arbitrage Opportunity", swap_matrix2[i][i].from, swap_matrix2[i][i].path, swap_matrix2[i][i].to, swap_matrix2[i][i].ratio);
-                        t=10000;
+                    if(swap_matrix2[i][i].ratio > 1) {
+                        t = 10000;
+                        set.add(JSON.stringify(swap_matrix2[i][i].path) + JSON.stringify(swap_matrix2[i][i].to) + JSON.stringify(swap_matrix2[i][i].ratio));
                     }
                 }
             }
         }
         if(JSON.stringify(swap_matrix2) == JSON.stringify(swap_matrix)) break;
         // console.log(JSON.stringify(swap_matrix2));
-        console.log(t)
         swap_matrix = JSON.parse(JSON.stringify(swap_matrix2));
     }
 
@@ -84,16 +86,17 @@ function graph(matrix_klayswap, matrix_definix){
     var jsondata = '';
     for(i=0; i<MATRIX_SIZE; i++){
         for(j=0; j<MATRIX_SIZE; j++){
-            jsondata += JSON.stringify(swap_matrix[i][j].from.name + ' ' + swap_matrix[i][j].to.name + ' ' + swap_matrix[i][j].ratio);
+            jsondata += JSON.stringify(swap_matrix[i][j].from + ' ' + swap_matrix[i][j].to + ' ' + swap_matrix[i][j].ratio);
         }
         jsondata += '\n';
     }
     // jsondata.split();
-    fs.writeFile("result.txt", jsondata, function(err) {
+    fs.writeFile("./Result/result.txt", jsondata, function(err) {
         if (err) {
             console.log(err);
         }
     });
+    console.log(set);
 }
 
 

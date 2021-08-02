@@ -18,7 +18,7 @@ web3.setProvider(new Web3.providers.HttpProvider());//'http://localhost:8551'
 
 const KSLP_ADDRESS = {
 
-  KLAY_KUSDT_ADDRESS: "0x94f390a8438b5de00b868d3ae47863db90fb92c3",
+  KORC_KUSDT_ADDRESS: "0x94f390a8438b5de00b868d3ae47863db90fb92c3",
   KLAY_KUSDT_ADDRESS: "0xd83f1b074d81869eff2c46c530d7308ffec18036",
   KLAY_KDAI_ADDRESS: '0xa3987cf6C14F1992e8b4a9E23192Eb79dC2969b8',
   KLAY_KXRP_ADDRESS: "0x86e614ef51b305c36a0608baa57fcaaa45844d87",
@@ -202,6 +202,7 @@ async function getCurrentPool(contract_address) {
 };
 var klayswap_data =  [];
 var definix_data = [];
+var data = '';
 const CurrencyLists = ['KLAY', 'KBNB', 'KUSDT', 'KDAI', 'KXRP', 'KETH', 'KSP', 'SIX', 'KORC', 'KWBTC'];
 const MATRIX_SIZE = CurrencyLists.length;
 async function test() {
@@ -252,9 +253,10 @@ async function test() {
       klayswap_data[i][j] = temp_swap1;
       klayswap_data[j][i] = temp_swap2;
     }
-    //console.log(` 1 ${tokenAName} = ${ratio} ${tokenBName}`);
+    data += (` 1 ${tokenAName} = ${ratio1} ${tokenBName}\n`);
 
   }
+  data += '\n';
   for (let contract_name in DEFINIXLP_ADDRESS) {
 
     let [tokenAName, tokenBName] = contract_name.split("_");
@@ -289,7 +291,14 @@ async function test() {
       definix_data[i][j] = temp_swap1;
       definix_data[j][i] = temp_swap2;
     }
+    data += (` 1 ${tokenAName} = ${ratio1} ${tokenBName}\n`);
   }
+  var fs = require('fs');
+    fs.writeFile("./Result/data.txt", data, function(err) {
+        if (err) {
+            console.log(err);
+        }
+    });
   return [klayswap_data, definix_data];
 }
 
@@ -297,9 +306,3 @@ module.exports = {
   test
 };
 
-// var fs = require('fs');
-//     fs.writeFile("data.txt", data, function(err) {
-//         if (err) {
-//             console.log(err);
-//         }
-//     });

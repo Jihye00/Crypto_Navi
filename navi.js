@@ -5,7 +5,7 @@ const graph = require('./Algorithm/graphinit.js');
 async function main(){
     var array = await test.test();
     var klayswap = array[0], definix = array[1];
-    console.log(klayswap);
+    // console.log(klayswap);
     graph.graph(klayswap, definix);
 }
 

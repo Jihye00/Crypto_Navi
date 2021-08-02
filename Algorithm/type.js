@@ -21,7 +21,11 @@ function Swap (from = "from", to = "to", ratio = DUMMY_RATIO, dex = DUMMY_DEX) {
     this.to = to;
     this.ratio = ratio;
     this.dex = dex;
-    this.path = [from];
+    this.path = [{'from': from, 'dex': dex}];
+}
+
+function refresh(swap){
+    swap.path = [{'from': swap.from, 'dex': swap.dex}];
 }
 const DUMMY_SWAP = new Swap();
 
@@ -32,5 +36,6 @@ function Market(name = DUMMY_MARKET, address = DUMMY_ADDRESS, pricelist = []) {
 }
 
 module.exports = {
+    refresh,
     Swap
 }
