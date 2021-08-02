@@ -2,58 +2,41 @@
 const Math = require("mathjs");
 const safemath = require("safemath");
 const type =  require('./type.js');
+const fs = require('fs');
+
 // constant variables
 const DUMMY_ADDRESS = '0x0000000000000000000000000000000000000000';
 const DUMMY_MARKET = 'COINONE';
 const DUMMY_RATIO = -1
 const dex = [
     'KLAYSWAP',
-    'DEFINIX'];
+    'DEFINIX',
+    'MOUND'];
 const KLAYSWAP_FEE = 0.003;
 const DEFINIX_FEE = 0.002;
 const DUMMY_DEX = 'MOUND';
-// given that we have list of cureency to deal with,
-var klay = new Currency('KLAY');
-var kbnb = new Currency('KBNB');
-var kusdt = new Currency('KUSDT');
-var kdai = new Currency('KDAI');
-var kxrp = new Currency('KXRP');
-var keth = new Currency('KETH');
-var ksp = new Currency('KSP');
-var six = new Currency('SIX');
-var korc = new Currency('KORC');
 
-var kwbtc = new Currency('KWBTC');
+// given that we have list of cureency to deal with,
+// var klay = new Currency('KLAY');
+// var kbnb = new Currency('KBNB');
+// var kusdt = new Currency('KUSDT');
+// var kdai = new Currency('KDAI');
+// var kxrp = new Currency('KXRP');
+
+// var keth = new Currency('KETH');
+// var ksp = new Currency('KSP');
+// var six = new Currency('SIX');
+// var korc = new Currency('KORC');
+// var kwbtc = new Currency('KWBTC');
 
 
 // const klay = new Currency('KLAY');
-var CurrencyLists = [klay, kbnb, kusdt, kdai, kxrp, keth, ksp, six, korc, kwbtc]; // xrp, btc, six, ksp
+// var CurrencyLists = [klay, kbnb, kusdt, kdai, kxrp, keth, ksp, six, korc, kwbtc]; // xrp, btc, six, ksp
+var CurrencyLists = ['KLAY', 'KBNB', 'KUSDT', 'KDAI', 'KXRP', 'KETH', 'KSP', 'SIX', 'KORC', 'KWBTC']; // xrp, btc, six, ksp
 const MATRIX_SIZE = CurrencyLists.length;
-// Currency Class
-// function Currency(name = DUMMY_CURRENCY) {
-//     this.name = name;
-//     // this.availableSwapList = availableSwapList;
-// }
-const DUMMY_CURRENCY = new type.Currency('KLAY');
-
-// Swap Class
-// function Swap(from = DUMMY_CURRENCY, to = DUMMY_CURRENCY, ratio = DUMMY_RATIO, dex = DUMMY_DEX) {
-//     this.from = from;
-//     this.to = to;
-//     this.ratio = ratio;
-//     this.path = [from.name];
-//     this.dex = dex;
-// }
+const DUMMY_CURRENCY = 'MOUND';
 const DUMMY_SWAP = new type.Swap();
 
-function Market(name = DUMMY_MARKET, address = DUMMY_ADDRESS, pricelist = []) {
-    this.name = name;
-    this.address = address;
-    this.pricelist = pricelist;
-}
-
-// given that exhcange rate is given as 
-// _from _to _ratio, run the code bleow.
 var swap_matrix = [];
 for(i=0; i<MATRIX_SIZE; i++) {
     var row = [];
@@ -89,22 +72,22 @@ const matrix_klayswap, matrix_definix;
 // filling ratio of upper diagonal
 // and, should add exchange fee for now 0.3%
 // Todo : exchange fee
-for(i = 0; i < MATRIX_SIZE; i++) {
-    for(j = 0; j < MATRIX_SIZE; j++) {
-        if (matrix_klayswap[i][j] == DUMMY_RATIO) {
-            matrix_klayswap[i][j] = 1/matrix_klayswap[j][i];
-        }
-        if (matrix_definix[i][j] == DUMMY_RATIO) {
-            matrix_definix[i][j] = 1/matrix_definix[j][i];
-        }
-    }
-}
+// for(i = 0; i < MATRIX_SIZE; i++) {
+//     for(j = 0; j < MATRIX_SIZE; j++) {
+//         if (matrix_klayswap[i][j] == DUMMY_RATIO) {
+//             matrix_klayswap[i][j] = 1/matrix_klayswap[j][i];
+//         }
+//         if (matrix_definix[i][j] == DUMMY_RATIO) {
+//             matrix_definix[i][j] = 1/matrix_definix[j][i];
+//         }
+//     }
+// }
 
 for(i = 0; i< MATRIX_SIZE; i++) {
     for(j = 0; j<MATRIX_SIZE; j++) {
         if(i != j) {
             matrix_klayswap[i][j] *= (1 - KLAYSWAP_FEE);
-            matrix_definix[i][j] += (1 - DEFINIX_FEE);
+            matrix_definix[i][j] *= (1 - DEFINIX_FEE);
         }
     }
 }
@@ -112,7 +95,7 @@ for(i = 0; i< MATRIX_SIZE; i++) {
 for(i=0; i < MATRIX_SIZE; i++){
     for(j=0; j < MATRIX_SIZE; j++){
         if(i == j) continue
-        if(matrix_klayswap[i][j].ratio >= matrix_definix[i][j].ratio){
+        else if(matrix_klayswap[i][j].ratio >= matrix_definix[i][j].ratio){
             swap_matrix[i][j].ratio = matrix_klayswap[i][j].ratio;
             swap_matrix[i][j].dex = 'KLAYSWAP';
         }
@@ -122,18 +105,6 @@ for(i=0; i < MATRIX_SIZE; i++){
         }
     }
 }
-
-// console.log(JSON.stringify(swap_matrix));
-// // -------------------------------------------------------- for test
-// var jsondata1 = JSON.stringify(swap_matrix,null,2);
-// // jsondata.split();
-// var fs = require('fs');
-// fs.writeFile("initial.txt", jsondata1, function(err) {
-//     if (err) {
-//         console.log(err);
-//     }
-// });
-
 for(t=0; t<2; t++){
     for(i=0; i<MATRIX_SIZE; i++){
         for(j=0; j<MATRIX_SIZE; j++){
@@ -171,14 +142,8 @@ for(i=0; i<MATRIX_SIZE; i++){
     jsondata += '\n';
 }
 // jsondata.split();
-var fs = require('fs');
 fs.writeFile("result.txt", jsondata, function(err) {
     if (err) {
         console.log(err);
     }
 });
-
-module.exports = {
-    Swap,
-    Currency
-}

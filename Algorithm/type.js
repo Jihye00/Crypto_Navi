@@ -11,31 +11,26 @@ const KLAYSWAP_FEE = 0.003;
 const DEFINIX_FEE = 0.002;
 const DUMMY_DEX = 'MOUND';
 
+// function Currency(name = DUMMY_CURRENCY) {
+//     this.name = name;
+// }
+// const DUMMY_CURRENCY = new Currency('KLAY');
 
-function Currency(name = DUMMY_CURRENCY) {
-    this.name = name;
-    // this.availableSwapList = availableSwapList;
-}
-const DUMMY_CURRENCY = new Currency('KLAY');
-
-function Swap (from = "NONE", to = "NONE", ratio = DUMMY_RATIO, dex = DUMMY_DEX) {
+function Swap (from = "from", to = "to", ratio = DUMMY_RATIO, dex = DUMMY_DEX) {
     this.from = from;
     this.to = to;
     this.ratio = ratio;
     this.dex = dex;
-
     this.path = [from];
 }
-// function Swap2(from = DUMMY_CURRENCY, to = DUMMY_CURRENCY, ratio = DUMMY_RATIO, dex = DUMMY_DEX) {
-//     this.from = from;
-//     this.to = to;
-//     this.ratio = ratio;
-//     this.path = [from.name];
-//     this.dex = dex;
-// }
 const DUMMY_SWAP = new Swap();
 
+function Market(name = DUMMY_MARKET, address = DUMMY_ADDRESS, pricelist = []) {
+    this.name = name;
+    this.address = address;
+    this.pricelist = pricelist;
+}
+
 module.exports = {
-    Swap,
-    Currency
+    Swap
 }
