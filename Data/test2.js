@@ -75,18 +75,21 @@ const KSLP_ADDRESS = {
   ABL_KORC_ADDRESS: "0xa2867c345f9b7250fe6be6cccb6360dff9f6e38c"
 };
 const DEFINIXLP_ADDRESS = {
-  FINIX_SIX_ADDRESS: "0x36C53ecBD87d105E8d2D71984cE4eB4f3f341402",
   FINIX_KLAY_ADDRESS: "0x8fD25bb623a988E52c65f68A68E8780014F0892d",
-  FINIX_KSP_ADDRESS: "0x0754Be11a1a1a58358B70441142643981e47d796",
   FINIX_KUSDT_ADDRESS: "0x3737811657E9d3E9638144411307838cBcE13775",
-  SIX_KUSDT_ADDRESS: "0x7433d3F86D9aE8D8989bAc87C2a1c06d29121D35",
-  SIX_KLAY_ADDRESS: "0x92f204c1d9D31A70e40A50D744fF0aA3b2600FD9",
   KLAY_KETH_ADDRESS: "0xF33DB5D2E5d5d628462f6eaCA906DdCd16073e69",
   KLAY_KWBTC_ADDRESS: "0x84CD5b54dAa59E7Ae5a9d45f630ce690292FC4c1",
   KLAY_KXRP_ADDRESS: "0xd16B4B651c8A6A58086A1449eF852Fdf38922047",
+
+  FINIX_SIX_ADDRESS: "0x36C53ecBD87d105E8d2D71984cE4eB4f3f341402",
+  FINIX_KSP_ADDRESS: "0x0754Be11a1a1a58358B70441142643981e47d796",
+  SIX_KUSDT_ADDRESS: "0x7433d3F86D9aE8D8989bAc87C2a1c06d29121D35",
+  SIX_KLAY_ADDRESS: "0x92f204c1d9D31A70e40A50D744fF0aA3b2600FD9",
+
   KETH_KUSDT_ADDRESS: "0x925bB55693857F33fE2df12E7DB6cFe63C308533",
   KWBTC_KUSDT_ADDRESS: "0xd7e66f34d76779396Ed62e0F097Be4a82D2F4B57",
-  // KLAY_KUSDT_ADDRESS: "0x4CAC28FBCE94A011c6eDDEd62aA91CDa4eb2BC3F",
+  KLAY_KUSDT_ADDRESS: "0xcCCd396490e84823Ad17ab9781476a17150AD8e2",
+
   KDAI_KUSDT_ADDRESS: "0x12Fd4576aBC462A1FBbD933a7af3D4895517BAF2",
   KBNB_KUSDT_ADDRESS: "0x10592D608Aeb69DEd0C792127526e25D2b171185",
   KBNB_FINIX_ADDRESS: "0x85234cf8FAc4D5e03a553d766C64901b811A31e4"
@@ -186,7 +189,7 @@ async function getCurrentPool(contract_address) {
   return await caver.kas.wallet.callContract(contract_address, 'getCurrentPool');//tokenA와 tokenB의 balance가 연달아 담겨져 옵니다.
 
 };
-
+var data =  ''
 async function test() {
 
   for (let contract_name in KSLP_ADDRESS) {
@@ -219,10 +222,17 @@ async function test() {
     tokenA_decimal = tokenA_decimal / Math.pow(10, Number(TOKEN_DECIMAL[tokenAName]));
     tokenB_decimal = tokenB_decimal / Math.pow(10, Number(TOKEN_DECIMAL[tokenBName]));
 
-    let ratio = tokenB_decimal / tokenA_decimal;
+    let ratio1 = tokenB_decimal / tokenA_decimal;
+    let ratio2 = tokenA_decimal / tokenB_decimal;
 
-    console.log(` 1 ${tokenAName} = ${ratio} ${tokenBName}`);
-
+    console.log(` 1 ${tokenAName} = ${ratio1} ${tokenBName}`);
+    console.log(` 1 ${tokenBName} = ${ratio2} ${tokenAName}`);
+    var fs = require('fs');
+    fs.writeFile("data.txt", data, function(err) {
+        if (err) {
+            console.log(err);
+        }
+    });
   }
 }
 test();
