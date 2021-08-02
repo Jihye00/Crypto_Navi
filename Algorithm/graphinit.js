@@ -114,6 +114,10 @@ for(t=0; t<MATRIX_SIZE; t++){
                         swap_matrix2[i][k].ratio = max_val;
                         break;
                 }
+                if(t < 10000 && swap_matrix2[i][i].ratio > 1) {
+                    console.log("Arbitrage Opportunity", swap_matrix2[i][i].from, swap_matrix2[i][i].path, swap_matrix2[i][i].to, swap_matrix2[i][i].ratio);
+                    t=10000;
+                }
             }
         }
     }
@@ -122,7 +126,14 @@ for(t=0; t<MATRIX_SIZE; t++){
     swap_matrix = JSON.parse(JSON.stringify(swap_matrix2));
 }
 
-var jsondata = JSON.stringify(swap_matrix,null,2);
+// var jsondata = JSON.stringify(swap_matrix,null,2);
+var jsondata = '';
+for(i=0; i<MATRIX_SIZE; i++){
+    for(j=0; j<MATRIX_SIZE; j++){
+        jsondata += JSON.stringify(swap_matrix[i][j].from.name + ' ' + swap_matrix[i][j].to.name + ' ' + swap_matrix[i][j].ratio);
+    }
+    jsondata += '\n';
+}
 // jsondata.split();
 var fs = require('fs');
 fs.writeFile("result.txt", jsondata, function(err) {
