@@ -1,0 +1,16 @@
+{
+  "name": "smart_routing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ted",
+  "license": "ISC",
+  "dependencies": {
+    "caver-js": "^1.6.3",
+    "caver-js-ext-kas": "^1.4.0",
+    "web3": "^1.5.0"
+  }
+}
