@@ -71,6 +71,7 @@ function graph(matrix_klayswap, matrix_definix){
                             break;
                     }
                     if(swap_matrix2[i][i].ratio > 1) {
+                        //WHEN TO BREAK?
                         t = 10000;
                         set.add(JSON.stringify(swap_matrix2[i][i].path) + JSON.stringify(swap_matrix2[i][i].to) + JSON.stringify(swap_matrix2[i][i].ratio));
                     }
