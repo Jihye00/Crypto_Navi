@@ -12,7 +12,7 @@ const KLAYSWAP_FEE = 0.003;
 const DEFINIX_FEE = 0.002;
 const MAX_RATIO = 1.1;
 const MIN_RATIO = 0.9;
-
+const DUMMY_DEX = 'MOUND';
 // given that we have list of cureency to deal with,
 var klay = new Currency('KLAY');
 var kbnb = new Currency('KBNB');
@@ -38,11 +38,12 @@ function Currency(name = DUMMY_CURRENCY) {
 const DUMMY_CURRENCY = new Currency('KLAY');
 
 // Swap Class
-function Swap(from = DUMMY_CURRENCY, to = DUMMY_CURRENCY, ratio = DUMMY_RATIO) {
+function Swap(from = DUMMY_CURRENCY, to = DUMMY_CURRENCY, ratio = DUMMY_RATIO, dex = DUMMY_DEX) {
     this.from = from;
     this.to = to;
     this.ratio = ratio;
     this.path = [from.name];
+    this.dex = dex;
 }
 const DUMMY_SWAP = new Swap();
 
@@ -69,8 +70,8 @@ for(i=0; i<MATRIX_SIZE; i++) {
 // init
 for (let i = 0; i < MATRIX_SIZE; i++) {
     for (let j = 0; j < MATRIX_SIZE; j++) {
-        swap_matrix[i][j] = new Swap(CurrencyLists[i], CurrencyLists[j], DUMMY_RATIO)
-        swap_matrix2[i][j] = new Swap(CurrencyLists[i], CurrencyLists[j], DUMMY_RATIO)
+        swap_matrix[i][j] = new Swap(CurrencyLists[i], CurrencyLists[j], DUMMY_RATIO, DUMMY_DEX)
+        swap_matrix2[i][j] = new Swap(CurrencyLists[i], CurrencyLists[j], DUMMY_RATIO, DUMMY_DEX)
     }
 }
 
@@ -79,32 +80,62 @@ for (let i = 0; i < MATRIX_SIZE; i++) {
 for (i = 0; i < MATRIX_SIZE; i++) {
     for (j = 0; j < MATRIX_SIZE; j++) {
         if (i == j) swap_matrix[i][j].ratio = 1;
-        else if (i > j) swap_matrix[i][j].ratio = safemath.safeMule(Math.random(), (MAX_RATIO - MIN_RATIO) + MIN_RATIO);
+        // else if (i > j) swap_matrix[i][j].ratio = Math.random() * (MAX_RATIO - MIN_RATIO) + MIN_RATIO;
     }
 }
+
+//make matrix_klayswap and matrix_definix from csv file
+const matrix_klayswap, matrix_definix;
 
 // filling ratio of upper diagonal
 // and, should add exchange fee for now 0.3%
 // Todo : exchange fee
-for(i = 0; i < MATRIX_SIZE; i++){
-    for(j = 0; j < MATRIX_SIZE; j++){
-        if (swap_matrix[i][j].ratio == DUMMY_RATIO) swap_matrix[i][j].ratio = safemath.safeDiv(1 ,swap_matrix[j][i].ratio);
-        // else if(i != j) swap_matrix[i][j].ratio *= (1 - KLAYSWAP_FEE);
-        // Todo : dex 에 해당하는 fee 를 적용시켜줘야함
+for(i = 0; i < MATRIX_SIZE; i++) {
+    for(j = 0; j < MATRIX_SIZE; j++) {
+        if (matrix_klayswap[i][j] == DUMMY_RATIO) {
+            matrix_klayswap[i][j] = 1/matrix_klayswap[j][i];
+        }
+        if (matrix_definix[i][j] == DUMMY_RATIO) {
+            matrix_definix[i][j] = 1/matrix_definix[j][i];
+        }
     }
 }
-console.log(JSON.stringify(swap_matrix));
-// -------------------------------------------------------- for test
-var jsondata1 = JSON.stringify(swap_matrix,null,2);
-// jsondata.split();
-var fs = require('fs');
-fs.writeFile("initial.txt", jsondata1, function(err) {
-    if (err) {
-        console.log(err);
-    }
-});
 
-for(t=0; t<MATRIX_SIZE; t++){
+for(i = 0; i< MATRIX_SIZE; i++) {
+    for(j = 0; j<MATRIX_SIZE; j++) {
+        if(i != j) {
+            matrix_klayswap[i][j] *= (1 - KLAYSWAP_FEE);
+            matrix_definix[i][j] += (1 - DEFINIX_FEE);
+        }
+    }
+}
+
+for(i=0; i < MATRIX_SIZE; i++){
+    for(j=0; j < MATRIX_SIZE; j++){
+        if(i == j) continue
+        if(matrix_klayswap[i][j].ratio >= matrix_definix[i][j].ratio){
+            swap_matrix[i][j].ratio = matrix_klayswap[i][j].ratio;
+            swap_matrix[i][j].dex = 'KLAYSWAP';
+        }
+        else{
+            swap_matrix[i][j].ratio = matrix_definix[i][j].ratio;
+            swap_matrix[i][j].dex = 'DEFINIX';
+        }
+    }
+}
+
+// console.log(JSON.stringify(swap_matrix));
+// // -------------------------------------------------------- for test
+// var jsondata1 = JSON.stringify(swap_matrix,null,2);
+// // jsondata.split();
+// var fs = require('fs');
+// fs.writeFile("initial.txt", jsondata1, function(err) {
+//     if (err) {
+//         console.log(err);
+//     }
+// });
+
+for(t=0; t<2; t++){
     for(i=0; i<MATRIX_SIZE; i++){
         for(j=0; j<MATRIX_SIZE; j++){
             for(k=0; k<MATRIX_SIZE; k++){
