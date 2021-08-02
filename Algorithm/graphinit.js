@@ -76,19 +76,43 @@ for (let i = 0; i < MATRIX_SIZE; i++) {
 for (i = 0; i < MATRIX_SIZE; i++) {
     for (j = 0; j < MATRIX_SIZE; j++) {
         if (i == j) swap_matrix[i][j].ratio = 1;
-        else if (i > j) swap_matrix[i][j].ratio = Math.random() * (MAX_RATIO - MIN_RATIO) + MIN_RATIO;
+        // else if (i > j) swap_matrix[i][j].ratio = Math.random() * (MAX_RATIO - MIN_RATIO) + MIN_RATIO;
     }
 }
+
+//make matrix_klayswap and matrix_definix from csv file
+const matrix_klayswap, matrix_definix;
 
 // filling ratio of upper diagonal
 // and, should add exchange fee for now 0.3%
 // Todo : exchange fee
-for(i = 0; i < MATRIX_SIZE; i++){
-    for(j = 0; j < MATRIX_SIZE; j++){
-        if (swap_matrix[i][j].ratio == DUMMY_RATIO) swap_matrix[i][j].ratio = 1/swap_matrix[j][i].ratio;
-        else if(i != j) swap_matrix[i][j].ratio *= (1 - KLAYSWAP_FEE);
+for(i = 0; i < MATRIX_SIZE; i++) {
+    for(j = 0; j < MATRIX_SIZE; j++) {
+        if (swap_matrix[i][j].ratio == DUMMY_RATIO) {
+            matrix_klayswap[i][j].ratio = 1/matrix_klayswap[j][i].ratio;
+            matrix_definix[i][j].ratio = 1/matrix_definix[j][i].ratio;
+        }
+        else if(i != j) {
+            matrix_klayswap[i][j].ratio *= (1 - KLAYSWAP_FEE);
+            matrix_definix[i][j].ratio += (1 - DEFINIX_FEE);
+        }
     }
 }
+
+for(i=0; i < MATRIX_SIZE; i++){
+    for(j=0; j < MATRIX_SIZE; j++){
+        if(i == j) continue
+        if(matrix_klayswap[i][j].ratio >= matrix_definix[i][j].ratio){
+            swap_matrix[i][j].ratio = matrix_klayswap[i][j].ratio;
+            swap_matrix[i][j].dex = 'KLAYSWAP';
+        }
+        else{
+            swap_matrix[i][j].ratio = matrix_definix[i][j].ratio;
+            swap_matrix[i][j].dex = 'DEFINIX';
+        }
+    }
+}
+
 console.log(JSON.stringify(swap_matrix));
 // -------------------------------------------------------- for test
 var jsondata1 = JSON.stringify(swap_matrix,null,2);
