@@ -10,7 +10,7 @@ const dex = [
     'MOUND'];
 const KLAYSWAP_FEE = 0.003;
 const DEFINIX_FEE = 0.002;
-const DUMMY_DEX = 'not available';
+const DUMMY_DEX = 'not a swap';
 const CurrencyLists = ['KLAY', 'KBNB', 'KUSDT', 'KDAI', 'KXRP', 'KETH', 'KSP', 'SIX', 'KORC', 'KWBTC']; // xrp, btc, six, ksp
 const MATRIX_SIZE = CurrencyLists.length;
 const DUMMY_CURRENCY = 'MOUND';

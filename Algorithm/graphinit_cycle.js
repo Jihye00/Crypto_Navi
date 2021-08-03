@@ -78,12 +78,14 @@ function graph(matrix_klayswap, matrix_definix){
     var jsondata = '';
     for(i=0; i<type.MATRIX_SIZE; i++){
         for(j=0; j<type.MATRIX_SIZE; j++){
-            jsondata += JSON.stringify(swap_matrix[i][j].from + ' ' + swap_matrix[i][j].to + ' ' + swap_matrix[i][j].ratio);
+            jsondata += (JSON.stringify(swap_matrix[i][j].from.padEnd(5) + ' ' + swap_matrix[i][j].to.padEnd(5) + ' ' + swap_matrix[i][j].ratio.toString().padEnd(24) + ' ' + swap_matrix[i][j].dex.padEnd(10))).padEnd(45, ' ');
+            jsondata += '\t';
             // jsondata += JSON.stringify(swap_matrix[i][j].path);
         }
         jsondata += '\n';
     }
     // jsondata.split();
+    console.log(jsondata);
     fs.writeFile("./Result/result.txt", jsondata, function(err) {
         if (err) {
             console.log(err);

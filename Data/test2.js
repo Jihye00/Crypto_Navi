@@ -225,7 +225,7 @@ async function test() {
       getCurrentPool_res = await getCurrentPool(KSLP_ADDRESS[contract_name]);
     }
     catch(err){
-      error(err);
+      console.log(err);
     }
     let tokenA_hex = (getCurrentPool_res.result).substring(0, 66);
     let tokenB_hex = (getCurrentPool_res.result).substring(66, 132);
