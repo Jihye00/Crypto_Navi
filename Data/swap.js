@@ -130,7 +130,7 @@ const keystore = fs.readFileSync('/Users/jomingyu/Desktop/untitled folder/kaikas
 // const keystore = fs.readFileSync('./kaikas-0x09e4fc443cb26749281c961b99f71a2c763d1bc2.json', 'utf8');
 
 // Decrypt keystore
-const keyring = caver.wallet.keyring.decrypt(keystore, 'whalsrb0907@');
+const keyring = caver.wallet.keyring.decrypt(keystore, '');
 //console.log(keyring);
 
 caver.wallet.add(keyring);
