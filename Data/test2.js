@@ -277,8 +277,8 @@ async function test() {
     let ratio1 = tokenB_decimal / tokenA_decimal;
     let ratio2 = tokenA_decimal / tokenB_decimal;
     
-    let temp_swap1 = new type.Swap(tokenAName, tokenBName, ratio1 * 0.998, 'DEFINIX');
-    let temp_swap2 = new type.Swap(tokenBName, tokenAName, ratio2 * 0.998, 'DEFINIX');
+    let temp_swap1 = new type.Swap(tokenAName, tokenBName, ratio1 * 0.9975, 'DEFINIX');
+    let temp_swap2 = new type.Swap(tokenBName, tokenAName, ratio2 * 0.9975, 'DEFINIX');
 
     var i, j;
     for(i=0; i<MATRIX_SIZE; i++){

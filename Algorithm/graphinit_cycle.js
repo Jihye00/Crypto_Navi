@@ -3,7 +3,7 @@ const type =  require('./type.js');
 const cycle =  require('../cycle-detection.js');
 const fs = require('fs');
 
-function graph(matrix_klayswap, matrix_definix){
+async function graph(matrix_klayswap, matrix_definix){
     var swap_matrix = [];
     var swap_matrix2 = [];
     // init
@@ -44,7 +44,7 @@ function graph(matrix_klayswap, matrix_definix){
         for(i=0; i<type.MATRIX_SIZE; i++){
             for(j=0; j<type.MATRIX_SIZE; j++){
                 for(k=0; k<type.MATRIX_SIZE; k++){
-                    if(swap_matrix[i][j].ratio < 0 || swap_matrix[j][k].ratio < 0) continue;
+                    if(swap_matrix[i][j].ratio < 0 || swap_matrix[j][k].ratio < 0 || i == j || j == k) continue;
                     const cycle_removed = cycle.safeconcat(swap_matrix[i][j], swap_matrix[j][k]);
                     const max_val = Math.max(swap_matrix[i][k].ratio, swap_matrix2[i][k].ratio, cycle_removed[1]);
                     switch(max_val){
@@ -92,6 +92,7 @@ function graph(matrix_klayswap, matrix_definix){
         }
     });
     console.log(set);
+    return swap_matrix
 }
 
 

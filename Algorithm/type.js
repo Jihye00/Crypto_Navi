@@ -9,7 +9,7 @@ const dex = [
     'DEFINIX',
     'MOUND'];
 const KLAYSWAP_FEE = 0.003;
-const DEFINIX_FEE = 0.002;
+const DEFINIX_FEE = 0.0025;
 const DUMMY_DEX = 'not a swap';
 const CurrencyLists = ['KLAY', 'KBNB', 'KUSDT', 'KDAI', 'KXRP', 'KETH', 'KSP', 'SIX', 'KORC', 'KWBTC']; // xrp, btc, six, ksp
 const MATRIX_SIZE = CurrencyLists.length;
@@ -25,13 +25,13 @@ function Swap (from = "from", to = "to", ratio = DUMMY_RATIO, dex = DUMMY_DEX) {
     this.to = to;
     this.ratio = ratio;
     this.dex = dex;
-    this.path = [from + " => " + to + ' at ' + dex];
+    this.path = [(from + " => " + to + ' at ' + dex).padEnd(40)];
     // this.path = [];
 }
 const DUMMY_SWAP = new Swap();
 
 function refresh(swap){
-    swap.path = [swap.from + " => " + swap.to + ' at ' + swap.dex];
+    swap.path = [(swap.from + " => " + swap.to + ' at ' + swap.dex).padEnd(24)];
 }
 
 function Market(name = DUMMY_MARKET, address = DUMMY_ADDRESS, pricelist = []) {
