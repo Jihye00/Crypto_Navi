@@ -58,6 +58,11 @@
 								"internalType": "uint256",
 								"name": "tokenBReserve",
 								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "ratio",
+								"type": "uint256"
 							}
 						],
 						"internalType": "struct KlaytnOptimizer.Pool[]",
@@ -113,6 +118,11 @@
 							{
 								"internalType": "uint256",
 								"name": "tokenBReserve",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "ratio",
 								"type": "uint256"
 							}
 						],
@@ -177,6 +187,11 @@
 							{
 								"internalType": "uint256",
 								"name": "tokenBReserve",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "ratio",
 								"type": "uint256"
 							}
 						],
@@ -321,11 +336,11 @@
 	},
 	"sources": {
 		"contracts/KlaytnOptimizer.sol": {
-			"keccak256": "0x0dc3fcb632f913124b6f9235692b8a956d06d080f850c36731f0b0aba7872dcc",
+			"keccak256": "0x97529a340aa15d2e543d7ed4a3b81a2c000b7f6718fd580cff1cbae729f64934",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://59131baab2b724c0c46fed6cd3299b9bbfd943cd8852b87877ab4bcdd415352f",
-				"dweb:/ipfs/QmdW3wypau3hzRngUgATvPA3XiWRtHhkHZdHbg9qJ5kKvV"
+				"bzz-raw://2d50273153832d9ae423d82ab422b7bab32015946f254397b6af82aac2b9eb13",
+				"dweb:/ipfs/QmXtxAt1DaBvHBjHe2n6wT2Hj7nqTa22puAT9JBysV1Ekw"
 			]
 		},
 		"contracts/interfaces/IDefinixFactory.sol": {

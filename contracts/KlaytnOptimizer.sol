@@ -15,6 +15,7 @@ contract KlaytnOptimizer {
         address tokenB;
         uint256 tokenAReserve;
         uint256 tokenBReserve;
+        uint256 ratio;
     }
 
     struct Token {
@@ -75,9 +76,14 @@ contract KlaytnOptimizer {
         tokenA = IKSLP(poolAddress).tokenA();
         tokenB = IKSLP(poolAddress).tokenB();
         (reserveA, reserveB) = IKSLP(poolAddress).getCurrentPool();
+        
+        uint256 reserveApower = reserveA;
+        uint256 reserveBpower = reserveB;
+        
+        uint256 mulratio = reserveBpower*(10**18) / reserveApower;
 
         return
-            Pool("klayswap", poolAddress, tokenA, tokenB, reserveA, reserveB);
+            Pool("klayswap", poolAddress, tokenA, tokenB, reserveA, reserveB, mulratio);
     }
 
     function getDefinixPoolInfo(address poolAddress)
@@ -93,8 +99,14 @@ contract KlaytnOptimizer {
         tokenA = IDefinixPair(poolAddress).token0();
         tokenB = IDefinixPair(poolAddress).token1();
         (reserveA, reserveB, ) = IDefinixPair(poolAddress).getReserves();
+        
+        uint256 reserveApower = reserveA;
+        uint256 reserveBpower = reserveB;
+        
+        uint256 mulratio = reserveBpower*(10**18) / reserveApower;
 
-        return Pool("definix", poolAddress, tokenA, tokenB, reserveA, reserveB);
+        return
+            Pool("klayswap", poolAddress, tokenA, tokenB, reserveA, reserveB, mulratio);
     }
 
     function getAllPoolInfo()
@@ -147,6 +159,7 @@ contract KlaytnOptimizer {
             result[i] = getTokenInfo(tokenAddressList[i]);
         }
     }
+    
 }
 
 
