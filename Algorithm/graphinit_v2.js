@@ -40,7 +40,7 @@ async function graph(matrix_klayswap, matrix_definix){
         }
     }
     var set = new Set();
-    for(t=0; t<4; t++){
+    for(t=0; t<3; t++){
         for(i=0; i<type.MATRIX_SIZE; i++){
             for(j=0; j<type.MATRIX_SIZE; j++){
                 for(k=0; k<type.MATRIX_SIZE; k++){
@@ -59,7 +59,7 @@ async function graph(matrix_klayswap, matrix_definix){
                             break;
                             
                     }
-                    if(swap_matrix2[i][i].ratio > 1) {
+                    if(swap_matrix2[i][i].ratio > 1.0003) {
                         //WHEN TO BREAK?
                         // t = 10000;
                         set.add(JSON.stringify(swap_matrix2[i][i].path) + JSON.stringify(swap_matrix2[i][i].to) + JSON.stringify(swap_matrix2[i][i].ratio));
@@ -86,7 +86,7 @@ async function graph(matrix_klayswap, matrix_definix){
     }
     // jsondata.split();
     // console.log(jsondata);
-    fs.writeFile("./Result/result.txt", jsondata, function(err) {
+    fs.writeFile("./Result/routing_data.txt", jsondata, function(err) {
         if (err) {
             console.log(err);
         }

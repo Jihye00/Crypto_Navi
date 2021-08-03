@@ -99,6 +99,7 @@ const DEFINIXLP_ADDRESS = {
 
   KDAI_KUSDT_ADDRESS: "0x12Fd4576aBC462A1FBbD933a7af3D4895517BAF2",
   KBNB_KUSDT_ADDRESS: "0x10592D608Aeb69DEd0C792127526e25D2b171185",
+  KXRP_KUSDT_ADDRESS: "0x4CAC28FBCE94A011c6eDDEd62aA91CDa4eb2BC3F",
   KBNB_FINIX_ADDRESS: "0x85234cf8FAc4D5e03a553d766C64901b811A31e4"
 };
 const TOKEN_ADDRESS = {
@@ -203,15 +204,15 @@ async function getCurrentPool(contract_address) {
 var klayswap_data =  [];
 var definix_data = [];
 var data = '';
-const CurrencyLists = ['KLAY', 'KBNB', 'KUSDT', 'KDAI', 'KXRP', 'KETH', 'KSP', 'SIX', 'KORC', 'KWBTC'];
-const MATRIX_SIZE = CurrencyLists.length;
+// const CurrencyLists = ['KLAY', 'KBNB', 'KUSDT', 'KDAI', 'KXRP', 'KETH', 'KSP', 'SIX', 'KORC', 'KWBTC'];
+// const MATRIX_SIZE = CurrencyLists.length;
 async function test() {
-  for(i=0; i<MATRIX_SIZE; i++){
+  for(i=0; i<type.MATRIX_SIZE; i++){
     var row1 = [];
     var row2 = [];
-    for(j=0; j<MATRIX_SIZE; j++){
-      var temp1 = new type.Swap(CurrencyLists[i], CurrencyLists[j]);
-      var temp2 = new type.Swap(CurrencyLists[i], CurrencyLists[j]);
+    for(j=0; j<type.MATRIX_SIZE; j++){
+      var temp1 = new type.Swap(type.CurrencyLists[i], type.CurrencyLists[j]);
+      var temp2 = new type.Swap(type.CurrencyLists[i], type.CurrencyLists[j]);
       row1.push(temp1);
       row2.push(temp2);
     }
@@ -243,13 +244,13 @@ async function test() {
     let temp_swap1 = new type.Swap(tokenAName, tokenBName, ratio1 * (1-type.KLAYSWAP_FEE), 'KLAYSWAP');
     let temp_swap2 = new type.Swap(tokenBName, tokenAName, ratio2 * (1-type.KLAYSWAP_FEE), 'KLAYSWAP');
     var i, j;
-    for(i=0; i<MATRIX_SIZE; i++){
-      if(CurrencyLists[i] == tokenAName) break;
+    for(i=0; i<type.MATRIX_SIZE; i++){
+      if(type.CurrencyLists[i] == tokenAName) break;
     }
-    for(j=0; j<MATRIX_SIZE; j++){
-      if(CurrencyLists[j] == tokenBName) break;
+    for(j=0; j<type.MATRIX_SIZE; j++){
+      if(type.CurrencyLists[j] == tokenBName) break;
     }
-    if(i < MATRIX_SIZE && j < MATRIX_SIZE){
+    if(i < type.MATRIX_SIZE && j < type.MATRIX_SIZE){
       klayswap_data[i][j] = temp_swap1;
       klayswap_data[j][i] = temp_swap2;
     }
@@ -281,20 +282,20 @@ async function test() {
     let temp_swap2 = new type.Swap(tokenBName, tokenAName, ratio2 * (1-type.DEFINIX_FEE), 'DEFINIX');
 
     var i, j;
-    for(i=0; i<MATRIX_SIZE; i++){
-      if(CurrencyLists[i] == tokenAName) break;
+    for(i=0; i<type.MATRIX_SIZE; i++){
+      if(type.CurrencyLists[i] == tokenAName) break;
     }
-    for(j=0; j<MATRIX_SIZE; j++){
-      if(CurrencyLists[j] == tokenBName) break;
+    for(j=0; j<type.MATRIX_SIZE; j++){
+      if(type.CurrencyLists[j] == tokenBName) break;
     }
-    if(i < MATRIX_SIZE && j < MATRIX_SIZE){
+    if(i < type.MATRIX_SIZE && j < type.MATRIX_SIZE){
       definix_data[i][j] = temp_swap1;
       definix_data[j][i] = temp_swap2;
     }
     data += (` 1 ${tokenAName} = ${ratio1} ${tokenBName}\n`);
   }
   var fs = require('fs');
-    fs.writeFile("./Result/data.txt", data, function(err) {
+    fs.writeFile("./Result/ratio_data.txt", data, function(err) {
         if (err) {
             console.log(err);
         }
