@@ -28,11 +28,13 @@ function graph(matrix_klayswap, matrix_definix){
             else if(matrix_klayswap[i][j].ratio >= matrix_definix[i][j].ratio){
                 swap_matrix[i][j].ratio = matrix_klayswap[i][j].ratio;
                 swap_matrix[i][j].dex = 'KLAYSWAP';
+                swap_matrix2[i][j].dex = 'KLAYSWAP';
                 type.refresh(swap_matrix[i][j]);
             }
             else{
                 swap_matrix[i][j].ratio = matrix_definix[i][j].ratio;
                 swap_matrix[i][j].dex = 'DEFINIX';
+                swap_matrix2[i][j].dex = 'DEFINIX';
                 type.refresh(swap_matrix[i][j]);
             }
         }
@@ -68,7 +70,7 @@ function graph(matrix_klayswap, matrix_definix){
             }
         }
         if(JSON.stringify(swap_matrix2) == JSON.stringify(swap_matrix)) break;
-        console.log(JSON.stringify(swap_matrix2[3][2]));
+        // console.log(JSON.stringify(swap_matrix2[3][2]));
         swap_matrix = JSON.parse(JSON.stringify(swap_matrix2));
     }
 
