@@ -3,9 +3,16 @@ const BigNumber = require("bignumber.js");
 const safeMath = require("safemath");
 const Caver = require('caver-js');
 const caver = new Caver('https://kaikas.cypress.klaytn.net:8651');
-
 const abi = require('./FactoryImpl.json');
 const abi_definix = require('./DefinixRouter.json');
+
+const password = "";
+// Password for kaikas wallet
+const myWalletAddress = "0x09e4Fc443cB26749281C961b99F71A2c763D1bC2";
+// kaikas wallet address
+const keystorePath = "/Users/jomingyu/Desktop/untitled folder/kaikas-0x09e4fc443cb26749281c961b99f71a2c763d1bc2.json";
+// const keystorePath = "/Users/jomingyu/mound_dev/Crypto_NAVI/Data/kaikas-0x09e4fc443cb26749281c961b99f71a2c763d1bc2.json";
+// kaikas keystore path
 const TOKEN_ADDRESS = {
   KLAY: "0x0000000000000000000000000000000000000000",
   KSP: "0xc6a2ad8cc6e4a7e08fc37cc5954be07d499e7654",
@@ -113,31 +120,31 @@ const Kip7Abi = require('./Kip7Abi.json');
 async function approve(tokenname) {
 
   const Kip7 = new caver.contract(Kip7Abi, TOKEN_ADDRESS[tokenname]);// 수정
-  let currentAllowance = await Kip7.methods.allowance('0x09e4Fc443cB26749281C961b99F71A2c763D1bC2', '0x4E61743278Ed45975e3038BEDcaA537816b66b5B').call();
+  let currentAllowance = await Kip7.methods.allowance(myWalletAddress, '0x4E61743278Ed45975e3038BEDcaA537816b66b5B').call();
   console.log("currentAllowance", currentAllowance);
   // 0 current allowance means token has not been approved yet
   if (currentAllowance == 0) {
     // approve router to transact the kip-7 token and set allowance to maximum uint256
     let allowance = new BigNumber("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-    await Kip7.methods.approve('0x4E61743278Ed45975e3038BEDcaA537816b66b5B', allowance).send({ from: '0x09e4Fc443cB26749281C961b99F71A2c763D1bC2', gas: 1000000 });
+    await Kip7.methods.approve('0x4E61743278Ed45975e3038BEDcaA537816b66b5B', allowance).send({ from: myWalletAddress, gas: 1000000 });
   }
 };
 
 // let amount = 0;
 // let amount = BigInt( * Math.pow(10, TOKEN_DECIMAL[tokenAName]));
 // let amount = safeMath.safeMule(163.71, 10 ** TOKEN_DECIMAL[tokenAName]);
-const keystore = fs.readFileSync('/Users/jomingyu/Desktop/untitled folder/kaikas-0x09e4fc443cb26749281c961b99f71a2c763d1bc2.json', 'utf8');
+const keystore = fs.readFileSync(keystorePath, 'utf8');
 // const keystore = fs.readFileSync('./kaikas-0x09e4fc443cb26749281c961b99f71a2c763d1bc2.json', 'utf8');
 
 // Decrypt keystore
-const keyring = caver.wallet.keyring.decrypt(keystore, 'whalsrb0907@');
+const keyring = caver.wallet.keyring.decrypt(keystore, password);
 //console.log(keyring);
 
 caver.wallet.add(keyring);
 async function swap(tokenAName, tokenBName, amount, dex) {
   // console.log(tokenAName, tokenBName, amount, dex);
   // amount = Number(1);
-  amount = BigInt(amount * Math.pow(10, TOKEN_DECIMAL[tokenAName]));
+  // amount = BigInt(amount * Math.pow(10, TOKEN_DECIMAL[tokenAName]));
   // Read keystore json file
   // const keystore = fs.readFileSync('/Users/jomingyu/Desktop/untitled folder/kaikas-0x09e4fc443cb26749281c961b99f71a2c763d1bc2.json', 'utf8');
   // // const keystore = fs.readFileSync('./kaikas-0x09e4fc443cb26749281c961b99f71a2c763d1bc2.json', 'utf8');
@@ -154,17 +161,19 @@ async function swap(tokenAName, tokenBName, amount, dex) {
  
 
   if (dex == "KLAYSWAP") {
+    console.log("entered KLAYSWAP")
     if (tokenAName == 'KLAY') {
-
-      await approve(tokenAName);
-
-      let res = await Factory.methods.exchangeKlayPos(TOKEN_ADDRESS[tokenBName], 1, empty).send({ from: '0x09e4Fc443cB26749281C961b99F71A2c763D1bC2', gas: 1000000, value: amount });
+      console.log("entered KLAYSWAP-KLAY")
+      // await approve(tokenAName);
+      amount = (amount * Math.pow(10, TOKEN_DECIMAL[tokenAName]));
+      let res = await Factory.methods.exchangeKlayPos(TOKEN_ADDRESS[tokenBName], 1, empty).send({ from: myWalletAddress, gas: 1000000, value: amount });
+      console.log(res);
     }
     else if (tokenAName != 'KLAY') {
 
       await approve(tokenAName);
-
-      let res = await Factory.methods.exchangeKctPos(TOKEN_ADDRESS[tokenAName], amount, TOKEN_ADDRESS[tokenBName], 1, empty).send({ from: '0x09e4Fc443cB26749281C961b99F71A2c763D1bC2', gas: 1000000 });
+      amount = BigInt(amount * Math.pow(10, TOKEN_DECIMAL[tokenAName]));
+      let res = await Factory.methods.exchangeKctPos(TOKEN_ADDRESS[tokenAName], amount, TOKEN_ADDRESS[tokenBName], 1, empty).send({ from: myWalletAddress, gas: 1000000 });
     }
     //let res = await Factory.methods.version().call();
     //console.log(res);
@@ -178,26 +187,26 @@ async function swap(tokenAName, tokenBName, amount, dex) {
     let timestamp = Date.now() + 1000 * 60 * 15;
 
     if (tokenAName == 'KLAY') {
-
+      amount = BigInt(amount * Math.pow(10, TOKEN_DECIMAL[tokenAName]));
       await approve("W"+tokenAName);
       //교환하는 토큰 중에 klay가 있다면 wklay로 주소를 바꾼다.
       path[0] = '0x5819b6af194a78511c79c85ea68d2377a7e9335f';
-      let res = await Router.methods.swapExactETHForTokens(1, path, '0x09e4Fc443cB26749281C961b99F71A2c763D1bC2', timestamp).send({ from: '0x09e4Fc443cB26749281C961b99F71A2c763D1bC2', gas: 1000000, value: Number(amount) });
+      let res = await Router.methods.swapExactETHForTokens(1, path, myWalletAddress, timestamp).send({ from: myWalletAddress, gas: 1000000, value: Number(amount) });
 
     }
     else if (tokenAName != 'KLAY' && tokenBName != 'KLAY') {
-
+      amount = BigInt(amount * Math.pow(10, TOKEN_DECIMAL[tokenAName]));
       await approve(tokenAName);
       //교환되는 두 토큰으로 이루어진 pool이 존재해야함
-      let res = await Router.methods.swapExactTokensForTokens(amount, 1, path, '0x09e4Fc443cB26749281C961b99F71A2c763D1bC2', timestamp).send({ from: '0x09e4Fc443cB26749281C961b99F71A2c763D1bC2', gas: 1000000 });
+      let res = await Router.methods.swapExactTokensForTokens(amount, 1, path, myWalletAddress, timestamp).send({ from: myWalletAddress, gas: 1000000 });
 
     }
     else if (tokenBName == 'KLAY') {
-
+      amount = BigInt(amount * Math.pow(10, TOKEN_DECIMAL[tokenAName]));
       await approve(tokenAName);
       //교환하는 토큰 중에 klay가 있다면 wklay로 주소를 바꾼다.
       path[1] = '0x5819b6af194a78511c79c85ea68d2377a7e9335f';
-      let res = await Router.methods.swapExactTokensForETH(amount, 1, path, '0x09e4Fc443cB26749281C961b99F71A2c763D1bC2', timestamp).send({ from: '0x09e4Fc443cB26749281C961b99F71A2c763D1bC2', gas: 1000000 });
+      let res = await Router.methods.swapExactTokensForETH(amount, 1, path, myWalletAddress, timestamp).send({ from: myWalletAddress, gas: 1000000 });
 
     }
     //let res = await Router.methods.WETH().call();

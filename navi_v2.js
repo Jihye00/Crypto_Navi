@@ -24,13 +24,13 @@ async function main(tokenA, tokenB){
 async function e () {
     await main('KLAY', 'KUSDT');
     console.log(data)
-    for (i = 0; i < data.length; i++) {
-        params = data[i].split(' ');
-        console.log(params)
-        await swap.swap(params[0], params[2], 5, params[4])
-    }
+    // for (i = 0; i < data.length; i++) {
+    //     params = data[i].split(' ');
+    //     console.log(params)
+    //     await swap.swap(params[0], params[2], 5, params[4])
+    // }
     // var params = data
-
+    await swap.swap('KLAY', 'KUSDT', 1.234, 'KLAYSWAP');
 }
 
 e()
