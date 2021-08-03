@@ -85,7 +85,7 @@ async function graph(matrix_klayswap, matrix_definix){
         jsondata += '\n';
     }
     // jsondata.split();
-    console.log(jsondata);
+    // console.log(jsondata);
     fs.writeFile("./Result/result.txt", jsondata, function(err) {
         if (err) {
             console.log(err);

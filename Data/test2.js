@@ -240,8 +240,8 @@ async function test() {
     let ratio1 = tokenB_decimal / tokenA_decimal;
     let ratio2 = tokenA_decimal / tokenB_decimal;
 
-    let temp_swap1 = new type.Swap(tokenAName, tokenBName, ratio1 * 0.997, 'KLAYSWAP');
-    let temp_swap2 = new type.Swap(tokenBName, tokenAName, ratio2 * 0.997, 'KLAYSWAP');
+    let temp_swap1 = new type.Swap(tokenAName, tokenBName, ratio1 * (1-type.KLAYSWAP_FEE), 'KLAYSWAP');
+    let temp_swap2 = new type.Swap(tokenBName, tokenAName, ratio2 * (1-type.KLAYSWAP_FEE), 'KLAYSWAP');
     var i, j;
     for(i=0; i<MATRIX_SIZE; i++){
       if(CurrencyLists[i] == tokenAName) break;
@@ -277,8 +277,8 @@ async function test() {
     let ratio1 = tokenB_decimal / tokenA_decimal;
     let ratio2 = tokenA_decimal / tokenB_decimal;
     
-    let temp_swap1 = new type.Swap(tokenAName, tokenBName, ratio1 * 0.9975, 'DEFINIX');
-    let temp_swap2 = new type.Swap(tokenBName, tokenAName, ratio2 * 0.9975, 'DEFINIX');
+    let temp_swap1 = new type.Swap(tokenAName, tokenBName, ratio1 * (1-type.DEFINIX_FEE), 'DEFINIX');
+    let temp_swap2 = new type.Swap(tokenBName, tokenAName, ratio2 * (1-type.DEFINIX_FEE), 'DEFINIX');
 
     var i, j;
     for(i=0; i<MATRIX_SIZE; i++){

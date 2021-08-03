@@ -22,15 +22,15 @@ function safeconcat (swapa, swapb) {
         return [null, -1];
 }
 
-let d = []
-for (i = 0; i < 3; i++) {
-    for (j = 0; j < 3; j++) {
-        var s = new type.Swap(type.CurrencyLists[i], type.CurrencyLists[j]);
-        type.refresh(s);
-        d.push(s);
+// let d = []
+// for (i = 0; i < 3; i++) {
+//     for (j = 0; j < 3; j++) {
+//         var s = new type.Swap(type.CurrencyLists[i], type.CurrencyLists[j]);
+//         type.refresh(s);
+//         d.push(s);
         
-    }
-}
+//     }
+// }
 // console.log(d);
 // console.log(JSON.stringify(d, null, 2));
 // d[1].path = safeconcat(d[1], d[1]);
