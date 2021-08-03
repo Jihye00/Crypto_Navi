@@ -21,11 +21,13 @@ function Swap (from = "from", to = "to", ratio = DUMMY_RATIO, dex = DUMMY_DEX) {
     this.to = to;
     this.ratio = ratio;
     this.dex = dex;
-    this.path = [{'from': from, 'dex': dex}];
+    this.path = [{'swap': from + " => " + to + ' at ' + dex}];
+    this.cycle = [];
+    // this.path = [];
 }
 
 function refresh(swap){
-    swap.path = [{'from': swap.from, 'dex': swap.dex}];
+    swap.path = [swap.from + " => " + swap.to + ' at ' + swap.dex + '  '];
 }
 const DUMMY_SWAP = new Swap();
 

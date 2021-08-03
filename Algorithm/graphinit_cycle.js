@@ -2,6 +2,7 @@
 const Math = require("mathjs");
 const safemath = require("safemath");
 const type =  require('./type.js');
+const cycle =  require('../cycle-detection.js');
 const fs = require('fs');
 // constant variables
 const DUMMY_ADDRESS = '0x0000000000000000000000000000000000000000';
@@ -19,8 +20,7 @@ var CurrencyLists = ['KLAY', 'KBNB', 'KUSDT', 'KDAI', 'KXRP', 'KETH', 'KSP', 'SI
 const MATRIX_SIZE = CurrencyLists.length;
 const DUMMY_CURRENCY = 'MOUND';
 const DUMMY_SWAP = new type.Swap();
-var flag1 = 0;
-var flag2 = 0;
+
 function graph(matrix_klayswap, matrix_definix){
     var swap_matrix = [];
     var swap_matrix2 = [];
@@ -67,16 +67,11 @@ function graph(matrix_klayswap, matrix_definix){
                             swap_matrix2[i][k].ratio = max_val;
                             break;
                         case safemath.safeMule(swap_matrix[i][j].ratio, swap_matrix[j][k].ratio):
-                            if (    JSON.stringify(swap_matrix[i][j].path).includes    (     JSON.stringify(swap_matrix[j][k].path)      ) != true) {
-                                swap_matrix2[i][k].path = JSON.parse(JSON.stringify(swap_matrix[i][j].path.concat(swap_matrix[j][k].path)));
-                                swap_matrix2[i][k].ratio = max_val;
-                                flag1++;
-                                break;
-                            }
-                            else {
-                                flag2++;
-                                break;
-                            }
+                            // swap_matrix2[i][k].path = JSON.parse(JSON.stringify(swap_matrix[i][j].path.concat(swap_matrix[j][k].path)));
+                            swap_matrix2[i][k].path = cycle.safeconcat(swap_matrix[i][j], swap_matrix[j][k]);
+                            swap_matrix2[i][k].ratio = max_val;
+                            break;
+                            
                     }
                     if(swap_matrix2[i][i].ratio > 1) {
                         //WHEN TO BREAK?
@@ -96,7 +91,7 @@ function graph(matrix_klayswap, matrix_definix){
     for(i=0; i<MATRIX_SIZE; i++){
         for(j=0; j<MATRIX_SIZE; j++){
             jsondata += JSON.stringify(swap_matrix[i][j].from + ' ' + swap_matrix[i][j].to + ' ' + swap_matrix[i][j].ratio);
-            jsondata += JSON.stringify(swap_matrix[i][j].path);
+            // jsondata += JSON.stringify(swap_matrix[i][j].path);
         }
         jsondata += '\n';
     }
@@ -107,8 +102,6 @@ function graph(matrix_klayswap, matrix_definix){
         }
     });
     console.log(set);
-    console.log(flag1);
-    console.log(flag2);
 }
 
 
