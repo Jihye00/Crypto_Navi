@@ -60,16 +60,17 @@ function graph(matrix_klayswap, matrix_definix){
             for(j=0; j<MATRIX_SIZE; j++){
                 for(k=0; k<MATRIX_SIZE; k++){
                     if(swap_matrix[i][j].ratio < 0 || swap_matrix[j][k].ratio < 0) continue;
-                    const max_val = Math.max(swap_matrix[i][k].ratio, swap_matrix2[i][k].ratio, safemath.safeMule(swap_matrix[i][j].ratio, swap_matrix[j][k].ratio));
+                    const cycle_removed = cycle.safeconcat(swap_matrix[i][j], swap_matrix[j][k]);
+                    const max_val = Math.max(swap_matrix[i][k].ratio, swap_matrix2[i][k].ratio, cycle_removed[1]);
                     switch(max_val){
                         case swap_matrix[i][k].ratio:
                             swap_matrix2[i][k].path = JSON.parse(JSON.stringify(swap_matrix[i][k].path));
                             swap_matrix2[i][k].ratio = max_val;
                             break;
-                        case safemath.safeMule(swap_matrix[i][j].ratio, swap_matrix[j][k].ratio):
+                        case cycle_removed[1]:
                             // swap_matrix2[i][k].path = JSON.parse(JSON.stringify(swap_matrix[i][j].path.concat(swap_matrix[j][k].path)));
-                            swap_matrix2[i][k].path = cycle.safeconcat(swap_matrix[i][j], swap_matrix[j][k]);
-                            swap_matrix2[i][k].ratio = max_val;
+                            swap_matrix2[i][k].path = cycle_removed[0];
+                            swap_matrix2[i][k].ratio = cycle_removed[1];
                             break;
                             
                     }
@@ -77,12 +78,14 @@ function graph(matrix_klayswap, matrix_definix){
                         //WHEN TO BREAK?
                         // t = 10000;
                         set.add(JSON.stringify(swap_matrix2[i][i].path) + JSON.stringify(swap_matrix2[i][i].to) + JSON.stringify(swap_matrix2[i][i].ratio));
+                        swap_matrix2[i][i].ratio = 1;
+                        swap_matrix2[i][i].path = [];
                     }
                 }
             }
         }
         if(JSON.stringify(swap_matrix2) == JSON.stringify(swap_matrix)) break;
-        console.log(JSON.stringify(swap_matrix2));
+        console.log(JSON.stringify(swap_matrix2[3][2]));
         swap_matrix = JSON.parse(JSON.stringify(swap_matrix2));
     }
 

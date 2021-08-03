@@ -15,23 +15,33 @@ var CurrencyLists = ['KLAY', 'KBNB', 'KUSDT', 'KDAI', 'KXRP', 'KETH', 'KSP', 'SI
 //         return a;
 //     }
 // }
-function safeconcat (swapa = new type.Swap(), swapb = new type.Swap()) {
-    let new_path = []
-    new_path = JSON.parse(JSON.stringify(swapa.path.concat((swapb.path))));
+function safeconcat (swapa, swapb) {
+    // let new_path = []
+    // new_path = JSON.parse(JSON.stringify(swapa.path.concat((swapb.path))));
+    // // console.log(new_path);
+    // // console.log(new_path);
+    // return new_path.filter((item,index)=>{
+    //     return (new_path.indexOf(item) == index)
+    // })
+    var new_path = JSON.parse(JSON.stringify(swapa.path));
+    new_path = new_path.concat(swapb.path);
     // console.log(new_path);
-    // console.log(new_path);
-    return new_path.filter((item,index)=>{
-        return (new_path.indexOf(item) == index)
-    })
+    var set = new Set(new_path);
+    if(set.size == new_path.length)
+        return [new_path, swapa.ratio * swapb.ratio];
+    else
+        return [null, -1];
 }
 
-// let d = []
-// for (i = 0; i < 3; i++) {
-//     for (j = 0; j < 3; j++) {
-//         d.push(new type.Swap(CurrencyLists[i], CurrencyLists[j]))
+let d = []
+for (i = 0; i < 3; i++) {
+    for (j = 0; j < 3; j++) {
+        var s = new type.Swap(CurrencyLists[i], CurrencyLists[j]);
+        type.refresh(s);
+        d.push(s);
         
-//     }
-// }
+    }
+}
 // console.log(d);
 // console.log(JSON.stringify(d, null, 2));
 // d[1].path = safeconcat(d[1], d[1]);
@@ -42,6 +52,7 @@ function safeconcat (swapa = new type.Swap(), swapb = new type.Swap()) {
 
 // // console.log(d);
 // console.log(JSON.stringify(d, null, 2));
+// console.log(d[2].path)
 // console.log(d[1].path)
 
 
