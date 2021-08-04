@@ -3,10 +3,9 @@ const safemath = require("safemath");
 // constant variables
 const dex = [
     'KLAYSWAP',
-    'DEFINIX',
-    'MOUND'];
+    'DEFINIX'];
 const KLAYSWAP_FEE = 0.003;
-const DEFINIX_FEE = 0.0025;
+const DEFINIX_FEE = 0.002;
 const CurrencyLists = ['KLAY', 'KBNB', 'KUSDT', 'KDAI', 'KXRP', 'KETH', 'KSP', 'SIX', 'KORC', 'KWBTC', 'FINIX']; // xrp, btc, six, ksp
 const MATRIX_SIZE = CurrencyLists.length;
 var SwapMatrix = [];
@@ -24,6 +23,8 @@ class Swap{
                 this.x1 = x;
                 this.y1 = y;
                 this.k1 = x * y;
+                if(dex == 'KLAYSWAP') this.fee1 = 1 - KLAYSWAP_FEE;
+                else this.fee1 = 1 - DEFINIX_FEE;
                 break;
             case 1:
                 if(this.y1/this.x1 > y/x){
@@ -31,18 +32,23 @@ class Swap{
                     this.x2 = x;
                     this.y2 = y;
                     this.k2 = x * y;
+                    if(dex == 'KLAYSWAP') this.fee2 = 1 - KLAYSWAP_FEE;
+                    else this.fee2 = 1 - DEFINIX_FEE;
                 }
                 else{
                     this.dex2 = this.dex1;
                     this.x2 = this.x1;
                     this.y2 = this.y1;
                     this.k2 = this.k1;
+                    this.fee2 = this.fee1;
                     this.dex1 = dex;
                     this.x1 = x;
                     this.y1 = y;
                     this.k1 = x * y;
+                    if(dex == 'KLAYSWAP') this.fee1 = 1 - KLAYSWAP_FEE;
+                    else this.fee1 = 1 - DEFINIX_FEE;
                 }
-                this.limitone = Math.sqrt(safemath.safeMule(this.k1, this.x2) / this.y2) - this.x1;
+                this.limitone = (Math.sqrt(safemath.safeMule(this.k1, this.x2) / this.y2) - this.x1) / this.fee1;
                 break;
             default:
                 console.log("WARNING!");
@@ -57,35 +63,35 @@ class Swap{
         }
         else if(this.num == 1 || this.limitone >= a){
             const dex1 = this.dex1;
-            const b = this.y1 - this.k1/(this.x1+a);
+            const b = this.y1 - this.k1/(this.x1 + a * this.fee1);
             if(dex1 == 'KLAYSWAP'){
-                result['KLAYSWAP'] = [a, b * (1-KLAYSWAP_FEE)];
+                result['KLAYSWAP'] = [a, b];
                 result['DEFINIX'] = [0, 0];
             }
             else{
                 result['KLAYSWAP'] = [0, 0];
-                result['DEFINIX'] = [a, b * (1-DEFINIX_FEE)];
+                result['DEFINIX'] = [a, b];
             }
         }
         else{
-            const a1 = safemath.safeDiv(Math.sqrt(this.k1)*(this.x2+a)-Math.sqrt(this.k2)*this.x1, Math.sqrt(this.k1)+Math.sqrt(this.k2));
+            const a1 = safemath.safeDiv(Math.sqrt(this.k1)*(this.x2+a*this.fee2)-Math.sqrt(this.k2)*this.x1, Math.sqrt(this.k1)*this.fee2+Math.sqrt(this.k2)*this.fee1);
             const a2 = a - a1;
-            const b1 = this.y1 - this.k1/(this.x1+a1);
-            const b2 = this.y2 - this.k2/(this.x2+a2);
+            const b1 = this.y1 - this.k1/(this.x1 + a1 * this.fee1);
+            const b2 = this.y2 - this.k2/(this.x2 + a2 * this.fee2);
             const dex1 = this.dex1;
             const dex2 = this.dex2;
             if(dex1 == 'KLAYSWAP'){
-                result['KLAYSWAP'] = [a1, b1 * (1-KLAYSWAP_FEE)];
-                result['DEFINIX'] = [a2, b2 * (1-DEFINIX_FEE)];
+                result['KLAYSWAP'] = [a1, b1];
+                result['DEFINIX'] = [a2, b2];
             }
             else {
-                result['DEFINIX'] = [a1, b1 * (1-KLAYSWAP_FEE)];
-                result['KLAYSWAP'] = [a2, b2 * (1-DEFINIX_FEE)];
+                result['DEFINIX'] = [a1, b1];
+                result['KLAYSWAP'] = [a2, b2];
             }
-            // if(a > this.x1 + this.x2 || a1 < 0 || a2 < 0){
-            //     result['KLAYSWAP'] = [0, 0];
-            //     result['DEFINIX'] = [0, 0];
-            // }
+            if(a > this.x1 + this.x2 || a1 < 0 || a2 < 0){
+                result['KLAYSWAP'] = [0, 0];
+                result['DEFINIX'] = [0, 0];
+            }
         }
         return result;
     }
@@ -136,7 +142,7 @@ class Route_Matrix{
                     this.matrix[i][j]['path'] = [from+','+this.currency_list[j]+',KLAYSWAP,'+String(ratio['KLAYSWAP'][0])+',DEFINIX,'+String(ratio['DEFINIX'][0])];
                 }
                 if(this.matrix[i][i]['money'] > 1.0003){
-                    this.arbitrage.add(toString(this.matrix[i][i]['money'])+','+this.matrix[i][j]['path'].join('=>'));
+                    // this.arbitrage.add(toString(this.matrix[i][i]['money'])+','+this.matrix[i][j]['path'].join('=>'));
                     this.matrix[i][i]['money'] = 1;
                     this.matrix[i][i]['path'] = [];
                 }
@@ -186,19 +192,23 @@ class Route_Matrix{
                                 new_matrix[i][k]['money'] = cycle_removed[1];
                                 break;
                         }
-                        if(i == k && new_matrix[i][i]['money'] > 1.0003) {
-                            this.arbitrage.add(toString(this.matrix[i][i]['money'])+','+this.matrix[i][j]['path'].join('=>'));
-                            this.matrix[i][i]['money'] = 1;
-                            this.matrix[i][i]['path'] = [];
+                        if(i == k && new_matrix[i][i]['path'].length > 1) {
+                            if(this.currency_list[i] == from && new_matrix[i][i]['money'] > a) this.arbitrage.add(String(new_matrix[i][i]['money'])+'+'+new_matrix[i][i]['path'].join('=>'));
+                            new_matrix[i][i]['money'] = 0;
+                            new_matrix[i][i]['path'] = [];
                         }
                     }
                 }
             }
-            if(JSON.stringify(new_matrix) == JSON.stringify(this.matrix)) break;
+            if(JSON.stringify(new_matrix) == JSON.stringify(this.matrix)) {
+                // console.log(t);
+                break;
+            }
             var temp = this.matrix;
             this.matrix = new_matrix;
             new_matrix = temp;
         }
+        console.log(this.arbitrage);
     }
     print(){
         for(var i=0; i<this.size; i++){
