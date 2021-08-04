@@ -1,4 +1,4 @@
-const password = "aa";
+const password = "a";
 // Password for kaikas wallet
 const myWalletAddress = "0x09e4Fc443cB26749281C961b99F71A2c763D1bC2";
 // kaikas wallet address
