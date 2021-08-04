@@ -41,11 +41,11 @@ async function value(txhash, tokenname) {
 async function e () {
     await main('KLAY', 'KWBTC');
     console.log(data)
-    var amount = 3;
+    var amount = 1;
     for (i = 0; i < data.length; i++) {
         params = data[i].split(' ');
         console.log(params)
-        amount = value(await swap.swap(params[0], params[2], amount, params[4]), params[2])
+        amount = await value(await swap.swap(params[0], params[2], amount, params[4]), params[2])
     }
     // value(await swap.swap('KLAY', 'KUSDT', 1.234, 'KLAYSWAP'), params[2])
 }
