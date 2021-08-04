@@ -2,6 +2,8 @@ const test = require('./Data/test_v2.js');
 const type = require('./Algorithm/type.js');
 const graph = require('./Algorithm/graphinit_v2.js');
 const swap = require('./Data/swap.js');
+const Caver = require('caver-js');
+const caver = new Caver('https://kaikas.cypress.klaytn.net:8651');
 
 var data;
 async function main(tokenA, tokenB){
@@ -21,16 +23,31 @@ async function main(tokenA, tokenB){
 }
 // const CurrencyLists = ['KLAY', 'KBNB', 'KUSDT', 'KDAI', 'KXRP', 'KETH', 'KSP', 'SIX', 'KORC', 'KWBTC']; // xrp, btc, six, ksp
 // let requests = [ ['KETH', 'KUSDT'] ,['KLAY','KUSDT'],['KBNB','KUSDT'],['KETH','KUSDT'],['KBNB','KETH'],['KORC','KUSDT']];
+async function value(txhash, tokenname) {
+    let tx = await caver.klay.getTransactionReceipt(txhash);
+    //console.log(tx);
+    for (let n in tx.logs) {
+      //console.log(tx.logs[n].address);
+      //console.log(TOKEN_ADDRESS.KWBTC);
+      if ((tx.logs[n].address).toUpperCase() == (test.TOKEN_ADDRESS[tokenname]).toUpperCase()) {
+        console.log(tx.logs[n].data);
+        let res = caver.abi.decodeParameter('uint256', tx.logs[n].data);
+        console.log(res);
+        return res;
+      }
+    }
+  };
+
 async function e () {
-    await main('KLAY', 'KUSDT');
+    await main('KLAY', 'KWBTC');
     console.log(data)
-    // for (i = 0; i < data.length; i++) {
-    //     params = data[i].split(' ');
-    //     console.log(params)
-    //     await swap.swap(params[0], params[2], 5, params[4])
-    // }
-    // var params = data
-    await swap.swap('KLAY', 'KUSDT', 1.234, 'KLAYSWAP');
+    var amount = 3;
+    for (i = 0; i < data.length; i++) {
+        params = data[i].split(' ');
+        console.log(params)
+        amount = value(await swap.swap(params[0], params[2], amount, params[4]), params[2])
+    }
+    // value(await swap.swap('KLAY', 'KUSDT', 1.234, 'KLAYSWAP'), params[2])
 }
 
 e()

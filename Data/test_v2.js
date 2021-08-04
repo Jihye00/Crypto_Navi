@@ -304,6 +304,7 @@ async function test() {
 }
 
 module.exports = {
-  test
+  test,
+  TOKEN_ADDRESS
 };
 

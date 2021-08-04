@@ -5,12 +5,13 @@ const Caver = require('caver-js');
 const caver = new Caver('https://kaikas.cypress.klaytn.net:8651');
 const abi = require('./FactoryImpl.json');
 const abi_definix = require('./DefinixRouter.json');
+const personal = require('./personal.js');
 
-const password = "";
+const password = personal.password;
 // Password for kaikas wallet
-const myWalletAddress = "0x09e4Fc443cB26749281C961b99F71A2c763D1bC2";
+const myWalletAddress = personal.myWalletAddress;
 // kaikas wallet address
-const keystorePath = "/Users/jomingyu/Desktop/untitled folder/kaikas-0x09e4fc443cb26749281c961b99f71a2c763d1bc2.json";
+const keystorePath = personal.keystorePath;
 // const keystorePath = "/Users/jomingyu/mound_dev/Crypto_NAVI/Data/kaikas-0x09e4fc443cb26749281c961b99f71a2c763d1bc2.json";
 // kaikas keystore path
 const TOKEN_ADDRESS = {
@@ -168,6 +169,7 @@ async function swap(tokenAName, tokenBName, amount, dex) {
       amount = (amount * Math.pow(10, TOKEN_DECIMAL[tokenAName]));
       let res = await Factory.methods.exchangeKlayPos(TOKEN_ADDRESS[tokenBName], 1, empty).send({ from: myWalletAddress, gas: 1000000, value: amount });
       console.log(res);
+      return res.transactionHash;
     }
     else if (tokenAName != 'KLAY') {
 
@@ -195,7 +197,7 @@ async function swap(tokenAName, tokenBName, amount, dex) {
 
     }
     else if (tokenAName != 'KLAY' && tokenBName != 'KLAY') {
-      amount = BigInt(amount * Math.pow(10, TOKEN_DECIMAL[tokenAName]));
+      amount = (amount * Math.pow(10, TOKEN_DECIMAL[tokenAName]));
       await approve(tokenAName);
       //교환되는 두 토큰으로 이루어진 pool이 존재해야함
       let res = await Router.methods.swapExactTokensForTokens(amount, 1, path, myWalletAddress, timestamp).send({ from: myWalletAddress, gas: 1000000 });
