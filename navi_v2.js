@@ -39,7 +39,7 @@ async function value(txhash, tokenname) {
   };
 
 async function e () {
-    await main('KLAY', 'KWBTC');
+    await main('FINIX', 'KETH');
     console.log(data)
     var amount = 1;
     for (i = 0; i < data.length; i++) {
