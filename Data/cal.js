@@ -1,13 +1,14 @@
 async function cal(tocal) {
   if (Number.isInteger(tocal)) {
-    console.log("is int")
+    // console.log("is int")
     return [tocal, 0]
   }
   else {
     let num = tocal;
+    // console.log(tocal);
     let numToString = num.toString();
-    let mul = (numToString.length - 1) - numToString.indexOf('.', 0);
-    console.log(mul);
+    let mul = (numToString.length - 1) - numToString.indexOf('.');
+    // console.log(mul);
     // let seriesOfzero = '0';
     // for (let i = 0; i < mul - 1; i++) {
     //   seriesOfzero = seriesOfzero + '0';
@@ -16,7 +17,7 @@ async function cal(tocal) {
     let res = numToString.replace('.', '');
     // console.log(res);
     // console.log(res + seriesOfzero);
-    console.log("at cal res :" + res)
+    // console.log("at cal res :" + res)
     return [res, mul];
   }
 }
@@ -25,3 +26,4 @@ async function cal(tocal) {
 module.exports = {
   cal
 }
+

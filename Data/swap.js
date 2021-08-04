@@ -153,14 +153,22 @@ const keyring = caver.wallet.keyring.decrypt(keystore, password);
 
 caver.wallet.add(keyring);
 async function swap(tokenAName, tokenBName, amount, dex) {
+  // console.log(amount)
   let cal_res = await cal.cal(amount);
-  let int = cal_res[0]
-  let seriesofZero = cal_res[1]
-  console.log("int : " + int);
-  console.log("seriesofZero : " + seriesofZero);
+  let int = cal_res[0].toString(10);
+  let seriesofZero = cal_res[1];
+  // console.log("int : " + int);
+  // console.log("seriesofZero : " + seriesofZero);
   // var amount = Number(int + (pow(10, TOKEN_DECIMAL[tokenAName] - seriesofZero)).toString(10));
-  var amount = Number(int + zeros.substring(0, TOKEN_DECIMAL[tokenAName] - seriesofZero)).toString(10);
-  console.log(amount)
+  var amount;
+  if (TOKEN_DECIMAL[tokenAName] - seriesofZero > 0) {
+    amount = int + zeros.substring(0, TOKEN_DECIMAL[tokenAName] - seriesofZero);
+  }
+  else {
+    amount = int.substring(0, int.length + TOKEN_DECIMAL[tokenAName] - seriesofZero);
+    
+  }
+  // console.log(amount)
   // console.log(tokenAName, tokenBName, amount, dex);
   // amount = Number(1);
   // amount = BigInt(amount * Math.pow(10, TOKEN_DECIMAL[tokenAName]));
@@ -181,7 +189,7 @@ async function swap(tokenAName, tokenBName, amount, dex) {
   // amount = Number((amount) * (Math.pow(10, TOKEN_DECIMAL[tokenAName])));
 
   if (dex == "KLAYSWAP") {
-    console.log("entered KLAYSWAP")
+    // console.log("entered KLAYSWAP")
     if (tokenAName == 'KLAY') {
       // console.log("entered KLAYSWAP-KLAY")
       // // await approve(tokenAName);
@@ -202,6 +210,7 @@ async function swap(tokenAName, tokenBName, amount, dex) {
       // console.log(res);
       return res.transactionHash;
     }
+    else console.log('\n\n\n\n\n\n\nn\\n\n\\n\n\\n\\n\n\\n\\n\\n\n\\n\\n\\n\n\\n\n');
     //let res = await Factory.methods.version().call();
     //console.log(res);
   }
@@ -210,7 +219,7 @@ async function swap(tokenAName, tokenBName, amount, dex) {
 
   let path = [TOKEN_ADDRESS[tokenAName], TOKEN_ADDRESS[tokenBName]];
   if (dex == "DEFINIX") {
-    console.log("entered DEFINIX")
+    // console.log("entered DEFINIX")
     let timestamp = Date.now() + 1000 * 60 * 15;
 
     if (tokenAName == 'KLAY') {
@@ -222,7 +231,7 @@ async function swap(tokenAName, tokenBName, amount, dex) {
       //await approve(tokenAName);
       //교환하는 토큰 중에 klay가 있다면 wklay로 주소를 바꾼다.
       path[0] = '0x5819b6af194a78511c79c85ea68d2377a7e9335f';
-      console.log(amount)
+      // console.log(amount)
       let res = await Router.methods.swapExactETHForTokens(1, path, myWalletAddress, timestamp).send({ from: myWalletAddress, gas: 1000000, value: amount });
       // console.log(res);
       return res.transactionHash;
@@ -248,6 +257,7 @@ async function swap(tokenAName, tokenBName, amount, dex) {
       return res.transactionHash;
 
     }
+    else console.log('\n\n\n\n\n\n\nn\\n\n\\n\n\\n\\n\n\\n\\n\\n\n\\n\\n\\n\n\\n\n');
     //let res = await Router.methods.WETH().call();
     //console.log(res);
   }
@@ -260,3 +270,5 @@ module.exports = {
   TOKEN_DECIMAL
 }
 //1e18 peb : 1klay
+
+66.659892011026422793
