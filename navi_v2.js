@@ -3,6 +3,7 @@ const type = require('./Algorithm/type.js');
 const graph = require('./Algorithm/graphinit_v2.js');
 const swap = require('./Data/swap.js');
 const Caver = require('caver-js');
+const { pow } = require('mathjs');
 const caver = new Caver('https://kaikas.cypress.klaytn.net:8651');
 
 var data;
@@ -33,13 +34,13 @@ async function value(txhash, tokenname) {
         console.log(tx.logs[n].data);
         let res = caver.abi.decodeParameter('uint256', tx.logs[n].data);
         console.log(res);
-        return res;
+        return res / pow(10, swap.TOKEN_DECIMAL[tokenname]);
       }
     }
   };
 
 async function e () {
-    await main('FINIX', 'KETH');
+    await main('KLAY', 'KBNB');
     console.log(data)
     var amount = 1;
     for (i = 0; i < data.length; i++) {
