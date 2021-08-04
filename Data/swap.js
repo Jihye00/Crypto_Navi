@@ -5,7 +5,7 @@ const Caver = require('caver-js');
 const caver = new Caver('https://kaikas.cypress.klaytn.net:8651');
 const abi = require('./FactoryImpl.json');
 const abi_definix = require('./DefinixRouter.json');
-const personal = require('./personal.js');
+const personal = require('/Users/jomingyu/Desktop/personal.js');
 
 const password = personal.password;
 // Password for kaikas wallet
