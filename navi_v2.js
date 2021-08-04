@@ -31,16 +31,18 @@ async function value(txhash, tokenname) {
       //console.log(tx.logs[n].address);
       //console.log(TOKEN_ADDRESS.KWBTC);
       if ((tx.logs[n].address).toUpperCase() == (test.TOKEN_ADDRESS[tokenname]).toUpperCase()) {
-        console.log(tx.logs[n].data);
+        // console.log(tx.logs[n].data);
         let res = caver.abi.decodeParameter('uint256', tx.logs[n].data);
-        console.log(res);
+        // console.log(res);
         return res / pow(10, swap.TOKEN_DECIMAL[tokenname]);
+        // return res;
       }
     }
   };
 
-async function e () {
-    await main('KLAY', 'KBNB');
+
+async function SmartRouting () {
+    await main('KLAY', 'KUSDT');
     console.log(data)
     var amount = 1;
     for (i = 0; i < data.length; i++) {
@@ -51,5 +53,5 @@ async function e () {
     // value(await swap.swap('KLAY', 'KUSDT', 1.234, 'KLAYSWAP'), params[2])
 }
 
-e()
+SmartRouting()
 

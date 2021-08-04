@@ -25,13 +25,13 @@ function Swap (from = "from", to = "to", ratio = DUMMY_RATIO, dex = DUMMY_DEX) {
     this.to = to;
     this.ratio = ratio;
     this.dex = dex;
-    this.path = [(from + " => " + to + ' at ' + dex).padEnd(40)];
+    this.path = [(from + " => " + to + ' at ' + dex + ' '+ ratio).padEnd(50)];
     // this.path = [];
 }
 const DUMMY_SWAP = new Swap();
 
 function refresh(swap){
-    swap.path = [(swap.from + " => " + swap.to + ' at ' + swap.dex).padEnd(24)];
+    swap.path = [(swap.from + " => " + swap.to + ' at ' + swap.dex + ' ' +swap.ratio).padEnd(30)];
 }
 
 function Market(name = DUMMY_MARKET, address = DUMMY_ADDRESS, pricelist = []) {
