@@ -5,7 +5,7 @@ const swap = require('./Data/swap.js');
 const Caver = require('caver-js');
 // const { pow } = require('mathjs');
 const caver = new Caver('https://kaikas.cypress.klaytn.net:8651');
-const t = require('./Data/t.js')
+const shifts = require('./Data/shifts.js')
 
 var data;
 async function main(tokenA, tokenB){
@@ -37,13 +37,13 @@ async function value(txhash, tokenname) {
         // console.log(res)
         console.log("if curious tx address : " + txhash);
 
-        console.log(tokenname + " swapped : " + res / (10 ** swap.TOKEN_DECIMAL[tokenname]));
-        // console.log(tokenname + " swapped : " + t.lshift(res, swap.TOKEN_DECIMAL[tokenname]));
+        // console.log(tokenname + " swapped : " + res / (10 ** swap.TOKEN_DECIMAL[tokenname]));
+        console.log(tokenname + " swapped : " + shifts.lshift(res, swap.TOKEN_DECIMAL[tokenname]));
         // console.log('----------------------------------')
-        console.log("swapped amount in hex : "+tx.logs[n].data)
+        // console.log("swapped amount in hex : "+tx.logs[n].data)
         // console.log(res);
         // return res / pow(10, swap.TOKEN_DECIMAL[tokenname]);
-        return await t.lshift(res, swap.TOKEN_DECIMAL[tokenname]);
+        return await shifts.lshift(res, swap.TOKEN_DECIMAL[tokenname]);
         // return res;
       }
     }
@@ -65,12 +65,16 @@ async function SmartSwapRouting (tokenA, tokenB, howmany) {
 
         console.log(params[0] + " to swap : " + amount)
         amount = await value(await swap.swap(params[0], params[2], amount, params[4]), params[2])
+        
         // console.log("iteration : " + j)
     }
+    console.log("\n==Crypto_NAVI Result ==")
+    console.log('from : ' + howmany +' '+ tokenA + ' swapped ' + Number(amount) + ' ' + tokenB)
+    console.log(data)
     // value(await swap.swap('KLAY', 'KUSDT', 1.234, 'KLAYSWAP'), params[2])
 }
 const CurrencyListsasdf = ['KLAY', 'KBNB', 'KUSDT', 'KDAI', 'KXRP', 'KETH', 'KSP', 'SIX', 'KORC', 'KWBTC', 'FINIX']; // xrp, btc, six, ksp
 
-SmartSwapRouting('KLAY', 'KBNB', "0.010001");
+SmartSwapRouting('KUSDT', 'KLAY', "0.880774");
 // SmartRouting('SIX', 'KUSDT', 66.659892011026422793)
 // 0.000000000000000238

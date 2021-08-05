@@ -1,4 +1,5 @@
 async function lshift (stringint, howmany) {
+    // console.log(stringint)
     let origin = stringint.indexOf('.');
     if (origin == -1) stringint = stringint+'.';
     origin = stringint.indexOf('.');
@@ -10,7 +11,9 @@ async function lshift (stringint, howmany) {
         // console.log(stringint.replace('.', '').padEnd(howmany+origin, ‘0’));
     var temp = zeros.concat(stringint.split('')).concat(zeros)
     // console.log(temp)
+    // console.log(temp)
     var neworigin = temp.indexOf('.')
+    // console.log(temp)
     temp.splice(neworigin, 1)
     // console.log(temp)
     // console.log(temp)

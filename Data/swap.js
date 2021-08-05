@@ -9,7 +9,7 @@ const personal = require('./personal.js');
 // const cal = require('./cal.js');
 // const zeros = "000000000000000000";
 const password = personal.password;
-const t = require('./t.js');
+const shifts = require('./shifts.js');
 // Password for kaikas wallet
 const myWalletAddress = personal.myWalletAddress;
 // kaikas wallet address
@@ -161,7 +161,7 @@ async function swap(tokenAName, tokenBName, amount, dex) {
   // console.log("int : " + int);
   // console.log("seriesofZero : " + seriesofZero);
   // var amount = Number(int + (pow(10, TOKEN_DECIMAL[tokenAName] - seriesofZero)).toString(10));
-  var bigamount = BigNumber(await (t.lshift(amount, -1 * TOKEN_DECIMAL[tokenAName])));
+  var bigamount = BigNumber(await (shifts.lshift(amount, -1 * TOKEN_DECIMAL[tokenAName])));
   // console.log(bigamount)
   // if (TOKEN_DECIMAL[tokenAName] - seriesofZero > 0) {
   //   amount = int + zeros.substring(0, TOKEN_DECIMAL[tokenAName] - seriesofZero);
