@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.6.12+commit.27d51765"
+		"version": "0.8.6+commit.11564f7e"
 	},
 	"language": "Solidity",
 	"output": {
@@ -58,9 +58,14 @@
 								"internalType": "uint256",
 								"name": "tokenBReserve",
 								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "ratio",
+								"type": "uint256"
 							}
 						],
-						"internalType": "struct KlaytnPoolViewerV01.Pool[]",
+						"internalType": "struct NaviOptimizer.Pool[]",
 						"name": "result",
 						"type": "tuple[]"
 					},
@@ -114,9 +119,14 @@
 								"internalType": "uint256",
 								"name": "tokenBReserve",
 								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "ratio",
+								"type": "uint256"
 							}
 						],
-						"internalType": "struct KlaytnPoolViewerV01.Pool",
+						"internalType": "struct NaviOptimizer.Pool",
 						"name": "",
 						"type": "tuple"
 					}
@@ -178,9 +188,14 @@
 								"internalType": "uint256",
 								"name": "tokenBReserve",
 								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "ratio",
+								"type": "uint256"
 							}
 						],
-						"internalType": "struct KlaytnPoolViewerV01.Pool",
+						"internalType": "struct NaviOptimizer.Pool",
 						"name": "",
 						"type": "tuple"
 					}
@@ -234,7 +249,7 @@
 								"type": "uint8"
 							}
 						],
-						"internalType": "struct KlaytnPoolViewerV01.Token",
+						"internalType": "struct NaviOptimizer.Token",
 						"name": "",
 						"type": "tuple"
 					}
@@ -275,7 +290,7 @@
 								"type": "uint8"
 							}
 						],
-						"internalType": "struct KlaytnPoolViewerV01.Token[]",
+						"internalType": "struct NaviOptimizer.Token[]",
 						"name": "result",
 						"type": "tuple[]"
 					}
@@ -310,9 +325,9 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/KlaytnPoolViewerV01.sol": "KlaytnPoolViewerV01"
+			"contracts/NaviOptimizer.sol": "NaviOptimizer"
 		},
-		"evmVersion": "istanbul",
+		"evmVersion": "berlin",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -324,12 +339,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"contracts/KlaytnPoolViewerV01.sol": {
-			"keccak256": "0x2cbf61753dde8a44597fa332ed7a22c6230192c7c3b1e4028e4ce31716b15b57",
+		"contracts/NaviOptimizer.sol": {
+			"keccak256": "0x4dda5e9e64d85aab906bf7f7b7c4f140c0cb8ecd4877c4abcf711428531b51d9",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://2dfdeed42b98ee1e9ddc1c680a7c7c70a5058536f5116b6ec206a743ab7b0669",
-				"dweb:/ipfs/QmT19XfHB73nvDvwp17dQHoKf2byZ9FioMNSNBm5tC8HFs"
+				"bzz-raw://7ba183a1bf37b56c6c940d901c5450d4afe50881b77c19791ac01d24d609e757",
+				"dweb:/ipfs/QmXwwmSiz7ZReVZsdCvboDRkeUEEqS6vU89ignUS7EkVFo"
 			]
 		},
 		"contracts/interfaces/IDefinixFactory.sol": {

@@ -1,7 +1,7 @@
-// SPDX-License-Identifier: BLUEWHALE-KLAYSWAP
+// SPDX-License-Identifier: MIT
 // origin: https://github.com/bluewhale-protocol/bluewhale-trust/contracts
 
-pragma solidity ^0.6.0;
+pragma solidity >=0.6.0;
 
 import "./IERC20WithMetadata.sol";
 

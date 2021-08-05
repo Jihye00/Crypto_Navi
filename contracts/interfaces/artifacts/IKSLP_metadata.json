@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.6.10+commit.00c0fcaf"
+		"version": "0.8.6+commit.11564f7e"
 	},
 	"language": "Solidity",
 	"output": {
@@ -236,6 +236,7 @@
 			}
 		],
 		"devdoc": {
+			"kind": "dev",
 			"methods": {
 				"decimals()": {
 					"details": "Returns the decimals places of the token."
@@ -246,17 +247,20 @@
 				"symbol()": {
 					"details": "Returns the symbol of the token."
 				}
-			}
+			},
+			"version": 1
 		},
 		"userdoc": {
-			"methods": {}
+			"kind": "user",
+			"methods": {},
+			"version": 1
 		}
 	},
 	"settings": {
 		"compilationTarget": {
 			"contracts/interfaces/IKSLP.sol": "IKSLP"
 		},
-		"evmVersion": "istanbul",
+		"evmVersion": "berlin",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -269,18 +273,19 @@
 	},
 	"sources": {
 		"contracts/interfaces/IERC20WithMetadata.sol": {
-			"keccak256": "0xf1f1f4b20f82945fe7c308c4da6de2f26cf7a74fb4ecab5410592843fd06f231",
+			"keccak256": "0x588b4404a0784ec192c8370a294e32e0684bc4527a93416e5edecc920b71859d",
+			"license": "MIT",
 			"urls": [
-				"bzz-raw://c28c60b37920c9583dc668f240f606693a27727d0ed3a1004dd99b881459e0b1",
-				"dweb:/ipfs/QmdRVQCHYguwx54o9B3GiPU58ccxfBSVBnBLeCiEUNC83Q"
+				"bzz-raw://55dca771924c329eaf469a0f3ff0e7997e57b6454e25eac9cc833dd8e918edaa",
+				"dweb:/ipfs/QmW886NhxLBx5PDARyMc6j8WKwAyToGejxA3nA5DZQ8fCr"
 			]
 		},
 		"contracts/interfaces/IKSLP.sol": {
-			"keccak256": "0x4a583bb2812e908bcd770d7b4464ad26bd7d4f8100e4a0a90a8090a19f1c23cd",
-			"license": "BLUEWHALE-KLAYSWAP",
+			"keccak256": "0x9c8db751232e085bab4d106edbbcb70737ffd19cf7db36c4b1915a9b40acbfe7",
+			"license": "MIT",
 			"urls": [
-				"bzz-raw://89598b0e70a80fbd70295e98c409298004e5a84f3f6be58c1c7b29d6b700807c",
-				"dweb:/ipfs/QmdxaedUNyXPMdN8CFJSzdhkSqpBbN17TUhPxYAgCFdVRZ"
+				"bzz-raw://c616bf3279b97fa151edc973e46284d47162cc44108e712434f7e806bd3d4e65",
+				"dweb:/ipfs/QmWbytbTaGQD7G4Q4B4kJ3BFUtT9uXD3pKBFZkjt5M5Tfn"
 			]
 		}
 	},

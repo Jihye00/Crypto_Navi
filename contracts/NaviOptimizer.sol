@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.6.0;
+pragma solidity ^0.8.0;
 pragma experimental ABIEncoderV2;
 
 import "./interfaces/IKSP.sol";
@@ -7,7 +7,8 @@ import "./interfaces/IKSLP.sol";
 import "./interfaces/IDefinixFactory.sol";
 import "./interfaces/IDefinixPair.sol";
 
-contract KlaytnOptimizer {
+contract NaviOptimizer {
+    
     struct Pool {
         string dex;
         address poolAddress;
@@ -127,7 +128,7 @@ contract KlaytnOptimizer {
                 dfnxPoolList[i]
             );
         }
-        time = now;
+        time = block.timestamp;
     }
 
     function getTokenInfo(address tokenAddress)

@@ -321,7 +321,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/KlaytnOptimizer.sol": "KlaytnOptimizer"
+			"contracts/NaviOptimizer.sol": "KlaytnOptimizer"
 		},
 		"evmVersion": "istanbul",
 		"libraries": {},
@@ -335,12 +335,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"contracts/KlaytnOptimizer.sol": {
-			"keccak256": "0x97529a340aa15d2e543d7ed4a3b81a2c000b7f6718fd580cff1cbae729f64934",
+		"contracts/NaviOptimizer.sol": {
+			"keccak256": "0x2a37329b7d80852a313edd2aa978f977b278cbeb14309071387667e3b3479517",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://2d50273153832d9ae423d82ab422b7bab32015946f254397b6af82aac2b9eb13",
-				"dweb:/ipfs/QmXtxAt1DaBvHBjHe2n6wT2Hj7nqTa22puAT9JBysV1Ekw"
+				"bzz-raw://db5f5d85c7f5937cda15a529d84b50106f96b6a0e703a9f77c39d73a02601d2f",
+				"dweb:/ipfs/QmbvQMK1bHEm8UCQ4YethhN99RNr814kDLuSdv3N1xQrE3"
 			]
 		},
 		"contracts/interfaces/IDefinixFactory.sol": {
