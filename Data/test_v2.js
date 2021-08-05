@@ -1,14 +1,13 @@
 const CaverExtKAS = require('caver-js-ext-kas');
 const caver = new CaverExtKAS();
 const type = require('../Algorithm/type.js');
-//메인넷은 8217, 테스트넷은 1001
-//KAS console을 사용하기위한 access key 입니다. => 트랜잭션 보내는게 무료(하루에 10000번까지)
 // // set1: 
 // const ACCESS_KEY = "KASKQO63SLJW75Q0FJB61B4N"; 
 // const PRIVATE_KEY = "QAXbYjYlXCf5BAgax7Dm-C0j-kk8RRcW0yfJYNcH";
 // // // set2: 
 const ACCESS_KEY = "KASK79FDZ8BNOJVC8Q2GEJGJ";
 const PRIVATE_KEY = "PIQYzIv5rSvo1rsy7jCM6CKx7roJixGoBxkIvBrm";  
+// set3:
 // const ACCESS_KEY = "KASKBDIFAXVXK14IEVRJDFVS";
 // const PRIVATE_KEY = "xW5VfL4rS6lOuEENPBs5jt0UeVDYMxgRIA14EAoS";  
 caver.initKASAPI(8217, ACCESS_KEY, PRIVATE_KEY);
@@ -36,7 +35,7 @@ const KSLP_ADDRESS = {
   KORC_KUSDT_ADRESS: "0x94F390a8438b5De00B868d3aE47863Db90fB92c3",
   KLAY_KBELT_ADDRESS: "0x157c39202fae6233fec3f8b3bcb2158200d0a863",
   KSP_KBNB_ADDRESS: "0x7328b85eff28c3068f69fe662632d37d48ba227f",
-  KETH_KBNB_ADDRESS: "0x8119f0CeC72a26fE23CA1aB076137Ea5D8a19d54",
+  // KETH_KBNB_ADDRESS: "0x8119f0CeC72a26fE23CA1aB076137Ea5D8a19d54",
   // KLAY_AGOV_ADDRESS: "0x5c6795e72c47d7fa2b0c7a6446d671aa2e381d1e",
 
   KSP_KWBTC_ADDRESS: '0x85Fae50259EbB9a86F49BDBfb8dBaEC84a7ED5fe',
@@ -208,9 +207,8 @@ async function getCurrentPool(contract_address) {
 var klayswap_data =  [];
 var definix_data = [];
 var data = '';
-// const CurrencyLists = ['KLAY', 'KBNB', 'KUSDT', 'KDAI', 'KXRP', 'KETH', 'KSP', 'SIX', 'KORC', 'KWBTC'];
-// const MATRIX_SIZE = CurrencyLists.length;
-async function test() {
+
+async function getAllData() {
   for(i=0; i<type.MATRIX_SIZE; i++){
     var row1 = [];
     var row2 = [];
@@ -298,8 +296,9 @@ async function test() {
     }
     data += (` 1 ${tokenAName} = ${ratio1} ${tokenBName}\n`);
   }
+
   var fs = require('fs');
-    fs.writeFile("./Result/ratio_data.txt", data, function(err) {
+    fs.writeFile("./Result/getAllData.txt", data, function(err) {
         if (err) {
             console.log(err);
         }
@@ -308,7 +307,7 @@ async function test() {
 }
 
 module.exports = {
-  test,
+  test: getAllData,
   TOKEN_ADDRESS
 };
 

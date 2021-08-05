@@ -1,16 +1,16 @@
 const fs = require('fs');
 const BigNumber = require("bignumber.js");
-const safeMath = require("safemath");
+const shifts = require('./shifts.js');
+
 const Caver = require('caver-js');
 const caver = new Caver('https://kaikas.cypress.klaytn.net:8651');
 const abi = require('./FactoryImpl.json');
 const abi_definix = require('./DefinixRouter.json');
 const personal = require('./personal.js');
-// const cal = require('./cal.js');
-// const zeros = "000000000000000000";
-const password = personal.password;
-const shifts = require('./shifts.js');
+const Kip7Abi = require('./Kip7Abi.json');
+
 // Password for kaikas wallet
+const password = personal.password;
 const myWalletAddress = personal.myWalletAddress;
 // kaikas wallet address
 const keystorePath = personal.keystorePath;
@@ -108,20 +108,6 @@ const TOKEN_DECIMAL = {
   FINIX: "18"
 };
 
-const Kip7Abi = require('./Kip7Abi.json');
-const safemath = require('safemath');
-const { intersect, pow } = require('mathjs');
-//const Kip7 = new caver.contract(Kip7Abi, TOKEN_ADDRESS.SIX);// 수정
-
-// let approveRouter = async () => {
-//   // approve router to transact the kip-7 token, 최대 uint256으로 설정
-//   let allowance = new BigNumber("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-//   // currentAllowance가 0보다 커야지 approve가 되었다는 뜻
-//   let currentAllowance = await Kip7.methods.allowance(myWalletAddress, DfxRouterAddress).call();
-//   console.log("currentAllowance", currentAllowance);
-//   await Kip7.methods.approve(DfxRouterAddress, allowance).send({ from: myWalletAddress, gas: 1000000 });
-// }
-
 async function approve(tokenname, dex) {
 
   const Kip7 = new caver.contract(Kip7Abi, TOKEN_ADDRESS[tokenname]);// 수정
@@ -142,84 +128,38 @@ async function approve(tokenname, dex) {
   }
 };
 
-// let amount = 0;
-// let amount = BigInt( * Math.pow(10, TOKEN_DECIMAL[tokenAName]));
-// let amount = safeMath.safeMule(163.71, 10 ** TOKEN_DECIMAL[tokenAName]);
+// Read keystore json file
 const keystore = fs.readFileSync(keystorePath, 'utf8');
-// const keystore = fs.readFileSync('./kaikas-0x09e4fc443cb26749281c961b99f71a2c763d1bc2.json', 'utf8');
-
 // Decrypt keystore
 const keyring = caver.wallet.keyring.decrypt(keystore, password);
-//console.log(keyring);
 
 caver.wallet.add(keyring);
+
 async function swap(tokenAName, tokenBName, amount, dex) {
-  // console.log(amount)
-  // let cal_res = await cal.cal(amount);
-  // let int = cal_res[0].toString(10);
-  // let seriesofZero = cal_res[1];
-  // console.log("int : " + int);
-  // console.log("seriesofZero : " + seriesofZero);
-  // var amount = Number(int + (pow(10, TOKEN_DECIMAL[tokenAName] - seriesofZero)).toString(10));
+  // Unit conversion from real amount to extra decimal
   var bigamount = BigNumber(await (shifts.lshift(amount, -1 * TOKEN_DECIMAL[tokenAName])));
-  // console.log(bigamount)
-  // if (TOKEN_DECIMAL[tokenAName] - seriesofZero > 0) {
-  //   amount = int + zeros.substring(0, TOKEN_DECIMAL[tokenAName] - seriesofZero);
-  // }
-  // else {
-  //   amount = int.substring(0, int.length + TOKEN_DECIMAL[tokenAName] - seriesofZero);
-  // }
-
-  // console.log(amount)
-  // console.log(tokenAName, tokenBName, amount, dex);
-  // amount = Number(1);
-  // amount = BigInt(amount * Math.pow(10, TOKEN_DECIMAL[tokenAName]));
-  // Read keystore json file
-  // const keystore = fs.readFileSync('/Users/jomingyu/Desktop/untitled folder/kaikas-0x09e4fc443cb26749281c961b99f71a2c763d1bc2.json', 'utf8');
-  // // const keystore = fs.readFileSync('./kaikas-0x09e4fc443cb26749281c961b99f71a2c763d1bc2.json', 'utf8');
-
   // // Decrypt keystore
-  // const keyring = caver.wallet.keyring.decrypt(keystore, 'whalsrb0907@');
-  // //console.log(keyring);
-
-  // caver.wallet.add(keyring);
   const Factory = new caver.contract(abi.abi, '0xc6a2ad8cc6e4a7e08fc37cc5954be07d499e7654');
   const Router = new caver.contract(abi_definix, '0x4E61743278Ed45975e3038BEDcaA537816b66b5B');
-
   const empty = [];// 교환 라우팅이 현재 필요 없음
-  // amount = Number(BigInt(amount) * BigInt(Math.pow(10, TOKEN_DECIMAL[tokenAName])));
-  // amount = Number((amount) * (Math.pow(10, TOKEN_DECIMAL[tokenAName])));
 
   if (dex == "KLAYSWAP") {
-    // console.log("entered KLAYSWAP")
     if (tokenAName == 'KLAY') {
-      // console.log("entered part 1")
-      // // await approve(tokenAName);
-      // amount = safemath.safeMule(amount, Math.pow(10, TOKEN_DECIMAL[tokenAName]));
-      // amount = BigInt(amount) * BigInt(Math.pow(10, TOKEN_DECIMAL[tokenAName]));
-      // amount = Number((amount) * (Math.pow(10, TOKEN_DECIMAL[tokenAName])));
+
       let res = await Factory.methods.exchangeKlayPos(TOKEN_ADDRESS[tokenBName], 1, empty).send({ from: myWalletAddress, gas: 1000000, value: bigamount });
       // console.log(res);
-      // console.log("entered part 1-2")
       return res.transactionHash;
     }
     else if (tokenAName != 'KLAY') {
-      // console.log("entered part 2")
-      // await approve(tokenAName);
-      await approve(tokenAName, dex);
-      // amount = Number((amount) * (Math.pow(10, TOKEN_DECIMAL[tokenAName])));
-      
+
+      await approve(tokenAName, dex);   
+
       let res = await Factory.methods.exchangeKctPos(TOKEN_ADDRESS[tokenAName], bigamount, TOKEN_ADDRESS[tokenBName], 1, empty).send({ from: myWalletAddress, gas: 1000000 });
       // console.log(res);
-      // console.log("entered part 2-2")
       return res.transactionHash;
     }
-    else console.log('\n\n\n\n\n\n\nn\\n\n\\n\n\\n\\n\n\\n\\n\\n\n\\n\\n\\n\n\\n\n');
-    //let res = await Factory.methods.version().call();
-    //console.log(res);
+    else console.log('KLAYSWAP Corner Case!!!');
   }
-
-
 
   let path = [TOKEN_ADDRESS[tokenAName], TOKEN_ADDRESS[tokenBName]];
   if (dex == "DEFINIX") {
@@ -227,53 +167,30 @@ async function swap(tokenAName, tokenBName, amount, dex) {
     let timestamp = Date.now() + 1000 * 60 * 15;
 
     if (tokenAName == 'KLAY') {
-      // amount = BigInt(amount * Math.pow(10, TOKEN_DECIMAL[tokenAName]));
-      // amount = safemath.safeMule(BigInt(amount), BigInt(Math.pow(10, TOKEN_DECIMAL[tokenAName])));
-      // amount = Number((amount) * BgInt(Math.pow(10, TOKEN_DECIMAL[tokenAName])));
-
-      //await approve("W"+tokenAName);
-      //await approve(tokenAName);
-      //교환하는 토큰 중에 klay가 있다면 wklay로 주소를 바꾼다.
-      // console.log("entered part 3")
       path[0] = '0x5819b6af194a78511c79c85ea68d2377a7e9335f';
-      // console.log(amount)
       let res = await Router.methods.swapExactETHForTokens(1, path, myWalletAddress, timestamp).send({ from: myWalletAddress, gas: 1000000, value: bigamount });
       // console.log(res);
-      // console.log("entered part 3-2")
       return res.transactionHash;
 
     }
     else if (tokenAName != 'KLAY' && tokenBName != 'KLAY') {
-      // amount = safemath.safeMule(BigInt(amount), BigInt(Math.pow(10, TOKEN_DECIMAL[tokenAName])));
-      // amount = Number((amount) * (Math.pow(10, TOKEN_DECIMAL[tokenAName])));
-      // console.log("entered part 4")
       await approve(tokenAName, dex);
-      //교환되는 두 토큰으로 이루어진 pool이 존재해야함
       let res = await Router.methods.swapExactTokensForTokens(bigamount, 1, path, myWalletAddress, timestamp).send({ from: myWalletAddress, gas: 1000000 });
       // console.log(res);
-      // console.log("entered part 4-2")
       return res.transactionHash;
 
     }
     else if (tokenBName == 'KLAY') {
-      // amount = Number((amount) * (Math.pow(10, TOKEN_DECIMAL[tokenAName])));
-      // console.log("entered part 5")
       await approve(tokenAName, dex);
-      //교환하는 토큰 중에 klay가 있다면 wklay로 주소를 바꾼다.
       path[1] = '0x5819b6af194a78511c79c85ea68d2377a7e9335f';
       let res = await Router.methods.swapExactTokensForETH(bigamount, 1, path, myWalletAddress, timestamp).send({ from: myWalletAddress, gas: 1000000 });
       // console.log(res);
-      // console.log("entered part 5-2")
       return res.transactionHash;
 
     }
     else console.log('\n\n\n\n\n\n\nn\\n\n\\n\n\\n\\n\n\\n\\n\\n\n\\n\\n\\n\n\\n\n');
-    //let res = await Router.methods.WETH().call();
-    //console.log(res);
   }
-
 };
-// swap();
 
 module.exports = {
   swap,
