@@ -12,8 +12,10 @@ async function main(tokenA, tokenB){
     data = route_matrix.matrix[indexA][indexB];
 }
 async function e () {
-    await main('KLAY', 'KUSDT');
+    // const start = Date.now();
+    await main('KLAY', 'KBNB');
     console.log(data)
+    // console.log((Date.now() - start)/1000 + 'sec');
 }
 
 e()
