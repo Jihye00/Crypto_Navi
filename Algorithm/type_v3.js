@@ -94,7 +94,7 @@ class Swap{
                 result['KLAYSWAP'] = [0, 0];
                 result['DEFINIX'] = [0, 0];
             }
-            result['slippage'] = ((b1+b2)/(a1*this.fee1+a2*this.fee2)) / (((this.y1/this.x1)*a1+(this.y2/this.x2))/(a1+a2));
+            result['slippage'] = ((b1+b2)/(a1*this.fee1+a2*this.fee2)) / (((this.y1/this.x1)*a1+(this.y2/this.x2)*a2)/(a1+a2));
         }
         return result;
     }

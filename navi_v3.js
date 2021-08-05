@@ -13,7 +13,7 @@ async function main(tokenA, tokenB){
 }
 async function e () {
     // const start = Date.now();
-    await main('KLAY', 'KBNB');
+    await main('KWBTC', 'SIX');
     console.log(data)
     // console.log((Date.now() - start)/1000 + 'sec');
 }
