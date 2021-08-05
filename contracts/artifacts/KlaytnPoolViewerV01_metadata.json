@@ -1,0 +1,377 @@
+{
+	"compiler": {
+		"version": "0.6.12+commit.27d51765"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [],
+				"name": "definixFactoryAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getAllPoolInfo",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "string",
+								"name": "dex",
+								"type": "string"
+							},
+							{
+								"internalType": "address",
+								"name": "poolAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "tokenA",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "tokenB",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenAReserve",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenBReserve",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct KlaytnPoolViewerV01.Pool[]",
+						"name": "result",
+						"type": "tuple[]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "time",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "poolAddress",
+						"type": "address"
+					}
+				],
+				"name": "getDefinixPoolInfo",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "string",
+								"name": "dex",
+								"type": "string"
+							},
+							{
+								"internalType": "address",
+								"name": "poolAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "tokenA",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "tokenB",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenAReserve",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenBReserve",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct KlaytnPoolViewerV01.Pool",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getDefinixPoolList",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "poolList",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "poolAddress",
+						"type": "address"
+					}
+				],
+				"name": "getKlayswapPoolInfo",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "string",
+								"name": "dex",
+								"type": "string"
+							},
+							{
+								"internalType": "address",
+								"name": "poolAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "tokenA",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "tokenB",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenAReserve",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenBReserve",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct KlaytnPoolViewerV01.Pool",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getKlayswapPoolList",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "poolList",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					}
+				],
+				"name": "getTokenInfo",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "tokenAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "string",
+								"name": "name",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "symbol",
+								"type": "string"
+							},
+							{
+								"internalType": "uint8",
+								"name": "decimal",
+								"type": "uint8"
+							}
+						],
+						"internalType": "struct KlaytnPoolViewerV01.Token",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address[]",
+						"name": "tokenAddressList",
+						"type": "address[]"
+					}
+				],
+				"name": "getTokensInfo",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "tokenAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "string",
+								"name": "name",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "symbol",
+								"type": "string"
+							},
+							{
+								"internalType": "uint8",
+								"name": "decimal",
+								"type": "uint8"
+							}
+						],
+						"internalType": "struct KlaytnPoolViewerV01.Token[]",
+						"name": "result",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "klayswapFactoryAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/KlaytnPoolViewerV01.sol": "KlaytnPoolViewerV01"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/KlaytnPoolViewerV01.sol": {
+			"keccak256": "0x2cbf61753dde8a44597fa332ed7a22c6230192c7c3b1e4028e4ce31716b15b57",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://2dfdeed42b98ee1e9ddc1c680a7c7c70a5058536f5116b6ec206a743ab7b0669",
+				"dweb:/ipfs/QmT19XfHB73nvDvwp17dQHoKf2byZ9FioMNSNBm5tC8HFs"
+			]
+		},
+		"contracts/interfaces/IDefinixFactory.sol": {
+			"keccak256": "0x983759f471e7a6b6d991ad57b3fa692be5c04884c1523bddf51ae4c5a23496e7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c02dbba52c54a6e759ab7c1e0f598d2a0de8cb8855eb9e8c75389f3d14263f8c",
+				"dweb:/ipfs/QmX2zGdt7npaCEw2tdnUMJUPnPf7qdP9nbNMg8kVz3J8Ta"
+			]
+		},
+		"contracts/interfaces/IDefinixPair.sol": {
+			"keccak256": "0x0ce571c08bf0504bcc1d6fe7576a52c349f1268ec43e5c9c438e37cfa22b87a1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://e4a8f2f60000e2198e5c4a748b0ec99ef0079d2ebea5c1324918f3b7bee7af2e",
+				"dweb:/ipfs/QmQmL5D7qwuADvXQXPeLrd5RcVQJbcEc5KLLdGqVT9iGYT"
+			]
+		},
+		"contracts/interfaces/IERC20WithMetadata.sol": {
+			"keccak256": "0x588b4404a0784ec192c8370a294e32e0684bc4527a93416e5edecc920b71859d",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://55dca771924c329eaf469a0f3ff0e7997e57b6454e25eac9cc833dd8e918edaa",
+				"dweb:/ipfs/QmW886NhxLBx5PDARyMc6j8WKwAyToGejxA3nA5DZQ8fCr"
+			]
+		},
+		"contracts/interfaces/IKSLP.sol": {
+			"keccak256": "0x9c8db751232e085bab4d106edbbcb70737ffd19cf7db36c4b1915a9b40acbfe7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c616bf3279b97fa151edc973e46284d47162cc44108e712434f7e806bd3d4e65",
+				"dweb:/ipfs/QmWbytbTaGQD7G4Q4B4kJ3BFUtT9uXD3pKBFZkjt5M5Tfn"
+			]
+		},
+		"contracts/interfaces/IKSP.sol": {
+			"keccak256": "0xad540e53703033f452a99fbff80042b6153e56c0d62da9febd2bf93f08ff6afb",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://0ef7609e26b2c1611cc96e5520058aea76426b7a2103d9b104e6308d629195f1",
+				"dweb:/ipfs/QmU4tT3TkgJampSk3VLsQmrTZcCwhUWqzjcuphWDQz2MbZ"
+			]
+		}
+	},
+	"version": 1
+}

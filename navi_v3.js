@@ -14,6 +14,7 @@ async function main(tokenA, tokenB){
     var indexA = type.index_finder(tokenA);
     var indexB = type.index_finder(tokenB);
     data = route_matrix.matrix[indexA][indexB];
+    data['slippage'] = 100 * (1 - data['slippage'])
 }
 async function e () {
     // const start = Date.now();

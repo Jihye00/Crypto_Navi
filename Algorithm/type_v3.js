@@ -94,7 +94,7 @@ class Swap{
                 result['KLAYSWAP'] = [0, 0];
                 result['DEFINIX'] = [0, 0];
             }
-            result['slippage'] = ((b1+b2)/(a1*this.fee1+a2*this.fee2)) / (((this.y1/this.x1)*a1+(this.y2/this.x2))/(a1+a2));
+            result['slippage'] = ((b1+b2)/(a1*this.fee1+a2*this.fee2)) / (((this.y1/this.x1)*a1+(this.y2/this.x2)*a2)/(a1+a2));
         }
         return result;
     }
@@ -117,12 +117,11 @@ class Route_Matrix{
         for(var i=0; i<this.size; i++){
             var row = [];
             for(var j=0; j<this.size; j++){
-                if(i==j) row.push({'money' : 1, 'path' : [], 'slippage' : 1});
-                else row.push({'money' : 0, 'path' : [], 'slippage' : 1});
+                row.push({'money' : 0, 'path' : [], 'slippage' : 1});
             }
             this.matrix.push(row);
         }
-        // this.arbitrage = new Set();
+        this.arbitrage = new Set();
     }
     copy(Route_Matrix){
         return new Route_Matrix(this.currency_list);
@@ -146,8 +145,8 @@ class Route_Matrix{
                     this.matrix[i][j]['path'] = [from+','+this.currency_list[j]+',KLAYSWAP,'+String(ratio['KLAYSWAP'][0])+',DEFINIX,'+String(ratio['DEFINIX'][0])];
                     this.matrix[i][j]['slippage'] = ratio['slippage'];
                 }
-                if(this.matrix[i][i]['money'] > 1.0003){
-                    // this.arbitrage.add(toString(this.matrix[i][i]['money'])+','+this.matrix[i][j]['path'].join('=>'));
+                if(this.matrix[i][i]['money'] > this.matrix[idx][i]['money']){
+                    this.arbitrage.add(toString(this.matrix[i][i]['money'])+','+this.matrix[i][j]['path'].join('=>'));
                     this.matrix[i][i]['money'] = 1;
                     this.matrix[i][i]['path'] = [];
                     this.matrix[i][i]['slippage'] = 1;
@@ -201,7 +200,7 @@ class Route_Matrix{
                                 break;
                         }
                         if(i == k && new_matrix[i][i]['path'].length > 1) {
-                            // if(this.matrix[index_finder(from)][i]['money'] != 0 && new_matrix[i][i]['money'] > this.matrix[index_finder(from)][i]['money']) this.arbitrage.add(String(new_matrix[i][i]['money'])+'+'+new_matrix[i][i]['path'].join('=>'));
+                            if(this.matrix[index_finder(from)][i]['money'] != 0 && new_matrix[i][i]['money'] > this.matrix[index_finder(from)][i]['money']) this.arbitrage.add(String(new_matrix[i][i]['money'])+'+'+new_matrix[i][i]['path'].join('=>'));
                             new_matrix[i][i]['money'] = 0;
                             new_matrix[i][i]['path'] = [];
                             new_matrix[i][i]['slippage'] = 1;
@@ -217,7 +216,7 @@ class Route_Matrix{
             this.matrix = new_matrix;
             new_matrix = temp;
         }
-        // console.log(this.arbitrage);
+        console.log("ARBITRAGE: "+JSON.stringify(this.arbitrage));
     }
     print(){
         for(var i=0; i<this.size; i++){
