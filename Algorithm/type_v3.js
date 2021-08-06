@@ -158,6 +158,12 @@ class Route_Matrix{
         var str = path1[path1.length - 1].split(',');
         var i = index_finder(str[0]);
         var j = index_finder(str[1]);
+        for(var a=0; a<path1.length; a++){
+            var t_str = path1[a].split(',');
+            if(t_str[0] == str[1] && t_str[1] == this.currency_list[k]){
+                return [null, -1, 0];
+            }
+        }
         var k_money = Number(str[3]);
         var d_money = Number(str[5]);
         var ratio1 = SwapMatrix[i][j].ratio(k_money+d_money);
@@ -166,7 +172,6 @@ class Route_Matrix{
         var new_path = path1.slice();
         new_path.push(this.currency_list[j]+','+this.currency_list[k]+',KLAYSWAP,'+String(ratio2['KLAYSWAP'][0])+',DEFINIX,'+String(ratio2['DEFINIX'][0]));
         money = ratio2['KLAYSWAP'][1] + ratio2['DEFINIX'][1];
-        // console.log(new_path);
         return [new_path, money, ratio1['slippage']*ratio2['slippage']];
     }
     calc(T, from, a){

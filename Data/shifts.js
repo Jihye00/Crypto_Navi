@@ -24,3 +24,5 @@ async function lshift (stringint, howmany) {
 module.exports = {
     lshift
 }
+
+// bignumber
