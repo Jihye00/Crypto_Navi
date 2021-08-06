@@ -72,5 +72,5 @@ async function SmartSwapRouting (tokenA, tokenB, howmany) {
     // console.log((Date.now() - start)/1000 + 'sec');
 }
 
-SmartSwapRouting('KUSDT', 'KLAY', "3.93054");
+SmartSwapRouting('KLAY', 'KUSDT', "3.5");
 // 0.
