@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import './App.css';
 import {Input, Box} from "@material-ui/core";
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
@@ -10,12 +10,12 @@ import {ConnectKaikas} from "./components/ConnectKaikas.js";
 import {Swap} from "./components/Swap.js";
 import {SelectToken} from "./components/SelectToken.js";
 
-const personal = require("/Users/jomingyu/mound_dev/Crypto_NAVI/Data/personal.js");
-
 function App() {
 
   const tokenList = require("./tokenList.json");
 
+  const [isKaikasInstalled, setIsKaikasInstalled] = useState(true);
+  const [isKaikasConnected, setIsKaikasConnected] = useState(true);
   const [myWalletAddress, setMyWalletAddress] = useState();
   const [tokenInAmount, setTokenInAmount] = useState();
   const [fromToken, setFromToken] = useState(tokenList[0]);
@@ -41,8 +41,8 @@ function App() {
 // })
 // console.log("privateKey", privateKey);
 
-  const keystore = require(personal.keystorePath)
-  const keyring = caver.wallet.keyring.decrypt(keystore, personal.password);
+  const keystore = require('./keystore.json')
+  const keyring = caver.wallet.keyring.decrypt(keystore,"leegaeun4927!");
 //add keyring to wallet
   caver.wallet.add(keyring)
 
@@ -71,34 +71,40 @@ function App() {
   }
   getAccount()
 
-  const isKaikasInstalled = async() => {
-    if (klaytn.isKaikas){
-      console.log("Kaikas is installed")
-      return true;
-    } else {
-      console.log("Kaikas is NOT installed")
-      return false;
+  useEffect(()=>{
+    const checkIsKaikasInstalled = async() => {
+      if (klaytn.isKaikas){
+        console.log("Kaikas is installed")
+        setIsKaikasInstalled(true);
+      } else {
+        console.log("Kaikas is NOT installed")
+        setIsKaikasInstalled(false);
+      }
+      // 이게 위에 코드랑 뭐가 다른지 모르겠음
+      // if (typeof(klaytn) === 'undefined'){
+      //   console.log("user does not used kaikas")
+      // return false;
+      // } else {
+      //   console.log("user uses kaikas")
+      // return true;
+      // }
     }
-    // 이게 위에 코드랑 뭐가 다른지 모르겠음
-    // if (typeof(klaytn) === 'undefined'){
-    //   console.log("user does not used kaikas")
-    // return false;
-    // } else {
-    //   console.log("user uses kaikas")
-    // return true;
-    // }
-  }
+    checkIsKaikasInstalled();
+  })
 
-  const isKaikasConnected = async() => {
-    // console.log("klaytn._kaikas.isEnabled()",klaytn._kaikas.isEnabled())
-    if (klaytn._kaikas.isEnabled()){
-      console.log("Kaikas is connected")
-      return true;
-    } else {
-      console.log("Kaikas is NOT connected")
-      return false;
+  useEffect(()=>{
+    const checkIsKaikasConnected = async() => {
+      // console.log("klaytn._kaikas.isEnabled()",klaytn._kaikas.isEnabled())
+      if (klaytn._kaikas.isEnabled()){
+        console.log("Kaikas is connected")
+        setIsKaikasConnected(true);
+      } else {
+        console.log("Kaikas is NOT connected")
+        setIsKaikasConnected(false);
+      }
     }
-  }
+    checkIsKaikasConnected();
+  })
 
   const changeTokenInAmount = async(value) => {
     await setTokenInAmount(value);
@@ -109,11 +115,11 @@ function App() {
       <div className="App">
         <header className="App-header">
 
-          {!isKaikasInstalled() ?
+          {!isKaikasInstalled ?
               <InstallKaikas/>
               :
               <div>
-                {!isKaikasConnected() ?
+                {!isKaikasConnected ?
                     <ConnectKaikas klaytn={klaytn} setMyWalletAddress={setMyWalletAddress}/>
                     :
                     <Box style = {{ color: "#3A2A17", padding: "30px 30px", fontSize: "15px", backgroundColor: "#FFFDD0" }}>
@@ -136,14 +142,14 @@ function App() {
                       </Box>
                       <ArrowDownwardIcon style = {{color: "#3A2A17", marginTop: "10px", marginBottom: "10px"}} />
                       <Box style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10 }}>
-                        <p style = {{fontSize: "15px", textAlign: "left"}}>
-                          To
-                        </p>
-                        <div> {toToken.label} </div>
-                        <SelectToken setFromOrToToken={setToToken}/>
+                          <p style = {{fontSize: "15px", textAlign: "left"}}>
+                            To
+                          </p>
+                          <div> {toToken.label} </div>
+                          <SelectToken setFromOrToToken={setToToken}/>
                       </Box>
-                      <Swap caver={caver} myWalletAddress={myWalletAddress} tokenInLabel={fromToken.label}
-                            tokenOutLabel={toToken.label} tokenInAmount={tokenInAmount} slippage={5}/>
+                      <Swap caver={caver} myWalletAddress={myWalletAddress} tokenInAddress={fromToken.address}
+                      tokenOutAddress={toToken.address} tokenInAmount={tokenInAmount} slippage={5}/>
                     </Box>
                 }
               </div>
