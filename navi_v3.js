@@ -120,3 +120,8 @@ async function execute (tokenA, tokenB, amount) {
 execute('KUSDT', 'KLAY', "3.53026");
 // SmartSwapRouting('KUSDT', 'KLAY', "3.731073");
 // 0.
+
+module.exports = {
+    execute,
+    SmartSwapRouting
+}

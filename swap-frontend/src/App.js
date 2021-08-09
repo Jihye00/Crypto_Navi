@@ -13,13 +13,13 @@ import {SelectToken} from "./components/SelectToken.js";
 function App() {
 
   const tokenList = require("./tokenList.json");
-  console.log("tokenList",tokenList)
 
+  const [myWalletAddress, setMyWalletAddress] = useState();
   const [tokenInAmount, setTokenInAmount] = useState();
   const [fromToken, setFromToken] = useState(tokenList[0]);
   const [toToken, setToToken] = useState(tokenList[0]);
 
-
+  console.log("myWalletAddress",myWalletAddress);
   console.log("fromToken:", fromToken.label, "toToken: ", toToken.label)
 
   const klaytn = window.klaytn;
@@ -34,10 +34,10 @@ function App() {
 //   params: ["0x3A7d1D4Ec33faA64827CA8f4f17F747834121004","latest"],
 //   from: "0x3A7d1D4Ec33faA64827CA8f4f17F747834121004"
 // }, (result) => {
-//   console.log(result,"result")
-//   privateKey = result.result.key.x;
+//   console.log("result", privateKey)
+//   // privateKey = result.result.key.x;
 // })
-// console.log(privateKey);
+// console.log("privateKey", privateKey);
 
   const keystore = require('./keystore.json')
   const keyring = caver.wallet.keyring.decrypt(keystore,"leegaeun4927!");
@@ -45,6 +45,29 @@ function App() {
   caver.wallet.add(keyring)
 
 //klaytn.sendAsync({method: 'klay_sendTransaction' ... 을 통해 transaction 보내야할듯
+
+  const getNetwork = async() => {
+    const network = await klaytn.networkVersion
+    if (network===8217){
+      // console.log("cypress main network")
+    } else if (network===1001){
+      // console.log("baobab test network")
+    }
+  }
+  getNetwork()
+
+  const getAccount = async() => {
+    let account;
+    account = await klaytn.selectedAddress
+    // console.log("account in getAccount()", account)
+    // klaytn.on('accountsChanged', (accounts) => {
+    //     account = accounts[0];
+    //     console.log("user changed her account to ", account)
+    // })
+    setMyWalletAddress(account);
+    return account;
+  }
+  getAccount()
 
   const isKaikasInstalled = async() => {
     if (klaytn.isKaikas){
@@ -89,7 +112,7 @@ function App() {
               :
               <div>
                 {!isKaikasConnected() ?
-                    <ConnectKaikas klaytn={klaytn}/>
+                    <ConnectKaikas klaytn={klaytn} setMyWalletAddress={setMyWalletAddress}/>
                     :
                     <Box style = {{ color: "#3A2A17", padding: "30px 30px", fontSize: "15px", backgroundColor: "#FFFDD0" }}>
                       <div> Kaikas wallet is connected </div>
@@ -106,6 +129,7 @@ function App() {
                             value={tokenInAmount} renderInput={props => <Input {...props} />}
                             style = {{ color: "#3A2A17", padding: "15px 20px", fontSize: "15px" }}
                         />
+                        <div> {fromToken.label} </div>
                         <SelectToken setFromOrToToken={setFromToken}/>
                       </Box>
                       <ArrowDownwardIcon style = {{color: "#3A2A17", marginTop: "10px", marginBottom: "10px"}} />
@@ -113,9 +137,11 @@ function App() {
                         <p style = {{fontSize: "15px", textAlign: "left"}}>
                           To
                         </p>
+                        <div> {toToken.label} </div>
                         <SelectToken setFromOrToToken={setToToken}/>
                       </Box>
-                      <Swap/>
+                      <Swap caver={caver} myWalletAddress={myWalletAddress} tokenInLabel={fromToken.label}
+                            tokenOutLabel={toToken.label} tokenInAmount={tokenInAmount} slippage={5}/>
                     </Box>
                 }
               </div>
