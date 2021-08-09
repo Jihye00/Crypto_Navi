@@ -1,155 +1,80 @@
-import React, {useState} from "react";
-import './App.css';
-import {Input, Box} from "@material-ui/core";
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import {BigNumberInput} from "big-number-input";
-import Caver from "caver-js";
+import {Button} from "@material-ui/core";
+import React from "react";
 
-import {InstallKaikas} from "./components/InstallKaikas.js";
-import {ConnectKaikas} from "./components/ConnectKaikas.js";
-import {Swap} from "./components/Swap.js";
-import {SelectToken} from "./components/SelectToken.js";
+export const Swap = (props) => {
+  const caver = props.caver
+  const myWalletAddress = props.myWalletAddress;
+  const tokenInAddress = props.tokenInAddress
+  const tokenOutAddress = props.tokenOutAddress
+  const tokenInAmount = props.tokenInAmount
+  //slippage in percentage
+  const slippage = props.slippage
 
-function App() {
+  const swap = async() => {
 
-  const tokenList = require("./tokenList.json");
+    //make Dfx Router instance
+    const DfxRouterAddress = "0x4E61743278Ed45975e3038BEDcaA537816b66b5B";
+    const RouterAbi = require('../DfxRouterAbi.json');
+    const DfxRouter = new caver.contract(RouterAbi, DfxRouterAddress);
+    console.log("DfxRouter", DfxRouter)
 
-  const [myWalletAddress, setMyWalletAddress] = useState();
-  const [tokenInAmount, setTokenInAmount] = useState();
-  const [fromToken, setFromToken] = useState(tokenList[0]);
-  const [toToken, setToToken] = useState(tokenList[0]);
+    //make Kip7 instance
+    const Kip7Abi = require("../Kip7Abi.json");
+    const Kip7 = new caver.contract(Kip7Abi, tokenInAddress);
 
-  console.log("myWalletAddress",myWalletAddress);
-  console.log("fromToken:", fromToken.label, "toToken: ", toToken.label)
 
-  const klaytn = window.klaytn;
-  console.log("klaytn",klaytn);
-  const caver = new Caver(klaytn);
-// const caver = new Caver(window['klaytn']);
+    //calculate minimum amount of tokens we should receive after swap
+    let amountOutMin;
+    let getAmountOutMin = async() => {
+      const amountIn = caver.utils.toBN(tokenInAmount)
+      console.log("amountIn", amountIn.toString())
+      const amounts = await DfxRouter.methods.getAmountsOut(amountIn, [tokenInAddress, tokenOutAddress]).call();
+      const amountOut = caver.utils.toBN(amounts[1]);
+      console.log("amountOut", amountOut.toString())
 
-//priavteKey 가져오는거 실패
-// let privateKey;
-// klaytn.sendAsync({
-//   method: 'klay_getAccountKey',
-//   params: ["0x3A7d1D4Ec33faA64827CA8f4f17F747834121004","latest"],
-//   from: "0x3A7d1D4Ec33faA64827CA8f4f17F747834121004"
-// }, (result) => {
-//   console.log("result", privateKey)
-//   // privateKey = result.result.key.x;
-// })
-// console.log("privateKey", privateKey);
-
-  const keystore = require('./keystore.json')
-  const keyring = caver.wallet.keyring.decrypt(keystore,"leegaeun4927!");
-//add keyring to wallet
-  caver.wallet.add(keyring)
-
-//klaytn.sendAsync({method: 'klay_sendTransaction' ... 을 통해 transaction 보내야할듯
-
-  const getNetwork = async() => {
-    const network = await klaytn.networkVersion
-    if (network===8217){
-      // console.log("cypress main network")
-    } else if (network===1001){
-      // console.log("baobab test network")
+      //consider slippage
+      const slippageMultiplier = caver.utils.toBN((100-slippage).toString());
+      console.log("slippageMultiplier",slippageMultiplier.toString())
+      const slippageDivider = caver.utils.toBN((100).toString());
+      console.log("slippageDivider",slippageDivider.toString())
+      amountOutMin = amountOut.mul(slippageMultiplier).div(slippageDivider);
+      console.log("amountOutMin",amountOutMin.toString(), caver.utils.isBN(amountOutMin));
     }
-  }
-  getNetwork()
 
-  const getAccount = async() => {
-    let account;
-    account = await klaytn.selectedAddress
-    // console.log("account in getAccount()", account)
-    // klaytn.on('accountsChanged', (accounts) => {
-    //     account = accounts[0];
-    //     console.log("user changed her account to ", account)
-    // })
-    setMyWalletAddress(account);
-    return account;
-  }
-  getAccount()
-
-  const isKaikasInstalled = async() => {
-    if (klaytn.isKaikas){
-      console.log("Kaikas is installed")
-      return true;
-    } else {
-      console.log("Kaikas is NOT installed")
-      return false;
+    // if token is not approved, approve the token
+    let approveRouter = async() => {
+      let currentAllowance = await Kip7.methods.allowance(myWalletAddress,DfxRouterAddress).call();
+      // 0 current allowance means token has not been approved yet
+      if (currentAllowance===0){
+        console.log("not approved yet")
+        // approve router to transact the kip-7 token and set allowance to maximum uint256
+        let allowance = caver.utils.toBN("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        await Kip7.methods.approve(DfxRouterAddress, allowance).send({from: myWalletAddress, gas: 1000000 });
+      } else {
+        console.log("already approved")
+      }
     }
-    // 이게 위에 코드랑 뭐가 다른지 모르겠음
-    // if (typeof(klaytn) === 'undefined'){
-    //   console.log("user does not used kaikas")
-    // return false;
-    // } else {
-    //   console.log("user uses kaikas")
-    // return true;
-    // }
-  }
 
-  const isKaikasConnected = async() => {
-    // console.log("klaytn._kaikas.isEnabled()",klaytn._kaikas.isEnabled())
-    if (klaytn._kaikas.isEnabled()){
-      console.log("Kaikas is connected")
-      return true;
-    } else {
-      console.log("Kaikas is NOT connected")
-      return false;
+    // execute the swap
+    let executeSwap = async() => {
+      const amountIn = caver.utils.toBN(tokenInAmount)
+      let tx = await DfxRouter.methods.swapExactTokensForTokens(
+          amountIn, amountOutMin, [tokenInAddress,tokenOutAddress], myWalletAddress, Date.now() + 1000 * 60 * 5)
+          .send({ from: myWalletAddress, gas: 1000000 });
+      console.log(tx);
     }
+
+    let startSwap = async() => {
+      await getAmountOutMin();
+      await approveRouter();
+      await executeSwap();
+    }
+    startSwap();
   }
-
-  const changeTokenInAmount = async(value) => {
-    await setTokenInAmount(value);
-    console.log("tokenInAmount",tokenInAmount);
-  }
-
-  return (
-      <div className="App">
-        <header className="App-header">
-
-          {!isKaikasInstalled() ?
-              <InstallKaikas/>
-              :
-              <div>
-                {!isKaikasConnected() ?
-                    <ConnectKaikas klaytn={klaytn} setMyWalletAddress={setMyWalletAddress}/>
-                    :
-                    <Box style = {{ color: "#3A2A17", padding: "30px 30px", fontSize: "15px", backgroundColor: "#FFFDD0" }}>
-                      <div> Kaikas wallet is connected </div>
-                      <p style = {{fontSize: "20px", textAlign: "left"}}>
-                        Swap
-                      </p>
-
-                      <Box style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10 }}>
-                        <p style = {{fontSize: "15px", textAlign: "left"}}>
-                          From
-                        </p>
-                        <BigNumberInput
-                            decimals={fromToken.decimals} onChange={changeTokenInAmount}
-                            value={tokenInAmount} renderInput={props => <Input {...props} />}
-                            style = {{ color: "#3A2A17", padding: "15px 20px", fontSize: "15px" }}
-                        />
-                        <div> {fromToken.label} </div>
-                        <SelectToken setFromOrToToken={setFromToken}/>
-                      </Box>
-                      <ArrowDownwardIcon style = {{color: "#3A2A17", marginTop: "10px", marginBottom: "10px"}} />
-                      <Box style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10 }}>
-                        <p style = {{fontSize: "15px", textAlign: "left"}}>
-                          To
-                        </p>
-                        <div> {toToken.label} </div>
-                        <SelectToken setFromOrToToken={setToToken}/>
-                      </Box>
-                      <Swap caver={caver} myWalletAddress={myWalletAddress} tokenInLabel={fromToken.label}
-                            tokenOutLabel={toToken.label} tokenInAmount={tokenInAmount} slippage={5}/>
-                    </Box>
-                }
-              </div>
-
-          }
-        </header>
-      </div>
-  );
+  return(
+      <Button onClick = {()=>swap()}
+              style = {{ color: "#3A2A17", backgroundColor: "#CFB997", padding: "15px 20px", textTransform: 'none', fontSize: "15px", marginTop: "15px", marginLeft: "15px", marginRight: "15px", borderRadius: 10}}>
+        swap
+      </Button>
+  )
 }
-
-export default App;
