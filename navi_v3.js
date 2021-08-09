@@ -40,6 +40,40 @@ async function ShowRouting (tokenA, tokenB, howmany) {
     return data;
 }
 
+async function SwapRouting (tokenA, tokenB, howmany) {
+    var amount = howmany;
+    console.log(data)
+    for (var j = 0; j < data.length; j++) {
+        params = data[j].split(',');
+        console.log('\n');
+        console.log( "   swap " + (j + 1) + " ================================================= \n")
+        console.log(params)
+        console.log(params[0] + " to swap : " + amount)
+        if (params[3] != 0 && params[5] != 0) {
+            console.log("1")
+            amount_Ksp = safemath.safeMule(safemath.safeDiv(params[3], safemath.safeAdd(params[3], params[5])), amount)
+            amount_Def = safemath.safeMule(safemath.safeDiv(params[5], params[3] + params[5]), amount)
+
+            amount_Ksp = await getSwappedAmount(await swap.swap(params[0], params[1], amount_Ksp, params[2]), params[1]);
+            amount_Def = await getSwappedAmount(await swap.swap(params[0], params[1], amount_Def, params[4]), params[1]);
+
+            amount = amount_Ksp + amount_Def;
+        }
+        else if (params[3] != 0){
+            console.log("2")
+            amount = await getSwappedAmount(await swap.swap(params[0], params[1], amount, params[2]), params[1]);
+        }
+        else if (params[5] != 0){
+            console.log("3")
+            amount = await getSwappedAmount(await swap.swap(params[0], params[1], amount, params[4]), params[1]);
+        }
+        else console.log("warning\n\n\nwarning\nwarning\n\n\n\nwarning\n\nwarning\n\n");
+        
+    }
+    console.log("\n==Crypto_NAVI_V3 Result ==")
+    console.log('from : ' + howmany +' '+ tokenA + ' swapped ' + Number(amount) + ' ' + tokenB)
+}
+
 async function SmartSwapRouting (tokenA, tokenB, howmany) {
     // const start = Date.now();
     await prepareMatrix(tokenA, tokenB, howmany);
@@ -78,5 +112,11 @@ async function SmartSwapRouting (tokenA, tokenB, howmany) {
     // console.log((Date.now() - start)/1000 + 'sec');
 }
 
-SmartSwapRouting('KUSDT', 'KLAY', "3.731073");
+async function execute (tokenA, tokenB, amount) {
+    await ShowRouting(tokenA, tokenB, amount);
+    await SwapRouting(tokenA, tokenB, amount);
+}
+
+execute('KUSDT', 'KLAY', "3.53026");
+// SmartSwapRouting('KUSDT', 'KLAY', "3.731073");
 // 0.
