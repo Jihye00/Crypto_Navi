@@ -35,6 +35,11 @@ async function getSwappedAmount(txhash, tokenname) {
     console.log("swapped currency data not found")
   };
 
+async function ShowRouting (tokenA, tokenB, howmany) {
+    await prepareMatrix(tokenA, tokenB, howmany);
+    return data;
+}
+
 async function SmartSwapRouting (tokenA, tokenB, howmany) {
     // const start = Date.now();
     await prepareMatrix(tokenA, tokenB, howmany);
@@ -73,5 +78,5 @@ async function SmartSwapRouting (tokenA, tokenB, howmany) {
     // console.log((Date.now() - start)/1000 + 'sec');
 }
 
-SmartSwapRouting('KLAY', 'KUSDT', "3.5");
+SmartSwapRouting('KUSDT', 'KLAY', "3.731073");
 // 0.
