@@ -1,5 +1,6 @@
 const test = require('./Data/test_v3.js');
 const type = require('./Algorithm/type_v3.js');
+const safemath = require("safemath");
 const swap = require('./Data/swap.js');
 const Caver = require('caver-js');
 const caver = new Caver('https://kaikas.cypress.klaytn.net:8651');
@@ -47,8 +48,8 @@ async function SmartSwapRouting (tokenA, tokenB, howmany) {
         console.log(params[0] + " to swap : " + amount)
         if (params[3] != 0 && params[5] != 0) {
             console.log("1")
-            amount_Ksp = (params[3] / (params[3] + params[5])) * amount
-            amount_Def = (params[5] / (params[3] + params[5])) * amount
+            amount_Ksp = safemath.safeMule(safemath.safeDiv(params[3], safemath.safeAdd(params[3], params[5])), amount)
+            amount_Def = safemath.safeMule(safemath.safeDiv(params[5], params[3] + params[5]), amount)
 
             amount_Ksp = await getSwappedAmount(await swap.swap(params[0], params[1], amount_Ksp, params[2]), params[1]);
             amount_Def = await getSwappedAmount(await swap.swap(params[0], params[1], amount_Def, params[4]), params[1]);
