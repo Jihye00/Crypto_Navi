@@ -1,8 +1,8 @@
 import {Button} from "@material-ui/core";
 import React from "react";
-import navi_v3 from "navi_v3.js";
-const execute = require('./navi_v3.js');
-const SmartSwapRouting = require('./navi_v3.js');
+// import navi_v3 from "navi_v3.js";
+// const execute = require('./navi_v3.js');
+// const SmartSwapRouting = require('./navi_v3.js');
 
 export const Swap = (props) => {
     const caver = props.caver
@@ -14,7 +14,7 @@ export const Swap = (props) => {
     const slippage = props.slippage
 
     const swap = async() => {
-        execute(tokenInLabel, tokenOutLabel, tokenInAmount)
+        // execute(tokenInLabel, tokenOutLabel, tokenInAmount)
     }
     return(
         <Button onClick = {()=>swap()}
