@@ -1,10 +1,10 @@
-import React, {useEffect,useState} from "react";
-import PropTypes from 'prop-types';
+import React, {useState} from "react";
 import './App.css';
-import {Button, Input, Box, TextField, MenuItem, Dialog, DialogTitle, List, ListItem, ListItemText} from "@material-ui/core";
+import {Input, Box} from "@material-ui/core";
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import {BigNumberInput} from "big-number-input";
 import Caver from "caver-js";
+
 import {InstallKaikas} from "./components/InstallKaikas.js";
 import {ConnectKaikas} from "./components/ConnectKaikas.js";
 import {Swap} from "./components/Swap.js";
@@ -15,10 +15,12 @@ function App() {
   const tokenList = require("./tokenList.json");
   console.log("tokenList",tokenList)
 
-  const [dialogOpen, setDialogOpen] = useState(false);
   const [tokenInAmount, setTokenInAmount] = useState();
   const [fromToken, setFromToken] = useState(tokenList[0]);
   const [toToken, setToToken] = useState(tokenList[0]);
+
+
+  console.log("fromToken:", fromToken.label, "toToken: ", toToken.label)
 
   const klaytn = window.klaytn;
   console.log("klaytn",klaytn);
@@ -74,7 +76,6 @@ function App() {
   }
 
   const changeTokenInAmount = async(value) => {
-    console.log("value",value)
     await setTokenInAmount(value);
     console.log("tokenInAmount",tokenInAmount);
   }
@@ -114,27 +115,6 @@ function App() {
                         </p>
                         <SelectToken setFromOrToToken={setToToken}/>
                       </Box>
-                      {/*<TextField select id="select" value="Klay" label="From" onChange={changeFromToken}*/}
-                      {/*style = {{ color: "#3A2A17", backgroundColor: "#E8DED1", padding: "15px 20px", fontFamily: 'Mulish', fontSize: "10px", marginTop: "15px", marginLeft: "10px"}}>*/}
-                      {/*  <MenuItem value="Klay" style = {{ color: "#3A2A17", backgroundColor: "#E8DED1", fontFamily: 'Mulish', fontSize: "15px"}}> KLAY </MenuItem>*/}
-                      {/*  <MenuItem value="Ksp" style = {{ color: "#3A2A17", backgroundColor: "#E8DED1", fontFamily: 'Mulish', fontSize: "15px"}}> KSP </MenuItem>*/}
-                      {/*</TextField>*/}
-
-                      {/*<TextField select id="select" value="Ksp" label="To" onChange={changeToToken}*/}
-                      {/*           style = {{ color: "#3A2A17", backgroundColor: "#E8DED1", padding: "15px 20px", fontFamily: 'Mulish', fontSize: "10px", marginTop: "15px", marginLeft: "10px"}}>*/}
-                      {/*  <MenuItem value="Klay" style = {{ color: "#3A2A17", backgroundColor: "#E8DED1", fontFamily: 'Mulish', fontSize: "15px"}}> KLAY </MenuItem>*/}
-                      {/*  <MenuItem value="Ksp" style = {{ color: "#3A2A17", backgroundColor: "#E8DED1", fontFamily: 'Mulish', fontSize: "15px"}}> KSP </MenuItem>*/}
-                      {/*</TextField>*/}
-
-                      {/*<p style = {{fontSize: "15px"}}>*/}
-                      {/*  Enter amount of KLAY to swap to KSP*/}
-                      {/*</p>*/}
-
-                      {/*<BigNumberInput*/}
-                      {/*decimals={tokenInDecimal} onChange={changeTokenInAmount}*/}
-                      {/*value={tokenInAmount} renderInput={props => <Input {...props} />}*/}
-                      {/*style = {{ color: "#3A2A17", padding: "15px 20px", fontSize: "15px" }}*/}
-                      {/*/>*/}
                       <Swap/>
                     </Box>
                 }
