@@ -7,7 +7,7 @@ const caver = new Caver('https://kaikas.cypress.klaytn.net:8651');
 const shifts = require('./Data/shifts.js')
 
 var data;
-var resratio
+var resratio;
 async function prepareMatrix(tokenA, tokenB, howmany){
     await test.test();
     var route_matrix = new type.Route_Matrix(type.CurrencyLists);
@@ -17,7 +17,7 @@ async function prepareMatrix(tokenA, tokenB, howmany){
     var indexB = type.index_finder(tokenB);
     console.log(route_matrix.matrix[indexA][indexB]);
     data = route_matrix.matrix[indexA][indexB].path;
-    resratio = route_matrix.matrix[indexA][indexB].ratio * howmany
+    resratio = route_matrix.matrix[indexA][indexB].ratio;
     // data['slippage'] = 100 * (1 - data['slippage'])
 }
 
@@ -47,7 +47,10 @@ async function ShowRouting (tokenA = 'DUMMY', tokenB = 'DUMMY', howmany = -1) {
     }
 }
 
-async function SwapRouting (tokenA, tokenB, howmany) {
+async function SwapRouting (tokenA = 'DUMMY', tokenB = 'DUMMY', howmany = -1) {
+    if (tokenA == 'DUMMY' || tokenA == 'DUMMY' || howmany == -1){
+        return 'not available'
+    }
     var amount = howmany;
     console.log(data)
     for (var j = 0; j < data.length; j++) {
@@ -59,12 +62,12 @@ async function SwapRouting (tokenA, tokenB, howmany) {
         if (params[3] != 0 && params[5] != 0) {
             console.log("1")
             amount_Ksp = safemath.safeMule(safemath.safeDiv(params[3], safemath.safeAdd(params[3], params[5])), amount)
-            amount_Def = safemath.safeMule(safemath.safeDiv(params[5], params[3] + params[5]), amount)
+            amount_Def = safemath.safeMule(safemath.safeDiv(params[5], safemath.safeAdd(params[3], params[5])), amount)
 
             amount_Ksp = await getSwappedAmount(await swap.swap(params[0], params[1], amount_Ksp, params[2]), params[1]);
             amount_Def = await getSwappedAmount(await swap.swap(params[0], params[1], amount_Def, params[4]), params[1]);
 
-            amount = amount_Ksp + amount_Def;
+            amount = safemath.safeAdd(amount_Ksp, amount_Def);
         }
         else if (params[3] != 0){
             console.log("2")
@@ -79,6 +82,7 @@ async function SwapRouting (tokenA, tokenB, howmany) {
     }
     console.log("\n==Crypto_NAVI_V3 Result ==")
     console.log('from : ' + howmany +' '+ tokenA + ' swapped ' + Number(amount) + ' ' + tokenB)
+    console.log('expected : ' + resratio)
 }
 
 async function SmartSwapRouting (tokenA, tokenB, howmany) {
@@ -95,12 +99,12 @@ async function SmartSwapRouting (tokenA, tokenB, howmany) {
         if (params[3] != 0 && params[5] != 0) {
             console.log("1")
             amount_Ksp = safemath.safeMule(safemath.safeDiv(params[3], safemath.safeAdd(params[3], params[5])), amount)
-            amount_Def = safemath.safeMule(safemath.safeDiv(params[5], params[3] + params[5]), amount)
+            amount_Def = safemath.safeMule(safemath.safeDiv(params[5], safemath.safeAdd(params[3], params[5])), amount)
 
             amount_Ksp = await getSwappedAmount(await swap.swap(params[0], params[1], amount_Ksp, params[2]), params[1]);
             amount_Def = await getSwappedAmount(await swap.swap(params[0], params[1], amount_Def, params[4]), params[1]);
 
-            amount = amount_Ksp + amount_Def;
+            amount = safemath.safeAdd(amount_Ksp, amount_Def);
         }
         else if (params[3] != 0){
             console.log("2")
@@ -115,6 +119,7 @@ async function SmartSwapRouting (tokenA, tokenB, howmany) {
     }
     console.log("\n==Crypto_NAVI_V3 Result ==")
     console.log('from : ' + howmany +' '+ tokenA + ' swapped ' + Number(amount) + ' ' + tokenB)
+    console.log('expected : ' + resratio)
     // console.log(data)
     // console.log((Date.now() - start)/1000 + 'sec');
 }
@@ -124,6 +129,6 @@ async function execute (tokenA, tokenB, amount) {
     await SwapRouting(tokenA, tokenB, amount);
 }
 
-execute('KUSDT', 'KLAY', "3.53026");
+execute('KUSDT', 'KLAY', "3.652481");
 // SmartSwapRouting('KUSDT', 'KLAY', "3.731073");
 // 0.
