@@ -7,6 +7,7 @@ const caver = new Caver('https://kaikas.cypress.klaytn.net:8651');
 const shifts = require('./Data/shifts.js')
 
 var data;
+var resratio
 async function prepareMatrix(tokenA, tokenB, howmany){
     await test.test();
     var route_matrix = new type.Route_Matrix(type.CurrencyLists);
@@ -16,6 +17,7 @@ async function prepareMatrix(tokenA, tokenB, howmany){
     var indexB = type.index_finder(tokenB);
     console.log(route_matrix.matrix[indexA][indexB]);
     data = route_matrix.matrix[indexA][indexB].path;
+    resratio = route_matrix.matrix[indexA][indexB].ratio * howmany
     // data['slippage'] = 100 * (1 - data['slippage'])
 }
 
@@ -35,9 +37,14 @@ async function getSwappedAmount(txhash, tokenname) {
     console.log("swapped currency data not found")
   };
 
-async function ShowRouting (tokenA, tokenB, howmany) {
-    await prepareMatrix(tokenA, tokenB, howmany);
-    return data;
+async function ShowRouting (tokenA = 'DUMMY', tokenB = 'DUMMY', howmany = -1) {
+    if (tokenA == 'DUMMY' || tokenA == 'DUMMY' || howmany == -1){
+        return 'not available'
+    }
+    else {
+        await prepareMatrix(tokenA, tokenB, howmany);
+        return data;
+    }
 }
 
 async function SwapRouting (tokenA, tokenB, howmany) {
