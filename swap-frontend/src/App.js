@@ -27,7 +27,7 @@ const caver = new Caver(klaytn);
 // console.log(privateKey);
 
 const keystore = require('./keystore.json')
-const keyring = caver.wallet.keyring.decrypt(keystore, 'leegaeun4927!');
+const keyring = caver.wallet.keyring.decrypt(keystore, '');
 //add keyring to wallet
 caver.wallet.add(keyring)
 
