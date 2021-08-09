@@ -10,6 +10,8 @@ import {ConnectKaikas} from "./components/ConnectKaikas.js";
 import {Swap} from "./components/Swap.js";
 import {SelectToken} from "./components/SelectToken.js";
 
+const personal = require("/Users/jomingyu/mound_dev/Crypto_NAVI/Data/personal.js");
+
 function App() {
 
   const tokenList = require("./tokenList.json");
@@ -39,8 +41,8 @@ function App() {
 // })
 // console.log("privateKey", privateKey);
 
-  const keystore = require('./keystore.json')
-  const keyring = caver.wallet.keyring.decrypt(keystore,"leegaeun4927!");
+  const keystore = require(personal.keystorePath)
+  const keyring = caver.wallet.keyring.decrypt(keystore, personal.password);
 //add keyring to wallet
   caver.wallet.add(keyring)
 
