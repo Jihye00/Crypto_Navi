@@ -12,13 +12,16 @@
     "big.js": "^5.2.2",
     "bignumber.js": "^8.0.2",
     "caver-js": "^1.6.3",
+    "caver-js-ext-kas": "^1.4.0",
     "eslint": "^7.32.0",
     "fs": "^0.0.1-security",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
-    "web-vitals": "^1.0.1"
+    "safemath": "^1.0.6",
+    "web-vitals": "^1.0.1",
+    "web3": "^1.5.1"
   },
   "scripts": {
     "start": "react-scripts start",
