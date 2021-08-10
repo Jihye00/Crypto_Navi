@@ -9,6 +9,7 @@ import {InstallKaikas} from "./components/InstallKaikas.js";
 import {ConnectKaikas} from "./components/ConnectKaikas.js";
 import {Swap} from "./components/Swap.js";
 import {SelectToken} from "./components/SelectToken.js";
+import {myWalletAddress, password, keystorepath} from "./personal.js";
 
 function App() {
 
@@ -41,10 +42,10 @@ function App() {
 // })
 // console.log("privateKey", privateKey);
 
-  const keystore = require('./keystore.json')
-  const keyring = caver.wallet.keyring.decrypt(keystore,"leegaeun4927!");
+  const keystore = require('./keystore.json');
+  const keyring = caver.wallet.keyring.decrypt(keystore,password);
 //add keyring to wallet
-  caver.wallet.add(keyring)
+  caver.wallet.add(keyring);
 
 //klaytn.sendAsync({method: 'klay_sendTransaction' ... 을 통해 transaction 보내야할듯
 

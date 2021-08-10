@@ -112,3 +112,6 @@ Data/personal.js
 
 #keystore file
 keystore.json
+
+#personal
+swap-frontend/src/personal.js
