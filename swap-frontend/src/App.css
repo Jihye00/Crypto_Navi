@@ -22,3 +22,8 @@
   src: local('Mulish'), url(./fonts/Mulish-Regular.ttf) format('truetype');
 }
 
+table, td, th{
+  text-align: center;
+  border-collapse: collapse;
+  border: 1px solid goldenrod;
+}
