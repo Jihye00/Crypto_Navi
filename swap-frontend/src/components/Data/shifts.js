@@ -3,7 +3,7 @@ async function lshift (stringint, howmany) {
     if (origin == -1) stringint = stringint+'.';
     origin = stringint.indexOf('.');
     var zeros = []
-    for (i = 0; i < Math.abs(howmany); i++) zeros.push('0');
+    for (var i = 0; i < Math.abs(howmany); i++) zeros.push('0');
     var temp = zeros.concat(stringint.split('')).concat(zeros)
     var neworigin = temp.indexOf('.')
     temp.splice(neworigin, 1)

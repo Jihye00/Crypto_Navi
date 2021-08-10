@@ -239,7 +239,7 @@ async function test() {
       tokenB_hex = await caver.kas.wallet.callContract(TOKEN_ADDRESS[tokenBName], 'balanceOf', [{ type: 'address', value: DEFINIXLP_ADDRESS[contract_name] }]);
     }
     catch(err){
-      error(err);
+      console.log(err);
     }
     let tokenA_decimal = web3.eth.abi.decodeParameter("uint256", tokenA_hex.result);
     let tokenB_decimal = web3.eth.abi.decodeParameter("uint256", tokenB_hex.result);

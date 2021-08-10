@@ -225,7 +225,7 @@ class Route_Matrix{
             this.matrix = new_matrix;
             new_matrix = temp;
         }
-        console.log("ARBITRAGE: "+JSON.stringify(this.arbitrage));
+        // console.log("ARBITRAGE: "+JSON.stringify(this.arbitrage));
     }
     print(){
         for(var i7=0; i7<this.size; i7++){
@@ -240,7 +240,7 @@ class Route_Matrix{
 for(var i8=0; i8<MATRIX_SIZE; i8++){
     var row = [];
     for(var j8=0; j8<MATRIX_SIZE; j8++){
-        s = new Swap(CurrencyLists[i8], CurrencyLists[j8])
+        var s = new Swap(CurrencyLists[i8], CurrencyLists[j8])
         row.push(s);
     }
     SwapMatrix.push(row);

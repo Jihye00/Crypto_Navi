@@ -15,7 +15,7 @@ async function prepareMatrix(tokenA, tokenB, howmany){
     route_matrix.calc(20, tokenA, howmany);
     var indexA = type.index_finder(tokenA);
     var indexB = type.index_finder(tokenB);
-    console.log(route_matrix.matrix[indexA][indexB]);
+    // console.log(route_matrix.matrix[indexA][indexB]);
     data = route_matrix.matrix[indexA][indexB].path;
     resratio = route_matrix.matrix[indexA][indexB].ratio;
     // data['slippage'] = 100 * (1 - data['slippage'])
@@ -54,15 +54,15 @@ async function SwapRouting (tokenA = 'DUMMY', tokenB = 'DUMMY', howmany = -1) {
     var amount = howmany;
     console.log(data)
     for (var j = 0; j < data.length; j++) {
-        params = data[j].split(',');
+        var params = data[j].split(',');
         console.log('\n');
         console.log( "   swap " + (j + 1) + " ================================================= \n")
         console.log(params)
         console.log(params[0] + " to swap : " + amount)
         if (params[3] != 0 && params[5] != 0) {
             console.log("1")
-            amount_Ksp = safemath.safeMule(safemath.safeDiv(params[3], safemath.safeAdd(params[3], params[5])), amount)
-            amount_Def = safemath.safeMule(safemath.safeDiv(params[5], safemath.safeAdd(params[3], params[5])), amount)
+            var amount_Ksp = safemath.safeMule(safemath.safeDiv(params[3], safemath.safeAdd(params[3], params[5])), amount)
+            var amount_Def = safemath.safeMule(safemath.safeDiv(params[5], safemath.safeAdd(params[3], params[5])), amount)
 
             amount_Ksp = await getSwappedAmount(await swap.swap(params[0], params[1], amount_Ksp, params[2]), params[1]);
             amount_Def = await getSwappedAmount(await swap.swap(params[0], params[1], amount_Def, params[4]), params[1]);
@@ -91,15 +91,15 @@ async function SmartSwapRouting (tokenA, tokenB, howmany) {
     var amount = howmany;
     console.log(data)
     for (var j = 0; j < data.length; j++) {
-        params = data[j].split(',');
+        var params = data[j].split(',');
         console.log('\n');
         console.log( "   swap " + (j + 1) + " ================================================= \n")
         console.log(params)
         console.log(params[0] + " to swap : " + amount)
         if (params[3] != 0 && params[5] != 0) {
             console.log("1")
-            amount_Ksp = safemath.safeMule(safemath.safeDiv(params[3], safemath.safeAdd(params[3], params[5])), amount)
-            amount_Def = safemath.safeMule(safemath.safeDiv(params[5], safemath.safeAdd(params[3], params[5])), amount)
+            var amount_Ksp = safemath.safeMule(safemath.safeDiv(params[3], safemath.safeAdd(params[3], params[5])), amount)
+            var amount_Def = safemath.safeMule(safemath.safeDiv(params[5], safemath.safeAdd(params[3], params[5])), amount)
 
             amount_Ksp = await getSwappedAmount(await swap.swap(params[0], params[1], amount_Ksp, params[2]), params[1]);
             amount_Def = await getSwappedAmount(await swap.swap(params[0], params[1], amount_Def, params[4]), params[1]);
