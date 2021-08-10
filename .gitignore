@@ -114,4 +114,4 @@ Data/personal.js
 keystore.json
 
 #personal
-swap-frontend/src/personal.js
+personal.js

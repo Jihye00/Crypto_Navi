@@ -15,6 +15,7 @@
     "caver-js-ext-kas": "^1.4.0",
     "eslint": "^7.32.0",
     "fs": "^0.0.1-security",
+    "mathjs": "^9.4.4",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
