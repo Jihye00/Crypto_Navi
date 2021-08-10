@@ -134,6 +134,8 @@ execute('KUSDT', 'KLAY', "3.652481");
 // 0.
 
 module.exports = {
+    ShowRouting,
+    SwapRouting,
     execute,
     SmartSwapRouting
 }
