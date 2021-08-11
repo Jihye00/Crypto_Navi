@@ -166,7 +166,8 @@ class Route_Matrix{
         for(var a=0; a<path1.length; a++){
             var t_str = path1[a].split(',');
             // if(t_str[0] == str[1] && t_str[1] == this.currency_list[k]){
-            if(t_str[0] == this.currency_list[k]){
+            if(t_str[0] == str[1]){
+//             if(t_str[0] == this.currency_list[k]){
                 return [null, -1, 0];
             }
         }

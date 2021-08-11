@@ -70,8 +70,8 @@ export const SelectToken = (props) => {
     return (
         <div>
             <Button onClick = {()=>open()}
-                    style = {{ color: "#3A2A17", backgroundColor: "#CFB997", padding: "15px 20px", textTransform: 'none', fontSize: "15px", marginTop: "15px", marginBottom: "15px", borderRadius: 10}}>
-                <p> select token </p>
+                    style = {{ color: "#3A2A17", backgroundColor: "#CFB997", padding: "0px 10px", textTransform: 'none', fontSize: "15px", marginTop: "15px", marginBottom: "15px", borderRadius: 10}}>
+                <p> &nbsp; select token </p>
                 <ExpandMoreIcon />
             </Button>
             <TokenListDialog selectedToken={selectedToken} open={isOpen} onClose={closeAndSelectToken} />

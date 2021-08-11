@@ -6,7 +6,7 @@ const Caver = require('caver-js');
 const caver = new Caver('https://kaikas.cypress.klaytn.net:8651');
 const shifts = require('./Data/shifts.js')
 
-var data;
+var data, data_full;
 var resratio;
 async function prepareMatrix(tokenA, tokenB, howmany){
     for(var i8=0; i8<type.MATRIX_SIZE; i8++){
@@ -24,9 +24,10 @@ async function prepareMatrix(tokenA, tokenB, howmany){
     var indexA = type.index_finder(tokenA);
     var indexB = type.index_finder(tokenB);
     // console.log(route_matrix.matrix[indexA][indexB]);
-    data = route_matrix.matrix[indexA][indexB].path;
-    resratio = route_matrix.matrix[indexA][indexB].ratio;
     // data['slippage'] = 100 * (1 - data['slippage'])
+    data = route_matrix.matrix[indexA][indexB].path;
+    data_full = route_matrix.matrix[indexA][indexB];
+    resratio = route_matrix.matrix[indexA][indexB].ratio;
 }
 
 async function getSwappedAmount(txhash, tokenname) {
@@ -51,7 +52,7 @@ async function ShowRouting (tokenA = '', tokenB = '', howmany = -1) {
     }
     else {
         await prepareMatrix(tokenA, tokenB, howmany);
-        return data;
+        return data_full;
     }
 }
 
