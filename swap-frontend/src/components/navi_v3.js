@@ -9,10 +9,18 @@ const shifts = require('./Data/shifts.js')
 var data;
 var resratio;
 async function prepareMatrix(tokenA, tokenB, howmany){
+    for(var i8=0; i8<type.MATRIX_SIZE; i8++){
+        var row = [];
+        for(var j8=0; j8<type.MATRIX_SIZE; j8++){
+            var s = new type.Swap(type.CurrencyLists[i8], type.CurrencyLists[j8])
+            row.push(s);
+        }
+        type.SwapMatrix.push(row);
+    }
     await test.test();
     var route_matrix = new type.Route_Matrix(type.CurrencyLists);
     // console.log(type.SwapMatrix);
-    route_matrix.calc(20, tokenA, howmany);
+    route_matrix.calc(3, tokenA, howmany);
     var indexA = type.index_finder(tokenA);
     var indexB = type.index_finder(tokenB);
     // console.log(route_matrix.matrix[indexA][indexB]);
@@ -37,8 +45,8 @@ async function getSwappedAmount(txhash, tokenname) {
     console.log("swapped currency data not found")
   };
 
-async function ShowRouting (tokenA = 'DUMMY', tokenB = 'DUMMY', howmany = -1) {
-    if (tokenA == 'DUMMY' || tokenA == 'DUMMY' || howmany == -1){
+async function ShowRouting (tokenA = '', tokenB = '', howmany = -1) {
+    if (tokenA == '' || tokenB == '' || howmany == -1){
         return 'not available'
     }
     else {
@@ -47,8 +55,8 @@ async function ShowRouting (tokenA = 'DUMMY', tokenB = 'DUMMY', howmany = -1) {
     }
 }
 
-async function SwapRouting (tokenA = 'DUMMY', tokenB = 'DUMMY', howmany = -1) {
-    if (tokenA == 'DUMMY' || tokenA == 'DUMMY' || howmany == -1){
+async function SwapRouting (tokenA = '', tokenB = '', howmany = -1) {
+    if (tokenA == '' || tokenB == '' || howmany == -1){
         return 'not available'
     }
     var amount = howmany;
@@ -129,7 +137,7 @@ async function execute (tokenA, tokenB, amount) {
     await SwapRouting(tokenA, tokenB, amount);
 }
 
-execute('KUSDT', 'KLAY', "3.652481");
+// execute('KUSDT', 'KLAY', "3.652481");
 // SmartSwapRouting('KUSDT', 'KLAY', "3.731073");
 // 0.
 

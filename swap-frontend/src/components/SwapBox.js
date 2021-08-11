@@ -1,17 +1,25 @@
-import {Box, Input} from "@material-ui/core";
+import {Box, TextField} from "@material-ui/core";
 import React, {useEffect, useState} from "react";
 import {BigNumberInput} from "big-number-input";
 import {SelectToken} from "./SwapBoxHelper/SelectToken";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import {SwapButton} from "./SwapBoxHelper/SwapButton";
+import {SwapButtonTest} from "./SwapBoxHelper/SwapButtonTest";
 import {klaytn, caver} from "./caver";
+import {ShowRouting} from "./navi_v3.js";
 
 export const SwapBox = () => {
     const tokenList = require("./tokenList.json");
+    const dummyToken = {
+        "id": "Dummy",
+        "label": "",
+        "decimals": 0,
+        "address": ""
+    }
 
-    const [tokenInAmount, setTokenInAmount] = useState();
-    const [fromToken, setFromToken] = useState(tokenList[0]);
-    const [toToken, setToToken] = useState(tokenList[0]);
+    const [tokenInAmount, setTokenInAmount] = useState(0);
+    const [fromToken, setFromToken] = useState(dummyToken);
+    const [toToken, setToToken] = useState(dummyToken);
     const [myWalletAddress, setMyWalletAddress] = useState("");
 
     console.log("fromToken:", fromToken.label, "toToken: ", toToken.label)
@@ -36,6 +44,14 @@ export const SwapBox = () => {
         console.log("tokenInAmount", tokenInAmount);
     }
 
+    useEffect(()=>{
+        const showRouting = async() => {
+            const routing = await ShowRouting (fromToken.label, toToken.label, tokenInAmount);
+            console.log(routing);
+        }
+        showRouting();
+    },[fromToken,toToken,tokenInAmount])
+
     return(
         <Box style = {{ color: "#3A2A17", padding: "30px 30px", fontSize: "15px", backgroundColor: "#FFFDD0" }}>
             <div> Kaikas wallet is connected </div>
@@ -47,10 +63,22 @@ export const SwapBox = () => {
                 <p style = {{fontSize: "15px", textAlign: "left"}}>
                     From
                 </p>
-                <BigNumberInput
-                    decimals={fromToken.decimals} onChange={changeTokenInAmount}
-                    value={tokenInAmount} renderInput={props => <Input {...props} />}
-                    style = {{ color: "#3A2A17", padding: "15px 20px", fontSize: "15px" }}
+                {/*<BigNumberInput*/}
+                {/*    decimals={fromToken.decimals} onChange={changeTokenInAmount}*/}
+                {/*    value={tokenInAmount} renderInput={props => <Input {...props} />}*/}
+                {/*    style = {{ color: "#3A2A17", padding: "15px 20px", fontSize: "15px" }}*/}
+                {/*/>*/}
+            {/*    <TextInput*/}
+            {/*        style={styles.input}*/}
+            {/*        onChangeText={onChangeNumber}*/}
+            {/*        value={number}*/}
+            {/*        placeholder=“useless placeholder”*/}
+            {/*    keyboardType=“numeric”*/}
+            {/*/>*/}
+            {/*    <InputLabel>token amount</InputLabel>*/}
+            {/*    <Input id="input" value={tokenInAmount} onChange={changeTokenInAmount} />*/}
+                <TextField type="number" value={tokenInAmount} onChange ={(e)=>changeTokenInAmount(e.target.value)}
+                           // InputProps={{ classes: { input: classes.textfield1 }, }}
                 />
                 <div> {fromToken.label} </div>
                 <SelectToken setFromOrToToken={setFromToken}/>
@@ -63,8 +91,9 @@ export const SwapBox = () => {
                 <div> {toToken.label} </div>
                 <SelectToken setFromOrToToken={setToToken}/>
             </Box>
-            <SwapButton caver={caver} myWalletAddress={myWalletAddress} tokenInAddress={fromToken.address}
-                        tokenOutAddress={toToken.address} tokenInAmount={tokenInAmount} slippage={5}/>
+            <SwapButton caver={caver} myWalletAddress={myWalletAddress} tokenInLabel={fromToken.label}
+                        tokenOutLabel={toToken.label} tokenInAmount={tokenInAmount} slippage={5}/>
+            <SwapButtonTest/>
         </Box>
     )
 }

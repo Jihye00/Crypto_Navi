@@ -7,11 +7,17 @@ export const SelectToken = (props) => {
 
     //import token list
     const tokenList = require("../tokenList.json");
+    const dummyToken = {
+        "id": "Dummy",
+        "label": "",
+        "decimals": 0,
+        "address": ""
+    }
 
     const setFromOrToToken = props.setFromOrToToken
 
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedToken, setSelectedToken] = useState(tokenList[0]);
+    const [selectedToken, setSelectedToken] = useState(dummyToken);
 
     //token list dialog component
     const TokenListDialog = (props) => {

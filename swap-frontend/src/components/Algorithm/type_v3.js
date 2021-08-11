@@ -25,6 +25,7 @@ class Swap{
                 this.k1 = safemath.safeMule(x, y);
                 if(dex == 'KLAYSWAP') this.fee1 = safemath.safeSub(1, KLAYSWAP_FEE);
                 else this.fee1 = safemath.safeSub(1, DEFINIX_FEE);
+                this.num++;
                 break;
             case 1:
                 if(safemath.safeDiv(this.y1, this.x1) > safemath.safeDiv(y, x)){
@@ -50,11 +51,11 @@ class Swap{
                 }
                 var temp = Math.sqrt(safemath.safeMule(safemath.safeMule(this.x1, this.y1), safemath.safeDiv(this.x2, this.y2)))
                 this.limitone = safemath.safeDiv(safemath.safeSub(temp, this.x1), this.fee1);
+                this.num++;
                 break;
-            default:
-                console.log("WARNING!");
+            // default:
+            //     console.log("WARNING!", this.num);
         }
-        this.num++;
     }
     ratio(a){
         var result = {};
@@ -218,7 +219,7 @@ class Route_Matrix{
                 }
             }
             if(JSON.stringify(new_matrix) == JSON.stringify(this.matrix)) {
-                console.log(t1);
+                // console.log(t1);
                 break;
             }
             var temp = this.matrix;
@@ -235,15 +236,6 @@ class Route_Matrix{
             console.log('\n');
         }
     }
-}
-
-for(var i8=0; i8<MATRIX_SIZE; i8++){
-    var row = [];
-    for(var j8=0; j8<MATRIX_SIZE; j8++){
-        var s = new Swap(CurrencyLists[i8], CurrencyLists[j8])
-        row.push(s);
-    }
-    SwapMatrix.push(row);
 }
 
 module.exports = {

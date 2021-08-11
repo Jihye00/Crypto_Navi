@@ -9,9 +9,9 @@ import {SwapBox} from "./components/SwapBox.js";
 
 function App() {
 
-  const [isKaikasInstalled, setIsKaikasInstalled] = useState(true);
-  const [isKaikasConnected, setIsKaikasConnected] = useState(true);
-  const [isNetworkCypress, setIsNetworkCypress] = useState(true);
+  const [isKaikasInstalled, setIsKaikasInstalled] = useState(false);
+  const [isKaikasConnected, setIsKaikasConnected] = useState(false);
+  const [isNetworkCypress, setIsNetworkCypress] = useState(false);
 
 //priavteKey 가져오는거 실패
 // let privateKey;
@@ -26,55 +26,118 @@ function App() {
 // console.log("privateKey", privateKey);
 
   //check if Kaikas is installed
-  useEffect(()=>{
-    const checkIsKaikasInstalled = async() => {
-      if (klaytn.isKaikas){
-        setIsKaikasInstalled(true);
-      } else {
+  useEffect(()=> {
+    const checkIsKaikasInstalled = async () => {
+      if (klaytn === undefined) {
         setIsKaikasInstalled(false);
+      } else {
+        setIsKaikasInstalled(true);
+          const checkIsKaikasConnected = async () => {
+              // console.log("klaytn._kaikas.isEnabled()",klaytn._kaikas.isEnabled())
+              if (klaytn._kaikas.isEnabled()) {
+                  setIsKaikasConnected(true);
+              } else {
+                  setIsKaikasConnected(false);
+              }
+          }
+          checkIsKaikasConnected();
+          console.log("isKaikasConnected", isKaikasConnected)
+
+          const checkIsNetworkCypress = async () => {
+              const network = await klaytn.networkVersion
+              if (network === 8217) {
+                  // console.log("cypress main network")
+                  setIsNetworkCypress(true);
+              } else {
+                  setIsNetworkCypress(false);
+              }
+              // if (network===1001){
+              // console.log("baobab test network") }
+          }
+          checkIsNetworkCypress()
+          console.log("isNetworkCypress", isNetworkCypress)
       }
-      // 이게 위에 코드랑 뭐가 다른지 모르겠음
-      // if (typeof(klaytn) === 'undefined'){
-      //   console.log("user does not used kaikas")
-      // return false;
-      // } else {
-      //   console.log("user uses kaikas")
-      // return true;
-      // }
     }
     checkIsKaikasInstalled();
     console.log("isKaikasInstalled", isKaikasInstalled)
   })
 
-  useEffect(()=>{
-    const checkIsKaikasConnected = async() => {
-      // console.log("klaytn._kaikas.isEnabled()",klaytn._kaikas.isEnabled())
-      if (klaytn._kaikas.isEnabled()){
-        setIsKaikasConnected(true);
-      } else {
-        setIsKaikasConnected(false);
-      }
-    }
-    checkIsKaikasConnected();
-    console.log("isKaikasConnected", isKaikasConnected)
-  })
+    // useEffect(() => {
+    //     const checkIsKaikasConnected = async () => {
+    //         // console.log("klaytn._kaikas.isEnabled()",klaytn._kaikas.isEnabled())
+    //         if (klaytn._kaikas.isEnabled()) {
+    //             setIsKaikasConnected(true);
+    //         } else {
+    //             setIsKaikasConnected(false);
+    //         }
+    //     }
+    //     checkIsKaikasConnected();
+    //     console.log("isKaikasConnected", isKaikasConnected)
+    //
+    //     const checkIsNetworkCypress = async () => {
+    //         const network = await klaytn.networkVersion
+    //         if (network === 8217) {
+    //             // console.log("cypress main network")
+    //             setIsNetworkCypress(true);
+    //         } else {
+    //             setIsNetworkCypress(false);
+    //         }
+    //         // if (network===1001){
+    //         // console.log("baobab test network") }
+    //     }
+    //     checkIsNetworkCypress()
+    //     console.log("isNetworkCypress", isNetworkCypress)
+    // }, [klaytn._kaikas.isEnabled(), klaytn.networkVersion])
+  //check if Kaikas is installed
+  // useEffect(()=>{
+  //   const checkIsKaikasInstalled = async() => {
+  //     if (klaytn.isKaikas){
+  //       setIsKaikasInstalled(true);
+  //     } else {
+  //       setIsKaikasInstalled(false);
+  //     }
+  //     // 이게 위에 코드랑 뭐가 다른지 모르겠음
+  //     // if (typeof(klaytn) === 'undefined'){
+  //     //   console.log("user does not used kaikas")
+  //     // return false;
+  //     // } else {
+  //     //   console.log("user uses kaikas")
+  //     // return true;
+  //     // }
+  //   }
+  //   checkIsKaikasInstalled();
+  //   console.log("isKaikasInstalled", isKaikasInstalled)
+  // })
 
-  //check network
-  useEffect(()=>{
-    const checkIsNetworkCypress = async() => {
-      const network = await klaytn.networkVersion
-      if (network===8217){
-        // console.log("cypress main network")
-        setIsNetworkCypress(true);
-      } else {
-        setIsNetworkCypress(false);
-      }
-      // if (network===1001){
-      // console.log("baobab test network") }
-    }
-    checkIsNetworkCypress()
-    console.log("isNetworkCypress", isNetworkCypress)
-  })
+  // useEffect(()=>{
+  //   const checkIsKaikasConnected = async() => {
+  //     // console.log("klaytn._kaikas.isEnabled()",klaytn._kaikas.isEnabled())
+  //     if (klaytn._kaikas.isEnabled()){
+  //       setIsKaikasConnected(true);
+  //     } else {
+  //       setIsKaikasConnected(false);
+  //     }
+  //   }
+  //   checkIsKaikasConnected();
+  //   console.log("isKaikasConnected", isKaikasConnected)
+  // })
+  //
+  // //check network
+  // useEffect(()=>{
+  //   const checkIsNetworkCypress = async() => {
+  //     const network = await klaytn.networkVersion
+  //     if (network===8217){
+  //       // console.log("cypress main network")
+  //       setIsNetworkCypress(true);
+  //     } else {
+  //       setIsNetworkCypress(false);
+  //     }
+  //     // if (network===1001){
+  //     // console.log("baobab test network") }
+  //   }
+  //   checkIsNetworkCypress()
+  //   console.log("isNetworkCypress", isNetworkCypress)
+  // })
 
   return (
       <div className="App">

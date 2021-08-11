@@ -4,11 +4,11 @@ const type = require('../Algorithm/type_v3.js');
 //메인넷은 8217, 테스트넷은 1001
 //KAS console을 사용하기위한 access key 입니다. => 트랜잭션 보내는게 무료(하루에 10000번까지)
 // set1: 
-// const ACCESS_KEY = "KASKQO63SLJW75Q0FJB61B4N"; 
-// const PRIVATE_KEY = "QAXbYjYlXCf5BAgax7Dm-C0j-kk8RRcW0yfJYNcH";
+const ACCESS_KEY = "KASKQO63SLJW75Q0FJB61B4N";
+const PRIVATE_KEY = "QAXbYjYlXCf5BAgax7Dm-C0j-kk8RRcW0yfJYNcH";
 // set2: 
-const ACCESS_KEY = "KASKBDIFAXVXK14IEVRJDFVS";
-const PRIVATE_KEY = "xW5VfL4rS6lOuEENPBs5jt0UeVDYMxgRIA14EAoS";  
+// const ACCESS_KEY = "KASKBDIFAXVXK14IEVRJDFVS";
+// const PRIVATE_KEY = "xW5VfL4rS6lOuEENPBs5jt0UeVDYMxgRIA14EAoS";
 caver.initKASAPI(8217, ACCESS_KEY, PRIVATE_KEY);
 
 const Web3 = require('web3');
