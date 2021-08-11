@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 import PropTypes from 'prop-types';
 import {Button, Dialog, DialogTitle, List, ListItem, ListItemText} from "@material-ui/core";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 export const SelectToken = (props) => {
 
     //import token list
     const tokenList = require("../tokenList.json");
-    console.log("tokenList", tokenList)
 
     const setFromOrToToken = props.setFromOrToToken
 
@@ -28,11 +28,14 @@ export const SelectToken = (props) => {
 
         return (
             <Dialog onClose={close} aria-labelledby="simple-dialog-title" open={open}>
-                <DialogTitle id="simple-dialog-title"> Select Token </DialogTitle>
-                <List>
+                <DialogTitle id="simple-dialog-title"
+                             style = {{ color: "#3A2A17", backgroundColor: "#CFB997", padding: "15px 20px",  fontSize: "10px", textAlign: "center"}}>
+                    Select Token
+                </DialogTitle>
+                <List style = {{ color: "#3A2A17", backgroundColor: "#CFB997", padding: "15px 20px",  fontSize: "10px", textAlign: "center"}}>
                     {tokenList.map((token) => (
                         <ListItem button onClick={() => selectToken(token)} key={token.id}>
-                            <ListItemText primary={token.label} />
+                            <ListItemText primary={token.label}/>
                         </ListItem>
                     ))}
                 </List>
@@ -60,11 +63,12 @@ export const SelectToken = (props) => {
 
     return (
         <div>
-        <Button onClick = {()=>open()}
-            style = {{ color: "#3A2A17", backgroundColor: "#E8DED1", padding: "15px 20px", fontSize: "15px", textTransform: 'none', marginLeft: "10px"}}>
-        Select Token ∨
-        </Button>
-        <TokenListDialog selectedToken={selectedToken} open={isOpen} onClose={closeAndSelectToken} />
+            <Button onClick = {()=>open()}
+                    style = {{ color: "#3A2A17", backgroundColor: "#CFB997", padding: "15px 20px", textTransform: 'none', fontSize: "15px", marginTop: "15px", marginBottom: "15px", borderRadius: 10}}>
+                <p> select token </p>
+                <ExpandMoreIcon />
+            </Button>
+            <TokenListDialog selectedToken={selectedToken} open={isOpen} onClose={closeAndSelectToken} />
         </div>
     )
 }

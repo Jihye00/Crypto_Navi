@@ -1,34 +1,17 @@
 import React, {useEffect, useState} from "react";
 import './App.css';
-import {Input, Box} from "@material-ui/core";
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import {BigNumberInput} from "big-number-input";
-import Caver from "caver-js";
+import {klaytn, caver} from "./components/caver.js";
 
 import {InstallKaikas} from "./components/InstallKaikas.js";
 import {ConnectKaikas} from "./components/ConnectKaikas.js";
-import {Swap} from "./components/Swap.js";
-import {SelectToken} from "./components/SelectToken.js";
-import {myWalletAddress, password, keystorepath} from "./personal.js";
+import {ConnectCypress} from "./components/ConnectCypress.js";
+import {SwapBox} from "./components/SwapBox.js";
 
 function App() {
 
-  const tokenList = require("./tokenList.json");
-
   const [isKaikasInstalled, setIsKaikasInstalled] = useState(true);
   const [isKaikasConnected, setIsKaikasConnected] = useState(true);
-  const [myWalletAddress, setMyWalletAddress] = useState();
-  const [tokenInAmount, setTokenInAmount] = useState();
-  const [fromToken, setFromToken] = useState(tokenList[0]);
-  const [toToken, setToToken] = useState(tokenList[0]);
-
-  console.log("myWalletAddress",myWalletAddress);
-  console.log("fromToken:", fromToken.label, "toToken: ", toToken.label)
-
-  const klaytn = window.klaytn;
-  console.log("klaytn",klaytn);
-  const caver = new Caver(klaytn);
-// const caver = new Caver(window['klaytn']);
+  const [isNetworkCypress, setIsNetworkCypress] = useState(true);
 
 //priavteKey 가져오는거 실패
 // let privateKey;
@@ -42,43 +25,12 @@ function App() {
 // })
 // console.log("privateKey", privateKey);
 
-  const keystore = require('./keystore.json');
-  const keyring = caver.wallet.keyring.decrypt(keystore,password);
-//add keyring to wallet
-  caver.wallet.add(keyring);
-
-//klaytn.sendAsync({method: 'klay_sendTransaction' ... 을 통해 transaction 보내야할듯
-
-  const getNetwork = async() => {
-    const network = await klaytn.networkVersion
-    if (network===8217){
-      // console.log("cypress main network")
-    } else if (network===1001){
-      // console.log("baobab test network")
-    }
-  }
-  getNetwork()
-
-  const getAccount = async() => {
-    let account;
-    account = await klaytn.selectedAddress
-    // console.log("account in getAccount()", account)
-    // klaytn.on('accountsChanged', (accounts) => {
-    //     account = accounts[0];
-    //     console.log("user changed her account to ", account)
-    // })
-    setMyWalletAddress(account);
-    return account;
-  }
-  getAccount()
-
+  //check if Kaikas is installed
   useEffect(()=>{
     const checkIsKaikasInstalled = async() => {
       if (klaytn.isKaikas){
-        console.log("Kaikas is installed")
         setIsKaikasInstalled(true);
       } else {
-        console.log("Kaikas is NOT installed")
         setIsKaikasInstalled(false);
       }
       // 이게 위에 코드랑 뭐가 다른지 모르겠음
@@ -91,70 +43,58 @@ function App() {
       // }
     }
     checkIsKaikasInstalled();
+    console.log("isKaikasInstalled", isKaikasInstalled)
   })
 
   useEffect(()=>{
     const checkIsKaikasConnected = async() => {
       // console.log("klaytn._kaikas.isEnabled()",klaytn._kaikas.isEnabled())
       if (klaytn._kaikas.isEnabled()){
-        console.log("Kaikas is connected")
         setIsKaikasConnected(true);
       } else {
-        console.log("Kaikas is NOT connected")
         setIsKaikasConnected(false);
       }
     }
     checkIsKaikasConnected();
+    console.log("isKaikasConnected", isKaikasConnected)
   })
 
-  const changeTokenInAmount = async(value) => {
-    await setTokenInAmount(value);
-    console.log("tokenInAmount",tokenInAmount);
-  }
+  //check network
+  useEffect(()=>{
+    const checkIsNetworkCypress = async() => {
+      const network = await klaytn.networkVersion
+      if (network===8217){
+        // console.log("cypress main network")
+        setIsNetworkCypress(true);
+      } else {
+        setIsNetworkCypress(false);
+      }
+      // if (network===1001){
+      // console.log("baobab test network") }
+    }
+    checkIsNetworkCypress()
+    console.log("isNetworkCypress", isNetworkCypress)
+  })
 
   return (
       <div className="App">
         <header className="App-header">
-
           {!isKaikasInstalled ?
               <InstallKaikas/>
               :
               <div>
                 {!isKaikasConnected ?
-                    <ConnectKaikas klaytn={klaytn} setMyWalletAddress={setMyWalletAddress}/>
+                    <ConnectKaikas klaytn={klaytn} />
                     :
-                    <Box style = {{ color: "#3A2A17", padding: "30px 30px", fontSize: "15px", backgroundColor: "#FFFDD0" }}>
-                      <div> Kaikas wallet is connected </div>
-                      <p style = {{fontSize: "20px", textAlign: "left"}}>
-                        Swap
-                      </p>
-
-                      <Box style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10 }}>
-                        <p style = {{fontSize: "15px", textAlign: "left"}}>
-                          From
-                        </p>
-                        <BigNumberInput
-                            decimals={fromToken.decimals} onChange={changeTokenInAmount}
-                            value={tokenInAmount} renderInput={props => <Input {...props} />}
-                            style = {{ color: "#3A2A17", padding: "15px 20px", fontSize: "15px" }}
-                        />
-                        <div> {fromToken.label} </div>
-                        <SelectToken setFromOrToToken={setFromToken}/>
-                      </Box>
-                      <ArrowDownwardIcon style = {{color: "#3A2A17", marginTop: "10px", marginBottom: "10px"}} />
-                      <Box style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10 }}>
-                          <p style = {{fontSize: "15px", textAlign: "left"}}>
-                            To
-                          </p>
-                          <div> {toToken.label} </div>
-                          <SelectToken setFromOrToToken={setToToken}/>
-                      </Box>
-                      <Swap caver={caver} myWalletAddress={myWalletAddress} tokenInAddress={fromToken.address}
-                      tokenOutAddress={toToken.address} tokenInAmount={tokenInAmount} slippage={5}/>
-                    </Box>
+                    <div>
+                      {! isNetworkCypress ?
+                          <ConnectCypress />
+                          :
+                          <SwapBox/>
+                      }
+                    </div>
                 }
               </div>
-
           }
         </header>
       </div>
