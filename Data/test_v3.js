@@ -7,8 +7,14 @@ const type = require('../Algorithm/type_v3.js');
 // const ACCESS_KEY = "KASKQO63SLJW75Q0FJB61B4N"; 
 // const PRIVATE_KEY = "QAXbYjYlXCf5BAgax7Dm-C0j-kk8RRcW0yfJYNcH";
 // set2: 
-const ACCESS_KEY = "KASKBDIFAXVXK14IEVRJDFVS";
-const PRIVATE_KEY = "xW5VfL4rS6lOuEENPBs5jt0UeVDYMxgRIA14EAoS";  
+// const ACCESS_KEY = "KASKBDIFAXVXK14IEVRJDFVS";
+// const PRIVATE_KEY = "xW5VfL4rS6lOuEENPBs5jt0UeVDYMxgRIA14EAoS";  
+// set3:
+const ACCESS_KEY = "KASKLGJKFXREP8VVYXPF74NQ";
+const PRIVATE_KEY = "YWaTxezIPC4bEJm5cwvsO8Ov7E5jNDjQyXyT10Lk";
+// set4:
+// const ACCESS_KEY = "KASKD969HEG6SXMIAFV074UY";
+// const PRIVATE_KEY = "AyqgACgOwX2K8LsR0xeARO_g3i1ADfDTli05z8Gb";
 caver.initKASAPI(8217, ACCESS_KEY, PRIVATE_KEY);
 
 const Web3 = require('web3');
@@ -196,7 +202,7 @@ async function getCurrentPool(contract_address) {
     var A = await caver.kas.wallet.callContract(contract_address, 'getCurrentPool');//tokenA와 tokenB의 balance가 연달아 담겨져 옵니다.
     return A;
   } catch(error){
-    error(error);
+    console.log(error);
   }
 
 };

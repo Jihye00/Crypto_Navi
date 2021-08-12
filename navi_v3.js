@@ -9,13 +9,22 @@ const shifts = require('./Data/shifts.js')
 var data;
 var resratio;
 async function prepareMatrix(tokenA, tokenB, howmany){
+    for(var i8=0; i8<type.MATRIX_SIZE; i8++){
+        var row = [];
+        for(var j8=0; j8<type.MATRIX_SIZE; j8++){
+            var s = new type.Swap(type.CurrencyLists[i8], type.CurrencyLists[j8])
+            row.push(s);
+        }
+        type.SwapMatrix.push(row);
+    }
     await test.test();
     var route_matrix = new type.Route_Matrix(type.CurrencyLists);
     // console.log(type.SwapMatrix);
     route_matrix.calc(20, tokenA, howmany);
     var indexA = type.index_finder(tokenA);
     var indexB = type.index_finder(tokenB);
-    console.log(route_matrix.matrix[indexA][indexB]);
+    // console.log(route_matrix.matrix);
+    route_matrix.print();
     data = route_matrix.matrix[indexA][indexB].path;
     resratio = route_matrix.matrix[indexA][indexB].ratio;
     // data['slippage'] = 100 * (1 - data['slippage'])
@@ -129,9 +138,10 @@ async function execute (tokenA, tokenB, amount) {
     await SwapRouting(tokenA, tokenB, amount);
 }
 
-execute('KUSDT', 'KLAY', "3.652481");
+// execute('KUSDT', 'KLAY', "3.652481");
 // SmartSwapRouting('KUSDT', 'KLAY', "3.731073");
 // 0.
+ShowRouting('KLAY', 'KUSDT', 0.00001);
 
 module.exports = {
     execute,
