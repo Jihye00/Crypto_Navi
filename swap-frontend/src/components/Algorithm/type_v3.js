@@ -28,7 +28,11 @@ class Swap{
                 this.num++;
                 break;
             case 1:
-                if(safemath.safeDiv(this.y1, this.x1) > safemath.safeDiv(y, x)){
+                if(this.dex1 == dex){
+                    this.update_ele(dex, x, y);
+                    return;
+                }
+                else if(safemath.safeDiv(this.y1, this.x1) > safemath.safeDiv(y, x)){
                     this.dex2 = dex;
                     this.x2 = x;
                     this.y2 = y;
@@ -53,8 +57,60 @@ class Swap{
                 this.limitone = safemath.safeDiv(safemath.safeSub(temp, this.x1), this.fee1);
                 this.num++;
                 break;
-            // default:
-            //     console.log("WARNING!", this.num);
+            default:
+                this.update_ele(dex, x, y);
+                var temp = Math.sqrt(safemath.safeMule(safemath.safeMule(this.x1, this.y1), safemath.safeDiv(this.x2, this.y2)))
+                this.limitone = safemath.safeDiv(safemath.safeSub(temp, this.x1), this.fee1);
+        }
+    }
+    update_ele(dex, x, y){
+        // console.log('update', this, dex, x, y);
+        if(this.num == 1){
+            this.x1 = x;
+            this.y1 = y;
+            this.k1 = safemath.safeMule(x, y);
+        }
+        else if(dex == this.dex1){
+            if(safemath.safeDiv(y, x) > safemath.safeDiv(this.y2, this.x2)){
+                this.x1 = x;
+                this.y1 = y;
+                this.k1 = safemath.safeMule(x, y);
+            }
+            else{
+                this.x1 = this.x2;
+                this.y1 = this.y2;
+                this.k1 = this.k2;
+                this.x2 = x;
+                this.y2 = y;
+                this.k2 = safemath.safeMule(x, y);
+                var temp3 = this.fee1;
+                this.fee1 = this.fee2;
+                this.fee2 = temp3;
+                temp3 = this.dex1;
+                this.dex1 = this.dex2;
+                this.dex2 = temp3;
+            }
+        }
+        else{
+            if(safemath.safeDiv(this.y1, this.x1) > safemath.safeDiv(y, x)){
+                this.x2 = x;
+                this.y2 = y;
+                this.k2 = safemath.safeMule(x, y);
+            }
+            else{
+                this.x2 = this.x1;
+                this.y2 = this.y1;
+                this.k2 = this.k1;
+                this.x1 = x;
+                this.y1 = y;
+                this.k1 = safemath.safeMule(x, y);
+                var temp3 = this.fee2;
+                this.fee2 = this.fee1;
+                this.fee1 = temp3;
+                temp3 = this.dex2;
+                this.dex2 = this.dex1;
+                this.dex1 = temp3;
+            }
         }
     }
     ratio(a){
@@ -166,7 +222,7 @@ class Route_Matrix{
         for(var a=0; a<path1.length; a++){
             var t_str = path1[a].split(',');
             // if(t_str[0] == str[1] && t_str[1] == this.currency_list[k]){
-            if(t_str[0] == str[1]){
+            if(t_str[0] == this.currency_list[k]){
 //             if(t_str[0] == this.currency_list[k]){
                 return [null, -1, 0];
             }

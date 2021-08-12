@@ -14,7 +14,7 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: #99E3EB;
 }
 
 @font-face {
@@ -23,7 +23,10 @@
 }
 
 table, td, th{
+  margin: 10px;
   text-align: center;
   border-collapse: collapse;
-  border: 1px solid goldenrod;
+  border: 1px solid #827341;
 }
+
+/* #B5AD91 #827341 #E8DED1 #99E3EB #91B5AE */

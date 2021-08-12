@@ -54,7 +54,7 @@ export const SwapButtonTest = () => {
 
     return(
         <Button onClick = {()=>swapTest()}
-                style = {{ color: "#3A2A17", backgroundColor: "#CFB997", padding: "15px 20px", textTransform: 'none', fontSize: "15px", marginTop: "15px", marginLeft: "15px", marginRight: "15px", borderRadius: 10}}>
+                style = {{ color: "#3A2A17", backgroundColor: "#CFB997", padding: "15px 20px", textTransform: 'none', fontSize: "15px", marginTop: "15px",  marginBottom: "20px", marginLeft: "15px", marginRight: "15px", borderRadius: 10}}>
             swap test
         </Button>
     )

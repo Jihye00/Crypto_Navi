@@ -1,8 +1,11 @@
 import React from "react";
 import safemath from "safemath";
+import {Box} from "@material-ui/core";
 const mathjs = require("mathjs");
+
 export const RouteTable = (props) => {
 
+    //process routing
     const routing = props.routing;
     console.log("routing in RouteTable", routing)
 
@@ -26,32 +29,50 @@ export const RouteTable = (props) => {
         }
     }
 
+    //process slippage
+    const slippage = props.slippage;
+    console.log("slippage in RouteTable", slippage)
+    let slippagePercent;
+    if (slippage!==undefined){
+        slippagePercent = safemath.safeDiv(mathjs.round(safemath.safeMule(safemath.safeSub(1,slippage),10000)),100)
+    }
+    console.log("slippagePercent in RouteTable", slippagePercent)
+
     return(
-        <div>
-        {!routing ?
+
+        <div align="center">
+        {!(routing && slippage) ?
         <div></div>
         :
-        <table>
-            <thead>
-            <tr>
-                <th></th>
-                <th>Klayswap</th>
-                <th>Definix</th>
-            </tr>
-            </thead>
-            <tbody>
-            {routingRows.map((routingRow) => (
+        <Box style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10 }}>
+            <p style = {{fontSize: "15px", textAlign: "left"}}>
+                Price impact: {slippagePercent} %
+            </p>
+            <p style = {{fontSize: "15px", textAlign: "left"}}>
+                Swapping route:
+            </p>
+            <table style = {{justifyContent: "center"}}>
+                <thead>
                 <tr>
-                    <td>{routingRow.fromToken}</td>
-                    <td>{routingRow.klayPercent} %</td>
-                    <td>{routingRow.definixPercent} %</td>
+                    <th></th>
+                    <th>Klayswap</th>
+                    <th>Definix</th>
                 </tr>
-            ))}
-            <tr>
-                <td colSpan="3"> {routingLastRow} </td>
-            </tr>
-            </tbody>
+                </thead>
+                <tbody>
+                {routingRows.map((routingRow) => (
+                    <tr>
+                        <td>{routingRow.fromToken}</td>
+                        <td>{routingRow.klayPercent} %</td>
+                        <td>{routingRow.definixPercent} %</td>
+                    </tr>
+                ))}
+                <tr>
+                    <td colSpan="3"> {routingLastRow} </td>
+                </tr>
+                </tbody>
         </table>
+        </Box>
         }
         </div>
     )
