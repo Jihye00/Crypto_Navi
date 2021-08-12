@@ -27,7 +27,7 @@ export const RouteTable = (props) => {
     }
 
     return(
-        <div>
+        <div align="center">
         {!routing ?
         <div></div>
         :
