@@ -29,7 +29,7 @@ async function approve(tokenname, dex) {
             await Kip7.methods.approve(approveAddress, allowance)
                 .send({ from: klaytn.selectedAddress, gas: 1000000 },
                     function(error, transactionHash) {
-                        console.log(transactionHash)
+                        console.log("approve clear")
                 });
         }
     }
@@ -97,7 +97,9 @@ async function SwapRouting (tokenA, tokenB, amount, dex) {
             return res.transactionHash;
         }
         else if (tokenA != "KLAY") {
+
             await approve(tokenA, dex);
+
             // let res = await Factory.methods.exchangeKctPos(TOKEN_ADDRESS[tokenA], bigamount, TOKEN_ADDRESS[tokenB], 1, empty).send({ from: myWalletAddress, gas: 1000000 });
             let res = await myKlayContract.methods.exchangeKctPos(test.TOKEN_ADDRESS[tokenA], bigamount, test.TOKEN_ADDRESS[tokenB], 1, empty).send({from: klaytn.selectedAddress, gas: 1000000},
                 function(error, transactionHash) {console.log(transactionHash)});
@@ -140,7 +142,6 @@ async function SwapRouting (tokenA, tokenB, amount, dex) {
     }
 }
 async function SmartSwapRouting (tokenA, tokenB, howmany) {
-    await prepareMatrix(tokenA, tokenB, howmany);
     var amount = howmany;
     console.log(data)
     for (var j = 0; j < data.length; j++) {
