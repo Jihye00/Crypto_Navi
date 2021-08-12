@@ -47,15 +47,16 @@ export const SelectToken = (props) => {
         return (
             <Dialog onClose={close} aria-labelledby="simple-dialog-title" open={open}>
                 <DialogTitle id="simple-dialog-title"
-                             style = {{ color: "#3A2A17", backgroundColor: "#CFB997", padding: "15px 20px",  fontSize: "10px", textAlign: "center"}}>
+                             style = {{ color: "#3A2A17", backgroundColor: "#E0D5C8", padding: "15px 20px", fontSize: "10px", textAlign: "center"}}>
                     Select Token
                 </DialogTitle>
-                <List style = {{ color: "#3A2A17", backgroundColor: "#CFB997", padding: "15px 20px",  fontSize: "10px", textAlign: "center"}}>
+                <List style = {{ color: "#3A2A17", backgroundColor: "#E0D5C8", padding: "15px 20px",  fontSize: "10px", textAlign: "center"}}>
                     {tokenList.map((token) => (
                         <ListItem button onClick={() => selectToken(token)} key={token.id}>
                             <ImageListItem>
-                                <img src={token_img[token.label]} width="40"/>
+                                <img src={token_img[token.label]} width="35"/>
                             </ImageListItem>
+                            <p>&nbsp;&nbsp;&nbsp;</p>
                             <ListItemText primary={token.label}/>
                         </ListItem>
                     ))}

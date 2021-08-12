@@ -7,6 +7,7 @@ import {ConnectKaikas} from "./components/ConnectKaikas.js";
 import {ConnectCypress} from "./components/ConnectCypress.js";
 import {SwapBox} from "./components/SwapBox.js";
 import {RefreshButton} from "./components/RefreshButton.js";
+import {SwapSuccess} from "./components/SwapSuccess.js"
 
 function App() {
   const [isKaikasInstalled, setIsKaikasInstalled] = useState(false);

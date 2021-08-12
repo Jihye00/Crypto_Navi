@@ -5,7 +5,7 @@ import {SmartSwapRouting} from "../navi_v3";
 import Alert from "@material-ui/lab/Alert";
 
 export const SwapButton = (props) => {
-    const [isSwapSuccess, setIsSwapSuccess] = useState(false);
+    const setIsSwapSuccess = props.setIsSwapSuccess
 
     const tokenInLabel = props.tokenInLabel
     const tokenOutLabel = props.tokenOutLabel
@@ -18,38 +18,12 @@ export const SwapButton = (props) => {
         setIsSwapSuccess(swapSuccess);
     }
 
-    useEffect(() => {
-        if(isSwapSuccess) {
-            const timeId = setTimeout(() => {
-                console.log("timeout")
-                // After 3 seconds set the show value to false
-                disableAlert()
-            }, 5000)
-            return () => {
-                clearTimeout(timeId)
-            }
-        }
-    }, [isSwapSuccess]);
-
-    const disableAlert = () => {
-        setIsSwapSuccess(false);
-    }
-
     return(
         <div>
             <Button onClick = {()=>swap()}
                     style = {{ color: "#3A2A17", backgroundColor: "#CFB997", padding: "15px 20px", textTransform: 'none', fontSize: "15px", marginTop: "15px", marginBottom: "20px", marginLeft: "15px", marginRight: "15px", borderRadius: 10}}>
                 swap
             </Button>
-            <div>
-            {!isSwapSuccess ?
-                <div></div>
-                :
-                <Alert onClose={disableAlert} severity="success">
-                    Swap was successful
-                </Alert>
-            }
-            </div>
         </div>
     )
 }

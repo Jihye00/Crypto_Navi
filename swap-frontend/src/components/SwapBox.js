@@ -8,10 +8,23 @@ import {SwapButton} from "./SwapBoxHelper/SwapButton";
 import {RouteTable} from "./SwapBoxHelper/RouteTable";
 import {RefreshButton} from "./RefreshButton";
 import {klaytn, caver} from "./caver";
+import FINIX from "./TokenIcon/FINIX.png";
+import KBNB from "./TokenIcon/KBNB.png";
+import KDAI from "./TokenIcon/KDAI.png";
+import KETH from "./TokenIcon/KETH.png";
+import KLAY from "./TokenIcon/KLAY.png";
+import KORC from "./TokenIcon/KORC.png";
+import KSP from "./TokenIcon/KSP.png";
+import KUSDT from "./TokenIcon/KUSDT.png";
+import KWBTC from "./TokenIcon/KWBTC.png";
+import KXRP from "./TokenIcon/KXRP.png";
+import SIX from "./TokenIcon/SIX.png";
+import {SwapSuccess} from "./SwapSuccess";
+import {SwapError} from "./SwapError";
 
 const navi = require('./navi_v3')
 
-export const SwapBox = () => {
+export const SwapBox = (props) => {
     const tokenList = require("./tokenList.json");
     const dummyToken = {
         "id": "Dummy",
@@ -28,6 +41,7 @@ export const SwapBox = () => {
     const [routing, setRouting] = useState("");
     const [slippage, setSlippage] = useState(undefined);
     const [refresh, setRefresh] = useState(false);
+    const [isSwapSuccess, setIsSwapSuccess] = useState(undefined);
 
     console.log("fromToken:", fromToken.label, "toToken: ", toToken.label)
 
@@ -54,13 +68,18 @@ export const SwapBox = () => {
     useEffect( async() => {
             const checkRouting = async() => {
             const routing = await navi.ShowRouting (fromToken.label, toToken.label, tokenInAmount);
-            setRouting(routing.path);
-                const estimated = routing.money;
-                setTokenOutAmount(estimated);
-
-                const slippage = routing.slippage;
-                setSlippage(slippage);
+            if(routing==="not available") {
+                setTokenOutAmount(0);
             }
+            setRouting(routing.path);
+
+            const estimated = routing.money;
+            setTokenOutAmount(estimated);
+
+            const slippage = routing.slippage;
+            setSlippage(slippage);
+            }
+
             checkRouting();
             console.log("routing in swapbox", routing)
             console.log("tokenOutAmount in swapbox", tokenOutAmount)
@@ -107,6 +126,8 @@ export const SwapBox = () => {
         setRefresh(true);
     }
 
+    const token_img = {'FINIX':FINIX, 'KBNB':KBNB, 'KDAI':KDAI, 'KETH':KETH, 'KLAY':KLAY, 'KORC':KORC, 'KSP':KSP, 'KUSDT':KUSDT, 'KWBTC':KWBTC, 'KXRP':KXRP, 'SIX':SIX};
+
     return(
         <Box style = {{ color: "#3A2A17", padding: "30px 30px", fontSize: "15px", backgroundColor: "#FFFDD0" }}>
             <div> Kaikas wallet is connected </div>
@@ -114,33 +135,69 @@ export const SwapBox = () => {
                 Swap
             </p>
 
-            <Box style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10, marginLeft: 30, marginRight: 30, marginTop: 30 }}>
+            <div>
+                {(isSwapSuccess===undefined) ?
+                    <div></div>
+                    :
+                    <div>
+                    {(isSwapSuccess===true) ?
+                        <SwapSuccess setIsSwapSuccess={setIsSwapSuccess}/>
+                    :
+                        <SwapError setIsSwapSuccess={setIsSwapSuccess}/>
+                    }
+                    </div>
+                }
+            </div>
+
+            <Box style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10, marginLeft: 30, marginRight: 30, marginTop: 30, width: 300}}>
                 <p style = {{fontSize: "15px", textAlign: "left"}}>
                     From
                 </p>
-                {/*<BigNumberInput*/}
-                {/*    decimals={fromToken.decimals} onChange={changeTokenInAmount}*/}
-                {/*    value={tokenInAmount} renderInput={props => <Input {...props} />}*/}
-                {/*    style = {{ color: "#3A2A17", padding: "15px 20px", fontSize: "15px" }}*/}
-                {/*/>*/}
-                <TextField style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10 }}
-                    type="number" format="none" value={tokenInAmount} onChange ={(e)=>changeTokenInAmount(e.target.value)}
-                           // InputProps={{ classes: { input: classes.textfield1 }, }}
-                />
-                <div> {fromToken.label} </div>
+                <div style={{display: "flex", "justify-content": "center"}}>
+                    {/*<BigNumberInput*/}
+                    {/*    decimals={fromToken.decimals} onChange={changeTokenInAmount}*/}
+                    {/*    value={tokenInAmount} renderInput={props => <Input {...props} />}*/}
+                    {/*    style = {{ color: "#3A2A17", padding: "15px 20px", fontSize: "15px" }}*/}
+                    {/*/>*/}
+                    <TextField style = {{ color: "#3A2A17", padding: "10px 10px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10}}
+                        type="number" format="none" value={tokenInAmount} onChange ={(e)=>changeTokenInAmount(e.target.value)}
+                               // InputProps={{ classes: { input: classes.textfield1 }, }}
+                    />
+                    <div>
+                        {(fromToken.id==='Dummy') ?
+                            <div></div>
+                        :
+                            <div style={{ display: "flex", alignContent:"center"}}>
+                                <img src={token_img[fromToken.label]} style={{alignSelf: "center", marginRight: 5}} width="30"/>
+                                <p style={{alignSelf: "center"}}> {fromToken.label} </p>
+                            </div>
+                        }
+                    </div>
+                </div>
                 <SelectToken setFromOrToToken={setFromToken}/>
             </Box>
             <ArrowDownwardIcon style = {{color: "#3A2A17", marginTop: "10px", marginBottom: "10px"}} />
-            <Box style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10, marginLeft: 30, marginRight: 30 }}>
+            <Box style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10, marginLeft: 30, marginRight: 30, width: 300 }}>
                 <p style = {{fontSize: "15px", textAlign: "left"}}>
                     To (estimated)
                 </p>
-                <TextField style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10 }}
-                           type="number" format="none" value={tokenOutAmount} inputProps={{ readOnly: true, }}/>
-                <div> {toToken.label} </div>
+                <div style={{display: "flex", "justify-content": "center"}}>
+                    <TextField style = {{ color: "#3A2A17", padding: "10px 10px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10}}
+                               type="number" format="none" value={tokenOutAmount} inputProps={{ readOnly: true }}  disabled={true} />
+                    <div>
+                        {(toToken.id==='Dummy') ?
+                            <div></div>
+                        :
+                            <div style={{ display: "flex", alignContent:"center"}}>
+                                <img src={token_img[toToken.label]} style={{alignSelf: "center", marginRight: 5}} width="30"/>
+                                <p style={{alignSelf: "center"}}> {toToken.label} </p>
+                            </div>
+                        }
+                    </div>
+                </div>
                 <SelectToken setFromOrToToken={setToToken}/>
             </Box>
-            <SwapButton tokenInLabel={fromToken.label} tokenOutLabel={toToken.label} tokenInAmount={tokenInAmount}/>
+            <SwapButton tokenInLabel={fromToken.label} tokenOutLabel={toToken.label} tokenInAmount={tokenInAmount} setIsSwapSuccess={setIsSwapSuccess}/>
             {/*<SwapButtonTest/>*/}
             <div>
                 {!(slippage && routing) ?

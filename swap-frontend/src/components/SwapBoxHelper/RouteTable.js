@@ -1,10 +1,8 @@
 import React from "react";
-import {useState} from "react";
 import safemath from "safemath";
-import {Box, Button} from "@material-ui/core";
-import RefreshIcon from "@material-ui/icons/Refresh";
-import {RefreshButton} from "../RefreshButton";
+import {Box} from "@material-ui/core";
 const mathjs = require("mathjs");
+
 
 export const RouteTable = (props) => {
 
@@ -37,40 +35,67 @@ export const RouteTable = (props) => {
     console.log("slippage in RouteTable", slippage)
     let slippagePercent;
     if (slippage!==undefined){
-        slippagePercent = safemath.safeDiv(mathjs.round(safemath.safeMule(safemath.safeSub(1,slippage),10000000)),100)
+        slippagePercent = safemath.safeDiv(mathjs.round(safemath.safeMule(safemath.safeSub(1,slippage),1000)),100)
     }
     console.log("slippagePercent in RouteTable", slippagePercent)
 
     return(
         <div align="center">
-            <Box style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10 }}>
+            <Box style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", borderRadius: 10 }}>
                 <p style = {{fontSize: "15px", textAlign: "left"}}>
                     Price impact: {slippagePercent} %
                 </p>
                 <p style = {{fontSize: "15px", textAlign: "left"}}>
                     Swapping route:
                 </p>
-                <table style = {{justifyContent: "center"}}>
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>Klayswap</th>
-                        <th>Definix</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+                {/*<table style = {{justifyContent: "center"}}>*/}
+                {/*    <thead>*/}
+                {/*    <tr>*/}
+                {/*        <th></th>*/}
+                {/*        <th>Klayswap</th>*/}
+                {/*        <th>Definix</th>*/}
+                {/*    </tr>*/}
+                {/*    </thead>*/}
+                {/*    <tbody>*/}
+                {/*    {routingRows.map((routingRow) => (*/}
+                {/*        <tr>*/}
+                {/*            <td>{routingRow.fromToken}</td>*/}
+                {/*            <td>{routingRow.klayPercent} %</td>*/}
+                {/*            <td>{routingRow.definixPercent} %</td>*/}
+                {/*        </tr>*/}
+                {/*    ))}*/}
+                {/*    <tr>*/}
+                {/*        <td colSpan="3"> {routingLastRow} </td>*/}
+                {/*    </tr>*/}
+                {/*    </tbody>*/}
+                {/*</table>*/}
+
+                <div style = {{display: "flex", flexDirection: "row", "justify-content": "center"}}>
+                        <Box style={{backgroundColor: '#FFB284', height: 10, width: 10, alignSelf: 'center'}} />
+                        <p style={{color: '#FFB284', alignSelf:'center', fontSize: 12 }}> &nbsp;&nbsp;&nbsp; Klaytn &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+                        <Box style={{backgroundColor: '#98AEB6', height: 10, width: 10, alignSelf: 'center'}} />
+                        <p style={{color: '#98AEB6', alignSelf:'center', fontSize: 12 }}> &nbsp;&nbsp;&nbsp; Definix </p>
+                </div>
+
+                <div style = {{display: "flex","justify-content": "center", alignSelf: "center", "align-items": "center"}}>
                     {routingRows.map((routingRow) => (
-                        <tr>
-                            <td>{routingRow.fromToken}</td>
-                            <td>{routingRow.klayPercent} %</td>
-                            <td>{routingRow.definixPercent} %</td>
-                        </tr>
+                        <div style = {{display: "flex", "align-items": "center"}}>
+                            <p> &nbsp;&nbsp; {routingRow.fromToken} &nbsp;&nbsp; </p>
+                            <div style = {{display: "flex", "flex-direction": "column", alignSelf: "center"}}>
+                                <Box style={{flexDirection: 'row'}}>
+                                    <p style={{color: '#FFB284', alignSelf:'center', paddingHorizontal:5, fontSize: 12 }}> &nbsp;&nbsp;&nbsp;&nbsp;{routingRow.klayPercent}%&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                    <Box style={{backgroundColor: '#FFB284', height: 4, flex: 1, alignSelf: 'center'}} />
+                                </Box>
+                                <Box style={{flexDirection: 'row'}}>
+                                    <Box style={{backgroundColor: '#98AEB6', height: 4, flex: 1, alignSelf: 'center'}} />
+                                    <p style={{ color: '#98AEB6', alignSelf:'center', paddingHorizontal:5, fontSize: 12}}> &nbsp;&nbsp;&nbsp;&nbsp;{routingRow.definixPercent}%&nbsp;&nbsp;&nbsp;&nbsp; </p>
+                                </Box>
+                            </div>
+                        </div>
                     ))}
-                    <tr>
-                        <td colSpan="3"> {routingLastRow} </td>
-                    </tr>
-                    </tbody>
-                </table>
+                    <p> &nbsp;&nbsp; {routingLastRow} </p>
+                </div>
+
             </Box>
         </div>
     )
