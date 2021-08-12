@@ -38,15 +38,9 @@ async function approve(tokenname, dex) {
 
 async function SwapRouting (tokenA, tokenB, amount, dex) {
     var bigamount = BigNumber(await (shifts.lshift(amount, -1 * test.TOKEN_DECIMAL[tokenA])));
-    const myKlayContract = new caver.klay.Contract(abi.abi, '0xc6a2ad8cc6e4a7e08fc37cc5954be07d499e7654')
-    const myDefiContract = new caver.klay.Contract(abi_definix.abi, '0x4E61743278Ed45975e3038BEDcaA537816b66b5B')
-    // await myKlayContract.methods.exchangeKctPos("0xef82b1c6a550e730d8283e1edd4977cd01faf435",
-    //     "100000000000000000", "0x0000000000000000000000000000000000000000", 1, empty)
-    //     .send({from: klaytn.selectedAddress, gas: 1000000},
-    //     function(error, transactionHash) {
-    //     console.log(transactionHash)
-    //     });
+    
     if (dex == "KLAYSWAP") {
+        const myKlayContract = new caver.klay.Contract(abi.abi, '0xc6a2ad8cc6e4a7e08fc37cc5954be07d499e7654')
         if (tokenA == 'KLAY') {
             // let res = await Factory.methods.exchangeKlayPos(TOKEN_ADDRESS[tokenB], 1, empty).send({ from: myWalletAddress, gas: 1000000, value: bigamount });
             let res = await myKlayContract.methods.exchangeKlayPos(test.TOKEN_ADDRESS[tokenB], 1, empty).send({from: klaytn.selectedAddress, gas: 1000000, value: bigamount},
@@ -67,6 +61,7 @@ async function SwapRouting (tokenA, tokenB, amount, dex) {
 
     let path = [test.TOKEN_ADDRESS[tokenA], test.TOKEN_ADDRESS[tokenB]];
     if (dex == "DEFINIX") {
+        const myDefiContract = new caver.klay.Contract(abi_definix.abi, '0x4E61743278Ed45975e3038BEDcaA537816b66b5B')
         // console.log("entered DEFINIX")
         let timestamp = Date.now() + 1000 * 60 * 15;
         if (tokenA == 'KLAY') {

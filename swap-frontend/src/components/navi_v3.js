@@ -4,7 +4,6 @@ import {BigNumber} from 'bignumber.js';
 const test = require('./Data/test_v3.js');
 const type = require('./Algorithm/type_v3.js');
 const safemath = require("safemath");
-const swap = require('./Data/swap.js');
 const shifts = require('./Data/shifts.js')
 const abi = require('./Data/FactoryImpl.json');
 const abi_definix = require('./Data/DefinixRouter.json');
@@ -20,18 +19,19 @@ async function approve(tokenname, dex) {
     if (dex == 'KLAYSWAP') {
         approveAddress = '0xc6a2ad8cc6e4a7e08fc37cc5954be07d499e7654';
     }
-else approveAddress = '0x4E61743278Ed45975e3038BEDcaA537816b66b5B';
-    let currentAllowance = await Kip7.methods.allowance(klaytn.selectedAddress, approveAddress).call();
-    console.log('currentAllowance', currentAllowance);
-    // 0 current allowance means token has not been approved yet
-    if (currentAllowance == 0) {
-        // approve router to transact the kip-7 token and set allowance to maximum uint256
-        let allowance = new BigNumber('0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
-        await Kip7.methods.approve(approveAddress, allowance)
-            .send({ from: klaytn.selectedAddress, gas: 1000000 },
-                function(error, transactionHash) {
-                    console.log(transactionHash)
+    else {approveAddress = '0x4E61743278Ed45975e3038BEDcaA537816b66b5B';
+        let currentAllowance = await Kip7.methods.allowance(klaytn.selectedAddress, approveAddress).call();
+        console.log('currentAllowance', currentAllowance);
+        // 0 current allowance means token has not been approved yet
+        if (currentAllowance == 0) {
+            // approve router to transact the kip-7 token and set allowance to maximum uint256
+            let allowance = new BigNumber('0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
+            await Kip7.methods.approve(approveAddress, allowance)
+                .send({ from: klaytn.selectedAddress, gas: 1000000 },
+                    function(error, transactionHash) {
+                        console.log(transactionHash)
                 });
+        }
     }
 }
 
@@ -65,9 +65,9 @@ async function getSwappedAmount(txhash, tokenname) {
         let res ='';
         res += caver.abi.decodeParameter('uint256', tx.logs[n].data);
         console.log("if curious tx address : " + txhash);
-        console.log(tokenname + " swapped : " + shifts.lshift(res, swap.TOKEN_DECIMAL[tokenname]));
+        console.log(tokenname + " swapped : " + shifts.lshift(res, test.TOKEN_DECIMAL[tokenname]));
 
-        return await shifts.lshift(res, swap.TOKEN_DECIMAL[tokenname]);
+        return await shifts.lshift(res, test.TOKEN_DECIMAL[tokenname]);
       }
     }
     console.log("swapped currency data not found")
@@ -96,7 +96,7 @@ async function SwapRouting (tokenA, tokenB, amount, dex) {
             // console.log(res);
             return res.transactionHash;
         }
-    else if (tokenA != "KLAY") {
+        else if (tokenA != "KLAY") {
             await approve(tokenA, dex);
             // let res = await Factory.methods.exchangeKctPos(TOKEN_ADDRESS[tokenA], bigamount, TOKEN_ADDRESS[tokenB], 1, empty).send({ from: myWalletAddress, gas: 1000000 });
             let res = await myKlayContract.methods.exchangeKctPos(test.TOKEN_ADDRESS[tokenA], bigamount, test.TOKEN_ADDRESS[tokenB], 1, empty).send({from: klaytn.selectedAddress, gas: 1000000},
@@ -104,12 +104,12 @@ async function SwapRouting (tokenA, tokenB, amount, dex) {
             // console.log(res);
             return res.transactionHash;
         }
-    else console.log("KLAYSWAP Corner Case!!!");
-    }
+        else console.log("KLAYSWAP Corner Case!!!");
+        }
     let path = [test.TOKEN_ADDRESS[tokenA], test.TOKEN_ADDRESS[tokenB]];
     if (dex == "DEFINIX") {
         console.log("entered DEFINIX")
-        const myDefiContract = new caver.klay.Contract(abi_definix.abi, "0x4E61743278Ed45975e3038BEDcaA537816b66b5B")
+        const myDefiContract = new caver.klay.Contract(abi_definix, "0x4E61743278Ed45975e3038BEDcaA537816b66b5B")
         // console.log(“entered DEFINIX”)
         let timestamp = Date.now() + 1000 * 60 * 15;
         if (tokenA == "KLAY") {
