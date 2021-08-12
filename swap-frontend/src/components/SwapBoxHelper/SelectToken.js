@@ -1,10 +1,22 @@
 import React, {useState} from "react";
 import PropTypes from 'prop-types';
-import {Button, Dialog, DialogTitle, List, ListItem, ListItemText} from "@material-ui/core";
+import {Button, Dialog, DialogTitle, List, ListItem, ListItemIcon, ImageListItem, ListItemText} from "@material-ui/core";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import FINIX from '../TokenIcon/FINIX.png';
+import KBNB from '../TokenIcon/KBNB.png';
+import KDAI from '../TokenIcon/KDAI.png';
+import KETH from '../TokenIcon/KETH.png';
+import KLAY from '../TokenIcon/KLAY.png';
+import KORC from '../TokenIcon/KORC.png';
+import KSP from '../TokenIcon/KSP.png';
+import KUSDT from '../TokenIcon/KUSDT.png';
+import KWBTC from '../TokenIcon/KWBTC.png';
+import KXRP from '../TokenIcon/KXRP.png';
+import SIX from '../TokenIcon/SIX.png';
+
 
 export const SelectToken = (props) => {
-
+    var token_img = {'FINIX':FINIX, 'KBNB':KBNB, 'KDAI':KDAI, 'KETH':KETH, 'KLAY':KLAY, 'KORC':KORC, 'KSP':KSP, 'KUSDT':KUSDT, 'KWBTC':KWBTC, 'KXRP':KXRP, 'SIX':SIX};
     //import token list
     const tokenList = require("../tokenList.json");
     const dummyToken = {
@@ -41,6 +53,9 @@ export const SelectToken = (props) => {
                 <List style = {{ color: "#3A2A17", backgroundColor: "#CFB997", padding: "15px 20px",  fontSize: "10px", textAlign: "center"}}>
                     {tokenList.map((token) => (
                         <ListItem button onClick={() => selectToken(token)} key={token.id}>
+                            <ImageListItem>
+                                <img src={token_img[token.label]} width="40"/>
+                            </ImageListItem>
                             <ListItemText primary={token.label}/>
                         </ListItem>
                     ))}

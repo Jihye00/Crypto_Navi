@@ -50,25 +50,28 @@ export const SwapBox = () => {
         await setTokenInAmount(value);
         console.log("tokenInAmount", tokenInAmount);
     }
-
     //without refresh
-    useEffect( async ()=>{
-        const checkRouting = async() => {
+    useEffect( async() => {
+            const checkRouting = async() => {
             const routing = await navi.ShowRouting (fromToken.label, toToken.label, tokenInAmount);
             setRouting(routing.path);
+                const estimated = routing.money;
+                setTokenOutAmount(estimated);
 
-            const estimated = routing.money;
-            setTokenOutAmount(estimated);
+                const slippage = routing.slippage;
+                setSlippage(slippage);
+            }
+            checkRouting();
+            console.log("routing in swapbox", routing)
+            console.log("tokenOutAmount in swapbox", tokenOutAmount)
+            console.log("slippage in swapbox", slippage)
 
-            const slippage = routing.slippage;
-            setSlippage(slippage);
+        if(fromToken.label !== "" && toToken.label !== "" && !isNaN(tokenInAmount)) {
+            await checkRouting();
+            console.log("routing in swapbox", routing)
+            console.log("tokenOutAmount in swapbox", tokenOutAmount)
+            console.log("slippage in swapbox", slippage)
         }
-
-        await checkRouting();
-        console.log("routing in swapbox", routing)
-        console.log("tokenOutAmount in swapbox", tokenOutAmount)
-        console.log("slippage in swapbox", slippage)
-
     },[fromToken,toToken,tokenInAmount])
 
     // with refresh
@@ -90,13 +93,14 @@ export const SwapBox = () => {
             setSlippage(slippage);
         }
 
-        await checkRouting();
-        console.log("routing in swapbox", routing)
-        console.log("tokenOutAmount in swapbox", tokenOutAmount)
-        console.log("slippage in swapbox", slippage)
-        setRefresh(false);
-        console.log("refresh2",refresh)
-
+        if(fromToken.label !== "" && toToken.label !== "" && !isNaN(tokenInAmount)) {
+            await checkRouting();
+            console.log("routing in swapbox", routing)
+            console.log("tokenOutAmount in swapbox", tokenOutAmount)
+            console.log("slippage in swapbox", slippage)
+            setRefresh(false);
+            console.log("refresh2",refresh)
+        }
     },[fromToken,toToken,tokenInAmount,refresh])
 
     const refreshRouting = () => {
@@ -131,9 +135,8 @@ export const SwapBox = () => {
                 <p style = {{fontSize: "15px", textAlign: "left"}}>
                     To (estimated)
                 </p>
-                <TextField style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10}}
-                           type="number" format="none" value={tokenOutAmount}
-                />
+                <TextField style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10 }}
+                           type="number" format="none" value={tokenOutAmount} inputProps={{ readOnly: true, }}/>
                 <div> {toToken.label} </div>
                 <SelectToken setFromOrToToken={setToToken}/>
             </Box>
