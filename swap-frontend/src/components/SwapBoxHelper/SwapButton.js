@@ -1,7 +1,7 @@
 import {Button} from "@material-ui/core";
 import React from "react";
-import {SwapRouting} from "../navi_v3.js";
-
+// import {SwapRouting} from "../navi_v3-2.js";
+const navi = require('../navi_v3-2');
 
 export const SwapButton = (props) => {
     // const caver = props.caver
@@ -13,7 +13,7 @@ export const SwapButton = (props) => {
     // const slippage = props.slippage
 
     const swap = async() => {
-        await SwapRouting(tokenInLabel, tokenOutLabel, tokenInAmount);
+        await navi.SwapRouting(tokenInLabel, tokenOutLabel, tokenInAmount);
     }
 
     return(
