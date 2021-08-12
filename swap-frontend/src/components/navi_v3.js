@@ -74,7 +74,7 @@ async function getSwappedAmount(txhash, tokenname) {
   };
 
 async function ShowRouting (tokenA = '', tokenB = '', howmany = -1) {
-    if (tokenA == '' || tokenB == '' || howmany == -1){
+    if (tokenA == '' || tokenB == '' || howmany <= 0){
         return 'not available'
     }
     else {

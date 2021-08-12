@@ -51,20 +51,22 @@ export const SwapBox = () => {
     }
 
     useEffect(()=>{
-        const checkRouting = async() => {
-            const routing = await navi.ShowRouting (fromToken.label, toToken.label, tokenInAmount);
-            setRouting(routing.path);
+        if(fromToken.label !== "" && toToken.label !== "" && !isNaN(tokenInAmount)){    
+            const checkRouting = async() => {
+                const routing = await navi.ShowRouting(fromToken.label, toToken.label, tokenInAmount);
+                setRouting(routing.path);
 
-            const estimated = routing.money;
-            setTokenOutAmount(estimated);
+                const estimated = routing.money;
+                setTokenOutAmount(estimated);
 
-            const slippage = routing.slippage;
-            setSlippage(slippage);
+                const slippage = routing.slippage;
+                setSlippage(slippage);
+            }
+            checkRouting();
+            console.log("routing in swapbox", routing)
+            console.log("tokenOutAmount in swapbox", tokenOutAmount)
+            console.log("slippage in swapbox", slippage)
         }
-        checkRouting();
-        console.log("routing in swapbox", routing)
-        console.log("tokenOutAmount in swapbox", tokenOutAmount)
-        console.log("slippage in swapbox", slippage)
     },[fromToken,toToken,tokenInAmount])
 
     return(
@@ -105,7 +107,7 @@ export const SwapBox = () => {
                     To (estimated)
                 </p>
                 <TextField style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10 }}
-                           type="number" format="none" value={tokenOutAmount}
+                           type="number" format="none" value={tokenOutAmount} inputProps={{ readOnly: true, }}
                 />
                 <div> {toToken.label} </div>
                 <SelectToken setFromOrToToken={setToToken}/>

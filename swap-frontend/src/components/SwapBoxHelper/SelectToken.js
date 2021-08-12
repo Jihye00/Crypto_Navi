@@ -23,8 +23,7 @@ export const SelectToken = (props) => {
         "id": "Dummy",
         "label": "",
         "decimals": 0,
-        "address": "",
-        "img":""
+        "address": ""
     }
 
     const setFromOrToToken = props.setFromOrToToken
