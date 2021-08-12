@@ -13,7 +13,7 @@ const Kip7Abi = require('./Kip7Abi.json');
 const password = personal.password;
 const myWalletAddress = personal.myWalletAddress;
 // kaikas wallet address
-const keystorePath = personal.keystorePath;
+const keystore = personal.keystore;
 // const keystorePath = "/Users/jomingyu/mound_dev/Crypto_NAVI/Data/kaikas-0x09e4fc443cb26749281c961b99f71a2c763d1bc2.json";
 // kaikas keystore path
 const TOKEN_ADDRESS = {
@@ -129,7 +129,7 @@ async function approve(tokenname, dex) {
 };
 
 // Read keystore json file
-const keystore = fs.readFileSync(keystorePath, 'utf8');
+// const keystore = fs.readFileSync(keystorePath, 'utf8');
 // Decrypt keystore
 const keyring = caver.wallet.keyring.decrypt(keystore, password);
 
