@@ -156,16 +156,24 @@ async function SmartSwapRouting (tokenA, tokenB, howmany) {
 
             amount_Ksp = await getSwappedAmount(await SwapRouting(params[0], params[1], amount_Ksp, params[2]), params[1]);
             amount_Def = await getSwappedAmount(await SwapRouting(params[0], params[1], amount_Def, params[4]), params[1]);
-
+            if(amount_Ksp == 0 || amount_Def == 0){
+                return false;
+            }
             amount = safemath.safeAdd(amount_Ksp, amount_Def);
         }
         else if (params[3] != 0){
             console.log("2")
             amount = await getSwappedAmount(await SwapRouting(params[0], params[1], amount, params[2]), params[1]);
+            if(amount == 0){
+                return false;
+            }
         }
         else if (params[5] != 0){
             console.log("3")
             amount = await getSwappedAmount(await SwapRouting(params[0], params[1], amount, params[4]), params[1]);
+            if(amount == 0){
+                return false;
+            }
         }
         else console.log("warning\n\n\nwarning\nwarning\n\n\n\nwarning\n\nwarning\n\n");
         
@@ -175,6 +183,7 @@ async function SmartSwapRouting (tokenA, tokenB, howmany) {
     console.log('expected : ' + resratio)
     // console.log(data)
     // console.log((Date.now() - start)/1000 + 'sec');
+    return true;
 }
 
 async function execute (tokenA, tokenB, amount) {

@@ -1,6 +1,9 @@
 import React from "react";
+import {useState} from "react";
 import safemath from "safemath";
-import {Box} from "@material-ui/core";
+import {Box, Button} from "@material-ui/core";
+import RefreshIcon from "@material-ui/icons/Refresh";
+import {RefreshButton} from "../RefreshButton";
 const mathjs = require("mathjs");
 
 export const RouteTable = (props) => {
@@ -34,46 +37,41 @@ export const RouteTable = (props) => {
     console.log("slippage in RouteTable", slippage)
     let slippagePercent;
     if (slippage!==undefined){
-        slippagePercent = safemath.safeDiv(mathjs.round(safemath.safeMule(safemath.safeSub(1,slippage),10000)),100)
+        slippagePercent = safemath.safeDiv(mathjs.round(safemath.safeMule(safemath.safeSub(1,slippage),10000000)),100)
     }
     console.log("slippagePercent in RouteTable", slippagePercent)
 
     return(
-
         <div align="center">
-        {!(routing && slippage) ?
-        <div></div>
-        :
-        <Box style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10 }}>
-            <p style = {{fontSize: "15px", textAlign: "left"}}>
-                Price impact: {slippagePercent} %
-            </p>
-            <p style = {{fontSize: "15px", textAlign: "left"}}>
-                Swapping route:
-            </p>
-            <table style = {{justifyContent: "center"}}>
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>Klayswap</th>
-                    <th>Definix</th>
-                </tr>
-                </thead>
-                <tbody>
-                {routingRows.map((routingRow) => (
+            <Box style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10 }}>
+                <p style = {{fontSize: "15px", textAlign: "left"}}>
+                    Price impact: {slippagePercent} %
+                </p>
+                <p style = {{fontSize: "15px", textAlign: "left"}}>
+                    Swapping route:
+                </p>
+                <table style = {{justifyContent: "center"}}>
+                    <thead>
                     <tr>
-                        <td>{routingRow.fromToken}</td>
-                        <td>{routingRow.klayPercent} %</td>
-                        <td>{routingRow.definixPercent} %</td>
+                        <th></th>
+                        <th>Klayswap</th>
+                        <th>Definix</th>
                     </tr>
-                ))}
-                <tr>
-                    <td colSpan="3"> {routingLastRow} </td>
-                </tr>
-                </tbody>
-        </table>
-        </Box>
-        }
+                    </thead>
+                    <tbody>
+                    {routingRows.map((routingRow) => (
+                        <tr>
+                            <td>{routingRow.fromToken}</td>
+                            <td>{routingRow.klayPercent} %</td>
+                            <td>{routingRow.definixPercent} %</td>
+                        </tr>
+                    ))}
+                    <tr>
+                        <td colSpan="3"> {routingLastRow} </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </Box>
         </div>
     )
 }

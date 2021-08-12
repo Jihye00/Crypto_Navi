@@ -1,14 +1,14 @@
 import {Box, TextField} from "@material-ui/core";
 import React, {useEffect, useState} from "react";
-import {BigNumberInput} from "big-number-input";
+// import {BigNumberInput} from "big-number-input";
 import {SelectToken} from "./SwapBoxHelper/SelectToken";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import {SwapButton} from "./SwapBoxHelper/SwapButton";
-import {SwapButtonTest} from "./SwapBoxHelper/SwapButtonTest";
+// import {SwapButtonTest} from "./SwapBoxHelper/SwapButtonTest";
 import {RouteTable} from "./SwapBoxHelper/RouteTable";
-
+import {RefreshButton} from "./RefreshButton";
 import {klaytn, caver} from "./caver";
-// import {ShowRouting} from "./navi_v3";
+
 const navi = require('./navi_v3')
 
 export const SwapBox = () => {
@@ -27,6 +27,7 @@ export const SwapBox = () => {
     const [myWalletAddress, setMyWalletAddress] = useState("");
     const [routing, setRouting] = useState("");
     const [slippage, setSlippage] = useState(undefined);
+    const [refresh, setRefresh] = useState(false);
 
     console.log("fromToken:", fromToken.label, "toToken: ", toToken.label)
 
@@ -49,13 +50,11 @@ export const SwapBox = () => {
         await setTokenInAmount(value);
         console.log("tokenInAmount", tokenInAmount);
     }
-
-    useEffect(()=>{
-        if(fromToken.label !== "" && toToken.label !== "" && !isNaN(tokenInAmount)){    
+    //without refresh
+    useEffect( async() => {
             const checkRouting = async() => {
-                const routing = await navi.ShowRouting(fromToken.label, toToken.label, tokenInAmount);
-                setRouting(routing.path);
-
+            const routing = await navi.ShowRouting (fromToken.label, toToken.label, tokenInAmount);
+            setRouting(routing.path);
                 const estimated = routing.money;
                 setTokenOutAmount(estimated);
 
@@ -66,8 +65,47 @@ export const SwapBox = () => {
             console.log("routing in swapbox", routing)
             console.log("tokenOutAmount in swapbox", tokenOutAmount)
             console.log("slippage in swapbox", slippage)
+
+        if(fromToken.label !== "" && toToken.label !== "" && !isNaN(tokenInAmount)) {
+            await checkRouting();
+            console.log("routing in swapbox", routing)
+            console.log("tokenOutAmount in swapbox", tokenOutAmount)
+            console.log("slippage in swapbox", slippage)
         }
     },[fromToken,toToken,tokenInAmount])
+
+    // with refresh
+    useEffect( async ()=>{
+        if(!refresh) {
+            console.log("refresh0",refresh)
+            return;
+        }
+        console.log("refresh1",refresh)
+
+        const checkRouting = async() => {
+            const routing = await navi.ShowRouting (fromToken.label, toToken.label, tokenInAmount);
+            setRouting(routing.path);
+
+            const estimated = routing.money;
+            setTokenOutAmount(estimated);
+
+            const slippage = routing.slippage;
+            setSlippage(slippage);
+        }
+
+        if(fromToken.label !== "" && toToken.label !== "" && !isNaN(tokenInAmount)) {
+            await checkRouting();
+            console.log("routing in swapbox", routing)
+            console.log("tokenOutAmount in swapbox", tokenOutAmount)
+            console.log("slippage in swapbox", slippage)
+            setRefresh(false);
+            console.log("refresh2",refresh)
+        }
+    },[fromToken,toToken,tokenInAmount,refresh])
+
+    const refreshRouting = () => {
+        setRefresh(true);
+    }
 
     return(
         <Box style = {{ color: "#3A2A17", padding: "30px 30px", fontSize: "15px", backgroundColor: "#FFFDD0" }}>
@@ -76,7 +114,7 @@ export const SwapBox = () => {
                 Swap
             </p>
 
-            <Box style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10 }}>
+            <Box style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10, marginLeft: 30, marginRight: 30, marginTop: 30 }}>
                 <p style = {{fontSize: "15px", textAlign: "left"}}>
                     From
                 </p>
@@ -85,15 +123,6 @@ export const SwapBox = () => {
                 {/*    value={tokenInAmount} renderInput={props => <Input {...props} />}*/}
                 {/*    style = {{ color: "#3A2A17", padding: "15px 20px", fontSize: "15px" }}*/}
                 {/*/>*/}
-            {/*    <TextInput*/}
-            {/*        style={styles.input}*/}
-            {/*        onChangeText={onChangeNumber}*/}
-            {/*        value={number}*/}
-            {/*        placeholder=“useless placeholder”*/}
-            {/*    keyboardType=“numeric”*/}
-            {/*/>*/}
-            {/*    <InputLabel>token amount</InputLabel>*/}
-            {/*    <Input id="input" value={tokenInAmount} onChange={changeTokenInAmount} />*/}
                 <TextField style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10 }}
                     type="number" format="none" value={tokenInAmount} onChange ={(e)=>changeTokenInAmount(e.target.value)}
                            // InputProps={{ classes: { input: classes.textfield1 }, }}
@@ -102,19 +131,27 @@ export const SwapBox = () => {
                 <SelectToken setFromOrToToken={setFromToken}/>
             </Box>
             <ArrowDownwardIcon style = {{color: "#3A2A17", marginTop: "10px", marginBottom: "10px"}} />
-            <Box style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10 }}>
+            <Box style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10, marginLeft: 30, marginRight: 30 }}>
                 <p style = {{fontSize: "15px", textAlign: "left"}}>
                     To (estimated)
                 </p>
                 <TextField style = {{ color: "#3A2A17", padding: "10px 30px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10 }}
-                           type="number" format="none" value={tokenOutAmount} inputProps={{ readOnly: true, }}
-                />
+                           type="number" format="none" value={tokenOutAmount} inputProps={{ readOnly: true, }}/>
                 <div> {toToken.label} </div>
                 <SelectToken setFromOrToToken={setToToken}/>
             </Box>
             <SwapButton tokenInLabel={fromToken.label} tokenOutLabel={toToken.label} tokenInAmount={tokenInAmount}/>
-            <SwapButtonTest/>
-            <RouteTable routing={routing} slippage={slippage}/>
+            {/*<SwapButtonTest/>*/}
+            <div>
+                {!(slippage && routing) ?
+                    <div></div>
+                    :
+                    <div>
+                    <RouteTable routing={routing} slippage={slippage} refreshFunction={()=>refreshRouting()}/>
+                    <RefreshButton refreshFunction={()=>refreshRouting()} />
+                    </div>
+                }
+            </div>
         </Box>
     )
 }
