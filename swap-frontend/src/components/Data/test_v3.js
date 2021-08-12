@@ -258,5 +258,6 @@ async function test() {
 
 module.exports = {
   test,
-  TOKEN_ADDRESS
+  TOKEN_ADDRESS,
+  TOKEN_DECIMAL
 };

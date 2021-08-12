@@ -8,7 +8,8 @@ import {SwapButtonTest} from "./SwapBoxHelper/SwapButtonTest";
 import {RouteTable} from "./SwapBoxHelper/RouteTable";
 
 import {klaytn, caver} from "./caver";
-import {ShowRouting} from "./navi_v3.js";
+// import {ShowRouting} from "./navi_v3";
+const navi = require('./navi_v3')
 
 export const SwapBox = () => {
     const tokenList = require("./tokenList.json");
@@ -25,6 +26,7 @@ export const SwapBox = () => {
     const [toToken, setToToken] = useState(dummyToken);
     const [myWalletAddress, setMyWalletAddress] = useState("");
     const [routing, setRouting] = useState("");
+    const [slippage, setSlippage] = useState(undefined);
 
     console.log("fromToken:", fromToken.label, "toToken: ", toToken.label)
 
@@ -49,17 +51,20 @@ export const SwapBox = () => {
     }
 
     useEffect(()=>{
-        const showRouting = async() => {
-            const routing = await ShowRouting (fromToken.label, toToken.label, tokenInAmount);
+        const checkRouting = async() => {
+            const routing = await navi.ShowRouting (fromToken.label, toToken.label, tokenInAmount);
             setRouting(routing.path);
-            console.log("routing", routing);
 
             const estimated = routing.money;
             setTokenOutAmount(estimated);
-            console.log("tokenOutAmount", tokenOutAmount)
+
+            const slippage = routing.slippage;
+            setSlippage(slippage);
         }
-        showRouting();
+        checkRouting();
         console.log("routing in swapbox", routing)
+        console.log("tokenOutAmount in swapbox", tokenOutAmount)
+        console.log("slippage in swapbox", slippage)
     },[fromToken,toToken,tokenInAmount])
 
     return(
@@ -105,10 +110,9 @@ export const SwapBox = () => {
                 <div> {toToken.label} </div>
                 <SelectToken setFromOrToToken={setToToken}/>
             </Box>
-            <SwapButton caver={caver} myWalletAddress={myWalletAddress} tokenInLabel={fromToken.label}
-                        tokenOutLabel={toToken.label} tokenInAmount={tokenInAmount} slippage={5}/>
+            <SwapButton tokenInLabel={fromToken.label} tokenOutLabel={toToken.label} tokenInAmount={tokenInAmount}/>
             <SwapButtonTest/>
-            <RouteTable routing={routing}/>
+            <RouteTable routing={routing} slippage={slippage}/>
         </Box>
     )
 }
