@@ -29,4 +29,10 @@ table, td, th{
   border: 1px solid #827341;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 /* #B5AD91 #827341 #E8DED1 #99E3EB #91B5AE */
