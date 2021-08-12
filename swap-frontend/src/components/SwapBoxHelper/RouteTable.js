@@ -39,7 +39,8 @@ export const RouteTable = (props) => {
     console.log("slippagePercent in RouteTable", slippagePercent)
 
     return(
-        <div>
+
+        <div align="center">
         {!(routing && slippage) ?
         <div></div>
         :
