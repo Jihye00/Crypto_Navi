@@ -33,8 +33,8 @@ export const SwapBox = (props) => {
         "address": ""
     }
 
-    const [tokenInAmount, setTokenInAmount] = useState(undefined);
-    const [tokenOutAmount, setTokenOutAmount] = useState(undefined);
+    const [tokenInAmount, setTokenInAmount] = useState(0);
+    const [tokenOutAmount, setTokenOutAmount] = useState(0);
     const [fromToken, setFromToken] = useState(dummyToken);
     const [toToken, setToToken] = useState(dummyToken);
     const [myWalletAddress, setMyWalletAddress] = useState("");
@@ -95,7 +95,8 @@ export const SwapBox = (props) => {
             await setTokenOutAmountToUndefined();
         } else if (tokenInAmount<=0.0001) {
             await setTokenInAmountToUndefined();
-            await setTokenOutAmountToUndefined();
+            // await setTokenOutAmountToUndefined();
+            await setTokenOutAmount(0);
             await setRouting([]);
         }
     },[tokenInAmount])
