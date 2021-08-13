@@ -42,7 +42,6 @@ export const SwapBox = (props) => {
     const [slippage, setSlippage] = useState(undefined);
     const [refresh, setRefresh] = useState(false);
     const [isSwapSuccess, setIsSwapSuccess] = useState(undefined);
-    const [isTokenInAmountDisabled, setIsTokenInAmountDisabled] = useState(undefined);
 
     console.log("fromToken:", fromToken.label, "toToken: ", toToken.label)
 
@@ -61,18 +60,41 @@ export const SwapBox = (props) => {
         console.log("mywalletAddress", myWalletAddress)
     })
 
-    const changeTokenInAmount = async(value) => {
-        await setTokenInAmount(value);
-        console.log("tokenInAmount", tokenInAmount);
-    }
+    // set token in and out amount to zero when from and to token are the same
+    useEffect(async()=> {
+        const setTokenInOutAmountToZero = () => {
+            setTokenInAmount(0);
+            setTokenOutAmount(0);
+        }
+        if(fromToken.id === toToken.id) {
+            await setTokenInOutAmountToZero();
+        } else {
+            await setTokenInOutAmountToZero();
+        }
+    },[fromToken,toToken])
+
+    // set token out amount to zero when token in amount is 0
+    useEffect(async ()=>{
+        const setTokenOutAmountToZero = () => {
+            setTokenOutAmount(0);
+        }
+
+        if (tokenInAmount===0) {
+            await setTokenOutAmountToZero();
+        }
+    },[tokenInAmount])
+
     //without refresh
     useEffect( async() => {
             const checkRouting = async() => {
             const routing = await navi.ShowRouting (fromToken.label, toToken.label, tokenInAmount);
+            const routingPath = routing.path
+
             if(routing==="not available") {
                 setTokenOutAmount(0);
+                setTokenInAmount(0);
             }
-            setRouting(routing.path);
+            setRouting(routingPath);
 
             const estimated = routing.money;
             setTokenOutAmount(estimated);
@@ -86,7 +108,7 @@ export const SwapBox = (props) => {
             console.log("tokenOutAmount in swapbox", tokenOutAmount)
             console.log("slippage in swapbox", slippage)
 
-        if(fromToken.label !== "" && toToken.label !== "" && !isNaN(tokenInAmount) && tokenInAmount!==0) {
+        if(fromToken.label !== "" && toToken.label !== "" && !isNaN(tokenInAmount) && tokenInAmount===0) {
             await checkRouting();
             console.log("routing in swapbox", routing)
             console.log("tokenOutAmount in swapbox", tokenOutAmount)
@@ -104,7 +126,13 @@ export const SwapBox = (props) => {
 
         const checkRouting = async() => {
             const routing = await navi.ShowRouting (fromToken.label, toToken.label, tokenInAmount);
-            setRouting(routing.path);
+            const routingPath = routing.path;
+
+            if(routing==="not available") {
+                setTokenOutAmount(0);
+                setTokenInAmount(0);
+            }
+            setRouting(routingPath);
 
             const estimated = routing.money;
             setTokenOutAmount(estimated);
@@ -113,7 +141,7 @@ export const SwapBox = (props) => {
             setSlippage(slippage);
         }
 
-        if(fromToken.label !== "" && toToken.label !== "" && !isNaN(tokenInAmount) && tokenInAmount!==0) {
+        if(fromToken.label !== "" && toToken.label !== "" && !isNaN(tokenInAmount) && tokenInAmount===0) {
             await checkRouting();
             console.log("routing in swapbox", routing)
             console.log("tokenOutAmount in swapbox", tokenOutAmount)
@@ -123,27 +151,13 @@ export const SwapBox = (props) => {
         }
     },[fromToken,toToken,tokenInAmount,refresh])
 
-    // disable and enable tokenInAmount
-    useEffect(async()=> {
-        const disableTokenInAmount = () => {
-            setIsTokenInAmountDisabled(true)
-            setTokenInAmount(0);
-            setTokenOutAmount(0);
-        }
-        const enableTokenInAmount = () => {
-            setIsTokenInAmountDisabled(false)
-            setTokenInAmount(0);
-            setTokenOutAmount(0);
-        }
-        if(fromToken.id === toToken.id) {
-            await disableTokenInAmount();
-        } else {
-            await enableTokenInAmount();
-        }
-    },[fromToken,toToken])
-
     const refreshRouting = () => {
         setRefresh(true);
+    }
+
+    const changeTokenInAmount = async(value) => {
+        await setTokenInAmount(value);
+        console.log("tokenInAmount", tokenInAmount);
     }
 
     const token_img = {'FINIX':FINIX, 'KBNB':KBNB, 'KDAI':KDAI, 'KETH':KETH, 'KLAY':KLAY, 'KORC':KORC, 'KSP':KSP, 'KUSDT':KUSDT, 'KWBTC':KWBTC, 'KXRP':KXRP, 'SIX':SIX};
@@ -179,7 +193,7 @@ export const SwapBox = (props) => {
                     {/*    value={tokenInAmount} renderInput={props => <Input {...props} />}*/}
                     {/*    style = {{ color: "#3A2A17", padding: "15px 20px", fontSize: "15px" }}*/}
                     {/*/>*/}
-                    <TextField style = {{ color: "#3A2A17", padding: "10px 10px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10}} disabled={isTokenInAmountDisabled}
+                    <TextField style = {{ color: "#3A2A17", padding: "10px 10px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10}}
                         type="number" format="none" value={tokenInAmount} onChange ={(e)=>changeTokenInAmount(e.target.value)}
                                // InputProps={{ classes: { input: classes.textfield1 }, }}
                     />
