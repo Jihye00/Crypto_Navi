@@ -17,10 +17,15 @@ export const RouteTable = (props) => {
             var arr = routing[itr].split(',');
             const routingRow = {
                 fromToken: arr[0],
-                klayPercent: mathjs.round(arr[3]*1000/(arr[3]+arr[5]))*10,
-                definixPercent: mathjs.round(arr[5]*1000/(arr[3]+arr[5]))*10
+                klayPercent: mathjs.round(arr[3]*1000/(arr[3]+arr[5]))/10,
+                definixPercent: mathjs.round(arr[5]*1000/(arr[3]+arr[5]))/10
             }
-
+            if(routingRow['klayPercent'] === 0){
+                routingRow['definixPercent'] = 100;
+            }
+            if(routingRow['definixPercent'] === 0){
+                routingRow['klayPercent'] = 100;
+            }
             routingRows.push(routingRow);
 
             if (itr == routing.length - 1) {

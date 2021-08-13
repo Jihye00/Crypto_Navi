@@ -81,12 +81,7 @@ export const SwapBox = (props) => {
             setSlippage(slippage);
             }
 
-            checkRouting();
-            console.log("routing in swapbox", routing)
-            console.log("tokenOutAmount in swapbox", tokenOutAmount)
-            console.log("slippage in swapbox", slippage)
-
-        if(fromToken.label !== "" && toToken.label !== "" && !isNaN(tokenInAmount) && tokenInAmount!==0) {
+        if(fromToken.label !== "" && toToken.label !== "" && !isNaN(tokenInAmount) && tokenInAmount>0.0001) {
             await checkRouting();
             console.log("routing in swapbox", routing)
             console.log("tokenOutAmount in swapbox", tokenOutAmount)
@@ -103,7 +98,7 @@ export const SwapBox = (props) => {
         console.log("refresh1",refresh)
 
         const checkRouting = async() => {
-            const routing = await navi.ShowRouting (fromToken.label, toToken.label, tokenInAmount);
+            const routing = await navi.ShowRouting(fromToken.label, toToken.label, tokenInAmount);
             setRouting(routing.path);
 
             const estimated = routing.money;
@@ -113,7 +108,7 @@ export const SwapBox = (props) => {
             setSlippage(slippage);
         }
 
-        if(fromToken.label !== "" && toToken.label !== "" && !isNaN(tokenInAmount) && tokenInAmount!==0) {
+        if(fromToken.label !== "" && toToken.label !== "" && !isNaN(tokenInAmount) && tokenInAmount>0.0001) {
             await checkRouting();
             console.log("routing in swapbox", routing)
             console.log("tokenOutAmount in swapbox", tokenOutAmount)
@@ -127,13 +122,13 @@ export const SwapBox = (props) => {
     useEffect(async()=> {
         const disableTokenInAmount = () => {
             setIsTokenInAmountDisabled(true)
-            setTokenInAmount(0);
-            setTokenOutAmount(0);
+            // setTokenInAmount(0);
+            // setTokenOutAmount(0);
         }
         const enableTokenInAmount = () => {
             setIsTokenInAmountDisabled(false)
-            setTokenInAmount(0);
-            setTokenOutAmount(0);
+            // setTokenInAmount(0);
+            // setTokenOutAmount(0);
         }
         if(fromToken.id === toToken.id) {
             await disableTokenInAmount();

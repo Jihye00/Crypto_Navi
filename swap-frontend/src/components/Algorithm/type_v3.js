@@ -23,9 +23,9 @@ class Swap{
                 this.dex1 = dex;
                 this.x1 = x;
                 this.y1 = y;
-                this.k1 = safemath.safeMule(x, y);
-                if(dex == 'KLAYSWAP') this.fee1 = safemath.safeSub(1, KLAYSWAP_FEE);
-                else this.fee1 = safemath.safeSub(1, DEFINIX_FEE);
+                this.k1 = x*y;
+                if(dex == 'KLAYSWAP') this.fee1 = 1 - KLAYSWAP_FEE;
+                else this.fee1 = 1 - DEFINIX_FEE;
                 this.num++;
                 break;
             case 1:
@@ -33,13 +33,13 @@ class Swap{
                     this.update_ele(dex, x, y);
                     return;
                 }
-                else if(safemath.safeDiv(this.y1, this.x1) > safemath.safeDiv(y, x)){
+                else if(this.y1/this.x1 > y/x){
                     this.dex2 = dex;
                     this.x2 = x;
                     this.y2 = y;
-                    this.k2 = safemath.safeMule(x, y);
-                    if(dex == 'KLAYSWAP') this.fee2 = safemath.safeSub(1, KLAYSWAP_FEE);
-                    else this.fee2 = safemath.safeSub(1, DEFINIX_FEE);
+                    this.k2 = x*y;
+                    if(dex == 'KLAYSWAP') this.fee2 = 1 - KLAYSWAP_FEE;
+                    else this.fee2 = 1 - DEFINIX_FEE;
                 }
                 else{
                     this.dex2 = this.dex1;
@@ -50,31 +50,29 @@ class Swap{
                     this.dex1 = dex;
                     this.x1 = x;
                     this.y1 = y;
-                    this.k1 = safemath.safeMule(x, y);
-                    if(dex == 'KLAYSWAP') this.fee1 = safemath.safeSub(1, KLAYSWAP_FEE);
-                    else this.fee1 = safemath.safeSub(1, DEFINIX_FEE);
+                    this.k1 = x * y;
+                    if(dex == 'KLAYSWAP') this.fee1 = 1 - KLAYSWAP_FEE;
+                    else this.fee1 = 1 - DEFINIX_FEE;
                 }
-                var temp = Math.sqrt(safemath.safeMule(safemath.safeMule(this.x1, this.y1), safemath.safeDiv(this.x2, this.y2)))
-                this.limitone = safemath.safeDiv(safemath.safeSub(temp, this.x1), this.fee1);
+                this.limitone = (Math.sqrt(this.k1 * this.x2 / this.y2) - this.x1) / this.fee1;
                 this.num++;
                 break;
             default:
                 this.update_ele(dex, x, y);
-                var temp = Math.sqrt(safemath.safeMule(safemath.safeMule(this.x1, this.y1), safemath.safeDiv(this.x2, this.y2)))
-                this.limitone = safemath.safeDiv(safemath.safeSub(temp, this.x1), this.fee1);
+                this.limitone = (Math.sqrt(this.k1 * this.x2 / this.y2) - this.x1) / this.fee1;
         }
     }
     update_ele(dex, x, y){
         if(this.num == 1){
             this.x1 = x;
             this.y1 = y;
-            this.k1 = safemath.safeMule(x, y);
+            this.k1 = x * y;
         }
         else if(dex == this.dex1){
-            if(safemath.safeDiv(y, x) > safemath.safeDiv(this.y2, this.x2)){
+            if(y / x > this.y2 / this.x2){
                 this.x1 = x;
                 this.y1 = y;
-                this.k1 = safemath.safeMule(x, y);
+                this.k1 = x * y;
             }
             else{
                 this.x1 = this.x2;
@@ -82,7 +80,7 @@ class Swap{
                 this.k1 = this.k2;
                 this.x2 = x;
                 this.y2 = y;
-                this.k2 = safemath.safeMule(x, y);
+                this.k2 = x * y;
                 var temp3 = this.fee1;
                 this.fee1 = this.fee2;
                 this.fee2 = temp3;
@@ -92,10 +90,10 @@ class Swap{
             }
         }
         else{
-            if(safemath.safeDiv(this.y1, this.x1) > safemath.safeDiv(y, x)){
+            if(this.y1/this.x1 > y/x){
                 this.x2 = x;
                 this.y2 = y;
-                this.k2 = safemath.safeMule(x, y);
+                this.k2 = x * y;
             }
             else{
                 this.x2 = this.x1;
@@ -103,7 +101,7 @@ class Swap{
                 this.k2 = this.k1;
                 this.x1 = x;
                 this.y1 = y;
-                this.k1 = safemath.safeMule(x, y);
+                this.k1 =x * y;
                 var temp3 = this.fee2;
                 this.fee2 = this.fee1;
                 this.fee1 = temp3;
@@ -122,8 +120,8 @@ class Swap{
         }
         else if(this.num == 1 || this.limitone >= a){
             const dex1 = this.dex1;
-            const b = safemath.safeSub(this.y1, safemath.safeDiv(this.k1, safemath.safeAdd(this.x1, safemath.safeMule(a, this.fee1))));
-            if(safemath.safeMule(a, b) == 0){
+            const b = this.y1 - this.k1/(this.x1 + a * this.fee1);
+            if(a*b == 0){
                 return {'KLAYSWAP':[0, 0], 'DEFINIX':[0, 0], 'slippage':1};
             }
             if(dex1 == 'KLAYSWAP'){
@@ -134,15 +132,13 @@ class Swap{
                 result['KLAYSWAP'] = [0, 0];
                 result['DEFINIX'] = [a, b];
             }
-            // result['slippage'] = safemath.safeDiv(safemath.safeMule(b, this.x1), safemath.safeMule(a, safemath.safeMule(this.fee1, this.y1)));
-            result['slippage'] = safemath.safeDiv(safemath.safeDiv(safemath.safeSub(this.y1, b), safemath.safeAdd(this.x1, a)), safemath.safeDiv(this.y1, this.x1));
+            result['slippage'] = ((this.y1-b)/(this.x1+a))/(this.y1/this.x1);
         }
         else{
-            var temp = safemath.safeSub(safemath.safeMule(Math.sqrt(this.k1), safemath.safeAdd(this.x2, safemath.safeMule(a, this.fee2))), safemath.safeMule(this.x1, Math.sqrt(this.k2)))
-            const a1 = safemath.safeDiv(temp, safemath.safeAdd(safemath.safeMule(Math.sqrt(this.k1), this.fee2), safemath.safeMule(Math.sqrt(this.k2), this.fee1)));
-            const a2 = safemath.safeSub(a, a1);
-            const b1 = safemath.safeSub(this.y1, safemath.safeDiv(this.k1, safemath.safeAdd(this.x1, safemath.safeMule(a1, this.fee1))));
-            const b2 = safemath.safeSub(this.y2, safemath.safeDiv(this.k2, safemath.safeAdd(this.x2, safemath.safeMule(a2, this.fee2))));
+            const a1 = (Math.sqrt(this.k1)*(this.x2+a*this.fee2)-Math.sqrt(this.k2)*this.x1)/(Math.sqrt(this.k1)*this.fee2+Math.sqrt(this.k2)*this.fee1);
+            const a2 = a - a1;
+            const b1 = this.y1 - this.k1/(this.x1 + a1 * this.fee1);
+            const b2 = this.y2 - this.k2/(this.x2 + a2 * this.fee2);
             const dex1 = this.dex1;
             if(dex1 == 'KLAYSWAP'){
                 result['KLAYSWAP'] = [a1, b1];
@@ -152,13 +148,11 @@ class Swap{
                 result['DEFINIX'] = [a1, b1];
                 result['KLAYSWAP'] = [a2, b2];
             }
-            if(a > safemath.safeAdd(this.x1, this.x2) || a1 < 0 || a2 < 0){
+            if(a > (this.x1+this.x2) || a1 < 0 || a2 < 0){
                 result['KLAYSWAP'] = [0, 0];
                 result['DEFINIX'] = [0, 0];
             }
-            var temp1 = safemath.safeDiv(safemath.safeAdd(b1, b2), safemath.safeAdd(safemath.safeMule(a1, this.fee1), safemath.safeMule(a2, this.fee2)));
-            var temp2 = safemath.safeDiv(safemath.safeAdd(safemath.safeMule(safemath.safeDiv(this.y1, this.x1), a1), safemath.safeMule(safemath.safeDiv(this.y2, this.x2), a2)), safemath.safeAdd(a1, a2));
-            result['slippage'] = safemath.safeDiv(temp1, temp2);
+            result['slippage'] = ((b1+b2)/(a1*this.fee1+a2*this.fee2)) / (((this.y1/this.x1)*a1+(this.y2/this.x2)*a2)/(a1+a2));
         }
         return result;
     }
@@ -170,7 +164,7 @@ function index_finder(currency){
             return i1;
         }
     }
-    return safemath.safeAdd(MATRIX_SIZE, 1);
+    return MATRIX_SIZE + 1;
 }
 
 class Route_Matrix{
@@ -195,7 +189,7 @@ class Route_Matrix{
         for(var j2=0; j2<this.size; j2++){
             if(idx == j2) continue;
             var ratio = SwapMatrix[idx][j2].ratio(a);
-            this.matrix[idx][j2]['money'] = safemath.safeAdd(ratio['KLAYSWAP'][1], ratio['DEFINIX'][1]);
+            this.matrix[idx][j2]['money'] = ratio['KLAYSWAP'][1] + ratio['DEFINIX'][1];
             if(this.matrix[idx][j2]['money'] > 0) this.matrix[idx][j2]['path'] = [from+','+this.currency_list[j2]+',KLAYSWAP,'+String(ratio['KLAYSWAP'][0])+',DEFINIX,'+String(ratio['DEFINIX'][0])];
             this.matrix[idx][j2]['slippage'] = ratio['slippage'];
         }
@@ -204,7 +198,7 @@ class Route_Matrix{
             var money = this.matrix[idx][i3]['money'];
             for(var j3=0; j3<this.size; j3++){
                 ratio = SwapMatrix[i3][j3].ratio(money);
-                this.matrix[i3][j3]['money'] = safemath.safeAdd(ratio['KLAYSWAP'][1], ratio['DEFINIX'][1]);
+                this.matrix[i3][j3]['money'] = ratio['KLAYSWAP'][1] + ratio['DEFINIX'][1];
                 this.matrix[i3][j3]['path'] = [this.currency_list[i3]+','+this.currency_list[j3]+',KLAYSWAP,'+String(ratio['KLAYSWAP'][0])+',DEFINIX,'+String(ratio['DEFINIX'][0])];
                 this.matrix[i3][j3]['slippage'] = ratio['slippage'];
                 if(this.matrix[i3][i3]['money'] > this.matrix[idx][i3]['money']){
@@ -217,7 +211,10 @@ class Route_Matrix{
         }
     }
     safeconcat(path1, k){
-        var str = path1[safemath.safeSub(path1.length, 1)].split(',');
+        if(path1.length == 0){
+            return [[], 0, 1];
+        }
+        var str = path1[path1.length - 1].split(',');
         var i4 = index_finder(str[0]);
         var j4 = index_finder(str[1]);
         for(var a=0; a<path1.length; a++){
@@ -230,7 +227,7 @@ class Route_Matrix{
         }
         var k_money = Number(str[3]);
         var d_money = Number(str[5]);
-        var ratio1 = SwapMatrix[i4][j4].ratio(safemath.safeAdd(k_money, d_money));
+        var ratio1 = SwapMatrix[i4][j4].ratio(k_money + d_money);
         var money = ratio1['KLAYSWAP'][1] + ratio1['DEFINIX'][1];
         var ratio2 = SwapMatrix[j4][k].ratio(money);
         if(ratio2['slippage'] > 1){
@@ -238,8 +235,8 @@ class Route_Matrix{
         }
         var new_path = path1.slice();
         new_path.push(this.currency_list[j4]+','+this.currency_list[k]+',KLAYSWAP,'+String(ratio2['KLAYSWAP'][0])+',DEFINIX,'+String(ratio2['DEFINIX'][0]));
-        money = safemath.safeAdd(ratio2['KLAYSWAP'][1], ratio2['DEFINIX'][1]);
-        var mul_slippage = safemath.safeMule(ratio1['slippage'], ratio2['slippage']);
+        money = ratio2['KLAYSWAP'][1] + ratio2['DEFINIX'][1];
+        var mul_slippage = ratio1['slippage'] * ratio2['slippage'];
         return [new_path, money, mul_slippage];
     }
     calc(T, from, a){
@@ -264,7 +261,7 @@ class Route_Matrix{
                             if(ratio3['slippage'] > 1){
                                 // console.log(SwapMatrix[i6][j6], new_matrix[from_idx][i6]['money']);
                             }
-                            this.matrix[i6][j6]['money'] = safemath.safeAdd(ratio3['KLAYSWAP'][1], ratio3['DEFINIX'][1]);
+                            this.matrix[i6][j6]['money'] = ratio3['KLAYSWAP'][1] + ratio3['DEFINIX'][1];
                             this.matrix[i6][j6]['path'] = [this.currency_list[i6]+','+this.currency_list[j6]+',KLAYSWAP,'+String(ratio3['KLAYSWAP'][0])+',DEFINIX,'+String(ratio3['DEFINIX'][0])];
                             this.matrix[i6][j6]['slippage'] = ratio3['slippage'];
                         }

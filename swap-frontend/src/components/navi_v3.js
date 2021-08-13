@@ -1,5 +1,6 @@
 import {klaytn, caver} from "./caver";
 import {BigNumber} from 'bignumber.js';
+import { isNumeric } from "mathjs";
 
 const test = require('./Data/test_v3.js');
 const type = require('./Algorithm/type_v3.js');
