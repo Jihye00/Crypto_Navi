@@ -50,7 +50,8 @@ async function prepareMatrix(tokenA, tokenB, howmany){
     route_matrix.calc(3, tokenA, howmany);
     var indexA = type.index_finder(tokenA);
     var indexB = type.index_finder(tokenB);
-
+    console.log('NAVI RESULT: ', route_matrix.matrix[indexA][indexB]);
+    // data['slippage'] = 100 * (1 - data['slippage'])
     data = route_matrix.matrix[indexA][indexB].path;
     data_full = route_matrix.matrix[indexA][indexB];
     resratio = route_matrix.matrix[indexA][indexB].ratio;

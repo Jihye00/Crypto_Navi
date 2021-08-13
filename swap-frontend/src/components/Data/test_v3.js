@@ -14,11 +14,11 @@ const type = require('../Algorithm/type_v3.js');
 // const PRIVATE_KEY = "_0_9w7fFYdS3uvIq2Kf_PsNcjrzxsPdOHkrQNj7M";
 
 // // // set4: 
-const ACCESS_KEY = "KASK79FDZ8BNOJVC8Q2GEJGJ";
-const PRIVATE_KEY = "PIQYzIv5rSvo1rsy7jCM6CKx7roJixGoBxkIvBrm";  
+// const ACCESS_KEY = "KASK79FDZ8BNOJVC8Q2GEJGJ";
+// const PRIVATE_KEY = "PIQYzIv5rSvo1rsy7jCM6CKx7roJixGoBxkIvBrm";
 // set5:
-// const ACCESS_KEY = "KASKBDIFAXVXK14IEVRJDFVS";
-// const PRIVATE_KEY = "xW5VfL4rS6lOuEENPBs5jt0UeVDYMxgRIA14EAoS";  
+const ACCESS_KEY = "KASKBDIFAXVXK14IEVRJDFVS";
+const PRIVATE_KEY = "xW5VfL4rS6lOuEENPBs5jt0UeVDYMxgRIA14EAoS";
 
 caver.initKASAPI(8217, ACCESS_KEY, PRIVATE_KEY);
 

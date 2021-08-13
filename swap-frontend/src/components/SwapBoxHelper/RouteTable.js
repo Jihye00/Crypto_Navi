@@ -15,17 +15,19 @@ export const RouteTable = (props) => {
     if(routing !== undefined){
         for (var itr = 0; itr < routing.length; itr++) {
             var arr = routing[itr].split(',');
+            arr[3] = Number(arr[3]);
+            arr[5] = Number(arr[5]);
             const routingRow = {
                 fromToken: arr[0],
                 klayPercent: mathjs.round(arr[3]*1000/(arr[3]+arr[5]))/10,
                 definixPercent: mathjs.round(arr[5]*1000/(arr[3]+arr[5]))/10
             }
-            if(routingRow['klayPercent'] === 0){
-                routingRow['definixPercent'] = 100;
-            }
-            if(routingRow['definixPercent'] === 0){
-                routingRow['klayPercent'] = 100;
-            }
+            // if(routingRow['klayPercent'] === 0){
+            //     routingRow['definixPercent'] = 100;
+            // }
+            // if(routingRow['definixPercent'] === 0){
+            //     routingRow['klayPercent'] = 100;
+            // }
             routingRows.push(routingRow);
 
             if (itr == routing.length - 1) {
@@ -38,9 +40,7 @@ export const RouteTable = (props) => {
     const slippage = props.slippage;
     console.log("slippage in RouteTable", slippage)
     let slippagePercent;
-    if (slippage!==undefined){
-        slippagePercent = mathjs.round((1-slippage)*1000)/10
-    }
+    slippagePercent = mathjs.round((1-Number(slippage))*1000)/10
     console.log("slippagePercent in RouteTable", slippagePercent)
 
     return(

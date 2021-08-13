@@ -132,7 +132,7 @@ class Swap{
                 result['KLAYSWAP'] = [0, 0];
                 result['DEFINIX'] = [a, b];
             }
-            result['slippage'] = ((this.y1-b)/(this.x1+a))/(this.y1/this.x1);
+            result['slippage'] = ((this.y1-b)/(this.x1+a*this.fee1))/(this.y1/this.x1);
         }
         else{
             const a1 = (Math.sqrt(this.k1)*(this.x2+a*this.fee2)-Math.sqrt(this.k2)*this.x1)/(Math.sqrt(this.k1)*this.fee2+Math.sqrt(this.k2)*this.fee1);
@@ -148,11 +148,14 @@ class Swap{
                 result['DEFINIX'] = [a1, b1];
                 result['KLAYSWAP'] = [a2, b2];
             }
-            if(a > (this.x1+this.x2) || a1 < 0 || a2 < 0){
+            if(a > (this.x1+this.x2) || a1 <= 0 || a2 <= 0){
                 result['KLAYSWAP'] = [0, 0];
                 result['DEFINIX'] = [0, 0];
+                result['slippage'] = 1;
             }
-            result['slippage'] = ((b1+b2)/(a1*this.fee1+a2*this.fee2)) / (((this.y1/this.x1)*a1+(this.y2/this.x2)*a2)/(a1+a2));
+            else{
+                result['slippage'] = (a1*(this.y1-b1)/(this.x1+a1)+a2*(this.y2-b2)/(this.x2+a2))/(a1*this.y1/this.x1+a2*this.y2/this.x2);
+            }
         }
         return result;
     }
@@ -230,9 +233,6 @@ class Route_Matrix{
         var ratio1 = SwapMatrix[i4][j4].ratio(k_money + d_money);
         var money = ratio1['KLAYSWAP'][1] + ratio1['DEFINIX'][1];
         var ratio2 = SwapMatrix[j4][k].ratio(money);
-        if(ratio2['slippage'] > 1){
-            // console.log(SwapMatrix[j4][k], money);
-        }
         var new_path = path1.slice();
         new_path.push(this.currency_list[j4]+','+this.currency_list[k]+',KLAYSWAP,'+String(ratio2['KLAYSWAP'][0])+',DEFINIX,'+String(ratio2['DEFINIX'][0]));
         money = ratio2['KLAYSWAP'][1] + ratio2['DEFINIX'][1];
