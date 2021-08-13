@@ -33,15 +33,16 @@ export const SwapBox = (props) => {
         "address": ""
     }
 
-    const [tokenInAmount, setTokenInAmount] = useState(0);
-    const [tokenOutAmount, setTokenOutAmount] = useState(0);
+    const [tokenInAmount, setTokenInAmount] = useState(undefined);
+    const [tokenOutAmount, setTokenOutAmount] = useState(undefined);
     const [fromToken, setFromToken] = useState(dummyToken);
     const [toToken, setToToken] = useState(dummyToken);
     const [myWalletAddress, setMyWalletAddress] = useState("");
     const [routing, setRouting] = useState([]);
-    const [slippage, setSlippage] = useState(undefined);
+    const [slippage, setSlippage] = useState(1);
     const [refresh, setRefresh] = useState(false);
     const [isSwapSuccess, setIsSwapSuccess] = useState(undefined);
+    const [isTokenInAmountDisabled, setIsTokenInAmountDisabled] = useState(false);
 
     console.log("fromToken:", fromToken.label, "toToken: ", toToken.label)
 
@@ -60,24 +61,41 @@ export const SwapBox = (props) => {
         console.log("mywalletAddress", myWalletAddress)
     })
 
-    const setTokenInAmountToZero = () => {
+    const setTokenInAmountToUndefined = () => {
         setTokenInAmount(undefined);
+        console.log("setTokenInAmountToUndefined")
     }
-    const setTokenOutAmountToZero = () => {
-        setTokenOutAmount(0);
+    const setTokenOutAmountToUndefined = () => {
+        setTokenOutAmount(undefined);
+        console.log("setTokenOutAmountToUndefined")
+    }
+
+    const disableTokenInAmount = () => {
+        setIsTokenInAmountDisabled(true);
+        console.log("disableTokenInAmount")
+    }
+
+    const enableTokenInAmount = () => {
+        setIsTokenInAmountDisabled(false);
+        console.log("enableTokenInAmount")
     }
 
     useEffect(async()=> {
-        await setTokenInAmountToZero();
-        await setTokenOutAmountToZero();
+        if((toToken===fromToken) && (toToken.id!=="Dummy") && (fromToken.id!=="Dummy")) {
+            await setTokenOutAmountToUndefined();
+            await disableTokenInAmount();
+            await setTokenInAmount(0);
+        } else{
+            await enableTokenInAmount();
+        }
     },[fromToken,toToken])
 
     useEffect(async ()=>{
-        if (tokenInAmount===0) {
-            await setTokenOutAmountToZero();
+        if (tokenInAmount===undefined || tokenInAmount===0) {
+            await setTokenOutAmountToUndefined();
         } else if (tokenInAmount<=0.0001) {
-            await setTokenInAmountToZero();
-            await setTokenOutAmountToZero();
+            await setTokenInAmountToUndefined();
+            await setTokenOutAmountToUndefined();
             await setRouting([]);
         }
     },[tokenInAmount])
@@ -89,8 +107,8 @@ export const SwapBox = (props) => {
             const routingPath = routing.path
 
             if(routingPath===[]) {
-                setTokenOutAmount(0);
-                setTokenInAmount(0);
+                setTokenOutAmount(undefined);
+                setTokenInAmount(undefined);
                 setRouting([])
             }
             setRouting(routingPath);
@@ -98,7 +116,7 @@ export const SwapBox = (props) => {
             const estimated = routing.money;
             setTokenOutAmount(estimated);
 
-            const slippage = routing.slippage;
+            const slippage = Number(routing.slippage);
             setSlippage(slippage);
             }
 
@@ -106,7 +124,7 @@ export const SwapBox = (props) => {
             await checkRouting();
             console.log("routing in swapbox", routing)
             console.log("tokenOutAmount in swapbox", tokenOutAmount)
-            console.log("slippage in swapbox", slippage)
+            console.log("slippage in swapbox", slippage, typeof(slippage))
         }
         // else{
         //     setTokenOutAmount(0);
@@ -129,15 +147,16 @@ export const SwapBox = (props) => {
             const routingPath = routing.path;
 
             if(routingPath===[]) {
-                setTokenOutAmount(0);
-                setTokenInAmount(0);
+                setTokenOutAmount(undefined);
+                setTokenInAmount(undefined);
+                setRouting([])
             }
             setRouting(routingPath);
 
             const estimated = routing.money;
             setTokenOutAmount(estimated);
 
-            const slippage = routing.slippage;
+            const slippage = Number(routing.slippage);
             setSlippage(slippage);
         }
 
@@ -161,12 +180,16 @@ export const SwapBox = (props) => {
     }
 
     const changeTokenInAmount = async(value) => {
-        await setTokenInAmount(value);
+        if(isTokenInAmountDisabled) {
+            await setTokenInAmount(undefined)
+        } else {
+            await setTokenInAmount(value);
+        }
         console.log("tokenInAmount", tokenInAmount);
     }
 
     const token_img = {'FINIX':FINIX, 'KBNB':KBNB, 'KDAI':KDAI, 'KETH':KETH, 'KLAY':KLAY, 'KORC':KORC, 'KSP':KSP, 'KUSDT':KUSDT, 'KWBTC':KWBTC, 'KXRP':KXRP, 'SIX':SIX};
-    // console.log("ROUTING!!!!!", routing)
+
     return(
         <Box style = {{ color: "#3A2A17", padding: "30px 30px", fontSize: "15px", backgroundColor: "#FFFDD0" }}>
             <div> Kaikas wallet is connected </div>
@@ -200,7 +223,7 @@ export const SwapBox = (props) => {
                     {/*/>*/}
                     <TextField style = {{ color: "#3A2A17", padding: "10px 10px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10}}
                         type="number" format="none" value={tokenInAmount} onChange ={(e)=>changeTokenInAmount(e.target.value)}
-                               // InputProps={{ classes: { input: classes.textfield1 }, }}
+                        disabled = {isTokenInAmountDisabled}
                     />
                     <div>
                         {(fromToken.id==='Dummy') ?
