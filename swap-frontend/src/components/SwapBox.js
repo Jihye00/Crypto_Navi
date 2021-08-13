@@ -86,7 +86,7 @@ export const SwapBox = (props) => {
             console.log("tokenOutAmount in swapbox", tokenOutAmount)
             console.log("slippage in swapbox", slippage)
 
-        if(fromToken.label !== "" && toToken.label !== "" && tokenInAmount!==0) {
+        if(fromToken.label !== "" && toToken.label !== "" && !isNaN(tokenInAmount) && tokenInAmount!==0) {
             await checkRouting();
             console.log("routing in swapbox", routing)
             console.log("tokenOutAmount in swapbox", tokenOutAmount)
@@ -113,7 +113,7 @@ export const SwapBox = (props) => {
             setSlippage(slippage);
         }
 
-        if(fromToken.label !== "" && toToken.label !== "" && tokenInAmount!==0) {
+        if(fromToken.label !== "" && toToken.label !== "" && !isNaN(tokenInAmount) && tokenInAmount!==0) {
             await checkRouting();
             console.log("routing in swapbox", routing)
             console.log("tokenOutAmount in swapbox", tokenOutAmount)
