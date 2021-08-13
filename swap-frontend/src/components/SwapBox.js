@@ -38,7 +38,7 @@ export const SwapBox = (props) => {
     const [fromToken, setFromToken] = useState(dummyToken);
     const [toToken, setToToken] = useState(dummyToken);
     const [myWalletAddress, setMyWalletAddress] = useState("");
-    const [routing, setRouting] = useState("");
+    const [routing, setRouting] = useState([]);
     const [slippage, setSlippage] = useState(undefined);
     const [refresh, setRefresh] = useState(false);
     const [isSwapSuccess, setIsSwapSuccess] = useState(undefined);
@@ -60,27 +60,25 @@ export const SwapBox = (props) => {
         console.log("mywalletAddress", myWalletAddress)
     })
 
-    // set token in and out amount to zero when from and to token are the same
+    const setTokenInAmountToZero = () => {
+        setTokenInAmount(undefined);
+    }
+    const setTokenOutAmountToZero = () => {
+        setTokenOutAmount(0);
+    }
+
     useEffect(async()=> {
-        const setTokenInOutAmountToZero = () => {
-            setTokenInAmount(0);
-            setTokenOutAmount(0);
-        }
-        if(fromToken.id === toToken.id) {
-            await setTokenInOutAmountToZero();
-        } else {
-            await setTokenInOutAmountToZero();
-        }
+        await setTokenInAmountToZero();
+        await setTokenOutAmountToZero();
     },[fromToken,toToken])
 
-    // set token out amount to zero when token in amount is 0
     useEffect(async ()=>{
-        const setTokenOutAmountToZero = () => {
-            setTokenOutAmount(0);
-        }
-
         if (tokenInAmount===0) {
             await setTokenOutAmountToZero();
+        } else if (tokenInAmount<=0.0001) {
+            await setTokenInAmountToZero();
+            await setTokenOutAmountToZero();
+            await setRouting([]);
         }
     },[tokenInAmount])
 
@@ -90,9 +88,10 @@ export const SwapBox = (props) => {
             const routing = await navi.ShowRouting (fromToken.label, toToken.label, tokenInAmount);
             const routingPath = routing.path
 
-            if(routing==="not available") {
+            if(routingPath===[]) {
                 setTokenOutAmount(0);
                 setTokenInAmount(0);
+                setRouting([])
             }
             setRouting(routingPath);
 
@@ -109,6 +108,12 @@ export const SwapBox = (props) => {
             console.log("tokenOutAmount in swapbox", tokenOutAmount)
             console.log("slippage in swapbox", slippage)
         }
+        // else{
+        //     setTokenOutAmount(0);
+        //     setSlippage(0);
+        //     setRouting("");
+        // }
+
     },[fromToken,toToken,tokenInAmount])
 
     // with refresh
@@ -123,7 +128,7 @@ export const SwapBox = (props) => {
             const routing = await navi.ShowRouting (fromToken.label, toToken.label, tokenInAmount);
             const routingPath = routing.path;
 
-            if(routing==="not available") {
+            if(routingPath===[]) {
                 setTokenOutAmount(0);
                 setTokenInAmount(0);
             }
@@ -144,6 +149,11 @@ export const SwapBox = (props) => {
             setRefresh(false);
             console.log("refresh2",refresh)
         }
+        // else{
+        //     setTokenOutAmount(0);
+        //     setSlippage(0);
+        //     setRouting("");
+        // }
     },[fromToken,toToken,tokenInAmount,refresh])
 
     const refreshRouting = () => {
@@ -156,7 +166,7 @@ export const SwapBox = (props) => {
     }
 
     const token_img = {'FINIX':FINIX, 'KBNB':KBNB, 'KDAI':KDAI, 'KETH':KETH, 'KLAY':KLAY, 'KORC':KORC, 'KSP':KSP, 'KUSDT':KUSDT, 'KWBTC':KWBTC, 'KXRP':KXRP, 'SIX':SIX};
-
+    // console.log("ROUTING!!!!!", routing)
     return(
         <Box style = {{ color: "#3A2A17", padding: "30px 30px", fontSize: "15px", backgroundColor: "#FFFDD0" }}>
             <div> Kaikas wallet is connected </div>
@@ -229,12 +239,12 @@ export const SwapBox = (props) => {
             <SwapButton tokenInLabel={fromToken.label} tokenOutLabel={toToken.label} tokenInAmount={tokenInAmount} setIsSwapSuccess={setIsSwapSuccess}/>
             {/*<SwapButtonTest/>*/}
             <div>
-                {!(slippage && routing) ?
+                {(routing.length === 0) ?
                     <div></div>
                     :
                     <div>
-                    <RouteTable routing={routing} slippage={slippage} refreshFunction={()=>refreshRouting()}/>
-                    <RefreshButton refreshFunction={()=>refreshRouting()} />
+                        <RouteTable routing={routing} slippage={slippage} refreshFunction={()=>refreshRouting()}/>
+                        <RefreshButton refreshFunction={()=>refreshRouting()} />
                     </div>
                 }
             </div>
