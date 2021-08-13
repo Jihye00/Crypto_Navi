@@ -42,6 +42,7 @@ export const SwapBox = (props) => {
     const [slippage, setSlippage] = useState(undefined);
     const [refresh, setRefresh] = useState(false);
     const [isSwapSuccess, setIsSwapSuccess] = useState(undefined);
+    const [isTokenInAmountDisabled, setIsTokenInAmountDisabled] = useState(undefined);
 
     console.log("fromToken:", fromToken.label, "toToken: ", toToken.label)
 
@@ -85,7 +86,7 @@ export const SwapBox = (props) => {
             console.log("tokenOutAmount in swapbox", tokenOutAmount)
             console.log("slippage in swapbox", slippage)
 
-        if(fromToken.label !== "" && toToken.label !== "" && !isNaN(tokenInAmount)) {
+        if(fromToken.label !== "" && toToken.label !== "" && tokenInAmount!==0) {
             await checkRouting();
             console.log("routing in swapbox", routing)
             console.log("tokenOutAmount in swapbox", tokenOutAmount)
@@ -112,7 +113,7 @@ export const SwapBox = (props) => {
             setSlippage(slippage);
         }
 
-        if(fromToken.label !== "" && toToken.label !== "" && !isNaN(tokenInAmount)) {
+        if(fromToken.label !== "" && toToken.label !== "" && tokenInAmount!==0) {
             await checkRouting();
             console.log("routing in swapbox", routing)
             console.log("tokenOutAmount in swapbox", tokenOutAmount)
@@ -121,6 +122,25 @@ export const SwapBox = (props) => {
             console.log("refresh2",refresh)
         }
     },[fromToken,toToken,tokenInAmount,refresh])
+
+    // disable and enable tokenInAmount
+    useEffect(async()=> {
+        const disableTokenInAmount = () => {
+            setIsTokenInAmountDisabled(true)
+            setTokenInAmount(0);
+            setTokenOutAmount(0);
+        }
+        const enableTokenInAmount = () => {
+            setIsTokenInAmountDisabled(false)
+            setTokenInAmount(0);
+            setTokenOutAmount(0);
+        }
+        if(fromToken.id === toToken.id) {
+            await disableTokenInAmount();
+        } else {
+            await enableTokenInAmount();
+        }
+    },[fromToken,toToken])
 
     const refreshRouting = () => {
         setRefresh(true);
@@ -159,7 +179,7 @@ export const SwapBox = (props) => {
                     {/*    value={tokenInAmount} renderInput={props => <Input {...props} />}*/}
                     {/*    style = {{ color: "#3A2A17", padding: "15px 20px", fontSize: "15px" }}*/}
                     {/*/>*/}
-                    <TextField style = {{ color: "#3A2A17", padding: "10px 10px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10}}
+                    <TextField style = {{ color: "#3A2A17", padding: "10px 10px", fontSize: "15px", backgroundColor: "#E8DED1", borderRadius: 10}} disabled={isTokenInAmountDisabled}
                         type="number" format="none" value={tokenInAmount} onChange ={(e)=>changeTokenInAmount(e.target.value)}
                                // InputProps={{ classes: { input: classes.textfield1 }, }}
                     />

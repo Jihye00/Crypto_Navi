@@ -15,11 +15,10 @@ export const RouteTable = (props) => {
     if(routing !== undefined){
         for (var itr = 0; itr < routing.length; itr++) {
             var arr = routing[itr].split(',');
-
             const routingRow = {
                 fromToken: arr[0],
-                klayPercent: safemath.safeDiv(mathjs.round(safemath.safeDiv(safemath.safeMule(1000, arr[3]), safemath.safeAdd(arr[3], arr[5]))), 10),
-                definixPercent: safemath.safeDiv(mathjs.round(safemath.safeDiv(safemath.safeMule(1000, arr[5]), safemath.safeAdd(arr[3], arr[5]))), 10)
+                klayPercent: mathjs.round(arr[3]*1000/(arr[3]+arr[5]))*10,
+                definixPercent: mathjs.round(arr[5]*1000/(arr[3]+arr[5]))*10
             }
 
             routingRows.push(routingRow);
@@ -35,7 +34,7 @@ export const RouteTable = (props) => {
     console.log("slippage in RouteTable", slippage)
     let slippagePercent;
     if (slippage!==undefined){
-        slippagePercent = safemath.safeDiv(mathjs.round(safemath.safeMule(safemath.safeSub(1,slippage),1000)),100)
+        slippagePercent = mathjs.round((1-slippage)*1000)/10
     }
     console.log("slippagePercent in RouteTable", slippagePercent)
 
@@ -72,7 +71,7 @@ export const RouteTable = (props) => {
 
                 <div style = {{display: "flex", flexDirection: "row", "justify-content": "center"}}>
                         <Box style={{backgroundColor: '#FFB284', height: 10, width: 10, alignSelf: 'center'}} />
-                        <p style={{color: '#FFB284', alignSelf:'center', fontSize: 12 }}> &nbsp;&nbsp;&nbsp; Klaytn &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+                        <p style={{color: '#FFB284', alignSelf:'center', fontSize: 12 }}> &nbsp;&nbsp;&nbsp; KLAYSwap &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
                         <Box style={{backgroundColor: '#98AEB6', height: 10, width: 10, alignSelf: 'center'}} />
                         <p style={{color: '#98AEB6', alignSelf:'center', fontSize: 12 }}> &nbsp;&nbsp;&nbsp; Definix </p>
                 </div>
