@@ -61,7 +61,7 @@ export const SwapBox = (props) => {
     })
 
     const setTokenInAmountToZero = () => {
-        setTokenInAmount(undefined);
+        setTokenInAmount(0);
     }
     const setTokenOutAmountToZero = () => {
         setTokenOutAmount(0);

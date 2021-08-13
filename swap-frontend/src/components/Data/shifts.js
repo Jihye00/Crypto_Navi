@@ -1,3 +1,5 @@
+const big = require("bignumber.js");
+
 async function lshift (stringint, howmany) {
     let origin = stringint.indexOf('.');
     if (origin == -1) stringint = stringint+'.';
@@ -7,17 +9,18 @@ async function lshift (stringint, howmany) {
     var temp = zeros.concat(stringint.split('')).concat(zeros)
     var neworigin = temp.indexOf('.')
     temp.splice(neworigin, 1)
-
     // small unit to large unit (peb => KLAY)
     if (howmany > 0) {
         temp.splice(neworigin - howmany, 0, '.')
         temp.splice(temp.indexOf('.')+ Math.abs(howmany) + 1)
+        // return big.BigNumber(temp.join(''));
         return temp.join('');
     }
     // large unit to small unit (KLAY => peb)
     else {
         temp.splice(neworigin - howmany, 0, '.')
         temp.splice(temp.indexOf('.'))
+        // return big.BigNumber(temp.join(''));
         return temp.join('');
     }
 }

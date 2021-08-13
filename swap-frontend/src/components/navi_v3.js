@@ -1,6 +1,5 @@
 import {klaytn, caver} from "./caver";
 import {BigNumber} from 'bignumber.js';
-import { isNumeric } from "mathjs";
 
 const test = require('./Data/test_v3.js');
 const type = require('./Algorithm/type_v3.js');
@@ -47,12 +46,11 @@ async function prepareMatrix(tokenA, tokenB, howmany){
     }
     await test.test();
     var route_matrix = new type.Route_Matrix(type.CurrencyLists);
-    // console.log(type.SwapMatrix);
+
     route_matrix.calc(3, tokenA, howmany);
     var indexA = type.index_finder(tokenA);
     var indexB = type.index_finder(tokenB);
-    // console.log(route_matrix.matrix[indexA][indexB]);
-    // data['slippage'] = 100 * (1 - data['slippage'])
+
     data = route_matrix.matrix[indexA][indexB].path;
     data_full = route_matrix.matrix[indexA][indexB];
     resratio = route_matrix.matrix[indexA][indexB].ratio;
@@ -90,21 +88,16 @@ async function SwapRouting (tokenA, tokenB, amount, dex) {
         console.log("entered KLAYSWAP")
         const myKlayContract = new caver.klay.Contract(abi.abi, "0xc6a2ad8cc6e4a7e08fc37cc5954be07d499e7654")
         if (tokenA == "KLAY") {
-            // let res = await Factory.methods.exchangeKlayPos(TOKEN_ADDRESS[tokenB], 1, empty).send({ from: myWalletAddress, gas: 1000000, value: bigamount });
             let res = await myKlayContract.methods.exchangeKlayPos(test.TOKEN_ADDRESS[tokenB], 1, empty)
                 .send({from: klaytn.selectedAddress, gas: 1000000, value: bigamount},
                 function(error, transactionHash) {console.log(transactionHash)});
-            // console.log(res);
             return res.transactionHash;
         }
         else if (tokenA != "KLAY") {
 
             await approve(tokenA, dex);
-
-            // let res = await Factory.methods.exchangeKctPos(TOKEN_ADDRESS[tokenA], bigamount, TOKEN_ADDRESS[tokenB], 1, empty).send({ from: myWalletAddress, gas: 1000000 });
             let res = await myKlayContract.methods.exchangeKctPos(test.TOKEN_ADDRESS[tokenA], bigamount, test.TOKEN_ADDRESS[tokenB], 1, empty).send({from: klaytn.selectedAddress, gas: 1000000},
                 function(error, transactionHash) {console.log(transactionHash)});
-            // console.log(res);
             return res.transactionHash;
         }
         else console.log("KLAYSWAP Corner Case!!!");
@@ -113,15 +106,11 @@ async function SwapRouting (tokenA, tokenB, amount, dex) {
     if (dex == "DEFINIX") {
         console.log("entered DEFINIX")
         const myDefiContract = new caver.klay.Contract(abi_definix, "0x4E61743278Ed45975e3038BEDcaA537816b66b5B")
-        // console.log(“entered DEFINIX”)
         let timestamp = Date.now() + 1000 * 60 * 15;
         if (tokenA == "KLAY") {
             path[0] = "0x5819b6af194a78511c79c85ea68d2377a7e9335f";
-            // let res = await Router.methods.swapExactETHForTokens(1, path, myWalletAddress, timestamp).send({ from: myWalletAddress, gas: 1000000, value: bigamount });
             let res = await myDefiContract.methods.swapExactETHForTokens(1, path, klaytn.selectedAddress, timestamp).send({ from: klaytn.selectedAddress, gas: 1000000, value: bigamount });
-            // let res = await myDefiContract.methods.swapExactETHForTokens(type.TOKEN_ADDRESS[tokenA],bigamount, type.TOKEN_ADDRESS[tokenB], 1, empty).send({from: klaytn.selectedAddress, gas: 1000000},
-            // function(error, transactionHash) {console.log(transactionHash)});
-            // console.log(res);
+
             return res.transactionHash;
         }
     else if (tokenA != "KLAY" && tokenB != "KLAY") {

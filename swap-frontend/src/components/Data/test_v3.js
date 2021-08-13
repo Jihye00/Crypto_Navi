@@ -26,7 +26,6 @@ const Web3 = require('web3');
 const web3 = new Web3();
 web3.setProvider(new Web3.providers.HttpProvider());//'http://localhost:8551'
 
-
 const KSLP_ADDRESS = {
 
   KORC_KUSDT_ADDRESS: "0x94f390a8438b5de00b868d3ae47863db90fb92c3",
@@ -209,19 +208,13 @@ async function getCurrentPool(contract_address) {
   } catch(error){
     console.log(error);
   }
-
 };
 
-// const CurrencyLists = ['KLAY', 'KBNB', 'KUSDT', 'KDAI', 'KXRP', 'KETH', 'KSP', 'SIX', 'KORC', 'KWBTC'];
-// const MATRIX_SIZE = CurrencyLists.length;
 async function test() {
   for (let contract_name in KSLP_ADDRESS) {
     var getCurrentPool_res;
-    // console.log("----------------------------");
     try{
-      getCurrentPool_res = await getCurrentPool(KSLP_ADDRESS[contract_name]);
-      // console.log(getCurrentPool_res);
-      
+      getCurrentPool_res = await getCurrentPool(KSLP_ADDRESS[contract_name]);      
     }
     catch(err){
       console.log(err);
