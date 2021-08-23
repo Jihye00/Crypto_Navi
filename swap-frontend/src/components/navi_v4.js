@@ -11,7 +11,6 @@ const Kip7Abi = require('./Data/Kip7Abi.json');
 
 const empty = [];
 var data, data_full;
-var resratio;
 const NAVI_ADDRESS = "";
 
 async function approveNAVI(contractAddress = NAVI_ADDRESS) {
@@ -67,7 +66,6 @@ async function prepareMatrix(tokenA, tokenB, howmany){
     // data['slippage'] = 100 * (1 - data['slippage'])
     data = route_row.row[indexB].path;
     data_full = route_row.row[indexB];
-    resratio = route_row.row[indexB].money;
 }
 
 async function getSwappedAmount(txhash, tokenname) {
@@ -84,7 +82,7 @@ async function getSwappedAmount(txhash, tokenname) {
       }
     }
     console.log("swapped currency data not found")
-  };
+}
 
 async function ShowRouting (tokenA = '', tokenB = '', howmany = -1) {
     if (tokenA == '' || tokenB == '' || howmany <= 0){
@@ -153,10 +151,10 @@ async function SmartSwapRouting (tokenA, tokenB, howmany) {
         var amount_Ksp = safemath.safeMule(safemath.safeDiv(params[3], safemath.safeAdd(params[3], params[5])), amount)
         var amount_Def = safemath.safeMule(safemath.safeDiv(params[5], safemath.safeAdd(params[3], params[5])), amount)
         input.push([test.TOKEN_ADDRESS[params[0]], test.TOKEN_ADDRESS[params[1]], amount_Ksp, amount_Def]);
+    }
     console.log(input)
 
     // NAVI contract call
-    }
 }
 
 async function execute (tokenA, tokenB, amount) {
@@ -164,18 +162,10 @@ async function execute (tokenA, tokenB, amount) {
     await SwapRouting(tokenA, tokenB, amount);
 }
 
-ShowRouting('KLAY', 'KUSDT', 10);
-SmartSwapRouting('KLAY', 'KUSDT', 10);
+// ShowRouting('KLAY', 'KUSDT', 10);
+// SmartSwapRouting('KLAY', 'KUSDT', 10);
 // execute('KUSDT', 'KLAY', "3.652481");
 // SmartSwapRouting('KUSDT', 'KLAY', "3.731073");
-// 0.
-
-// module.exports = {
-//     ShowRouting,
-//     SwapRouting,
-//     execute,
-//     SmartSwapRouting
-// }
 
 export {
     SwapRouting,
