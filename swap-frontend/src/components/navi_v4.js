@@ -156,7 +156,7 @@ async function SmartSwapRouting (tokenA, tokenB, howmany) {
     console.log(input)
 
     // NAVI contract call
-    
+    }
 }
 
 async function execute (tokenA, tokenB, amount) {
