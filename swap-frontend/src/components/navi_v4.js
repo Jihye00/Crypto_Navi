@@ -154,6 +154,9 @@ async function SmartSwapRouting (tokenA, tokenB, howmany) {
         var amount_Def = safemath.safeMule(safemath.safeDiv(params[5], safemath.safeAdd(params[3], params[5])), amount)
         input.push([test.TOKEN_ADDRESS[params[0]], test.TOKEN_ADDRESS[params[1]], amount_Ksp, amount_Def]);
     console.log(input)
+
+    // NAVI contract call
+    
 }
 
 async function execute (tokenA, tokenB, amount) {
