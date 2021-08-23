@@ -40,7 +40,8 @@ contract NaviSwap {
         definixRouterAddress = 0x4E61743278Ed45975e3038BEDcaA537816b66b5B;
         dfnxRouter = IDefinixRouter02(definixRouterAddress);
     }
-    
+    // input : address _from, address _to, uint _amount
+    // return : swapped amount uint of _to token
     function swapDefinix(
         uint amountIn, 
         uint amountOutMin, 
@@ -59,9 +60,10 @@ contract NaviSwap {
                 dfnxRouter.swapExactTokensForTokens()
             }
         }
-            
     }
-    
+
+    // input : address _from, address _to, uint _amount
+    // return : swapped amount uint of _to token
     function swapKlayswap(
         uint amountIn, 
         uint amountOutMin,
@@ -70,7 +72,7 @@ contract NaviSwap {
 
         }
 
-    function addPath (
+    function addSwap (
         address _from,
         address _to,
         uint _kspAmount,
@@ -84,23 +86,16 @@ contract NaviSwap {
         uint kspAmount;
         uint defAmount;
         uint total = 0;
-        uint 
-        total = total + swapKlayswap(_path[0][0], _path[0][1], _path[0][2]) 
-        total = total + swapDefinix(_path[0][0], _path[0][1], _path[0][1], _path[0][3])
-        
-        for (uint i = 1; i < n - 1; i++) {
+
+        total = total + swapKlayswap(_path[0]._from, _path[0]._to, _path[0]._kspAmount); 
+        total = total + swapDefinix(_path[0]._from, _path[0]._to, _path[0]._defAmount);
+        for (uint i = 1; i < n; i++) {
             total = 0;
             // 그 외의 경우에는 이전 iteration 에서 얻은 amount를 
             // 비율에 따라 나눔 값을 토대로 swap을 진행
             // approve()
-            total = total + swapKlayswap(_path[i][0], _path[i][1], _path[i][2])
-            total = total + swapDefinix(_path[i][0], _path[i][0], _path[i][1], _path[i][3])
-            
+            total = total + swapKlayswap(_path[0]._from, _path[0]._to, _path[0]._kspAmount); 
+            total = total + swapDefinix(_path[0]._from, _path[0]._to, _path[0]._defAmount);
         }
-
     }
-    
-
-    
-    
 }
