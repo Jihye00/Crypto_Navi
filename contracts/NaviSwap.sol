@@ -9,7 +9,15 @@ import "./NaviOptimizer.sol";
 
 
 contract NaviSwap {
-    
+    struct Swap {
+        address from;
+        address to;
+        uint kspAmount;
+        uint defAmount;
+    }
+
+    mapping (uint => Swap) Path;
+
     address payable public owner;
     
     uint private unlocked = 1;
@@ -53,12 +61,44 @@ contract NaviSwap {
         }
             
     }
-
+    
     function swapKlayswap(
         uint amountIn, 
         uint amountOutMin,
         uint address[] memory path,
-        address to)
+        address to) {
+
+        }
+
+    function addPath (
+        address _from,
+        address _to,
+        uint _kspAmount,
+        uint _defAmount
+    ) external payable returns(Swap){
+        return new Swap(_from, _to, _kspAmount, _defAmount);
+    }
+    // 각 swapKlayswap 이랑 swapDefinix 에서 수량이 0 이라면 그냥 0을 리턴해주어야함
+    function main(Swap[] _path) external payable {
+        uint n = _path.length;
+        uint kspAmount;
+        uint defAmount;
+        uint total = 0;
+        uint 
+        total = total + swapKlayswap(_path[0][0], _path[0][1], _path[0][2]) 
+        total = total + swapDefinix(_path[0][0], _path[0][1], _path[0][1], _path[0][3])
+        
+        for (uint i = 1; i < n - 1; i++) {
+            total = 0;
+            // 그 외의 경우에는 이전 iteration 에서 얻은 amount를 
+            // 비율에 따라 나눔 값을 토대로 swap을 진행
+            // approve()
+            total = total + swapKlayswap(_path[i][0], _path[i][1], _path[i][2])
+            total = total + swapDefinix(_path[i][0], _path[i][0], _path[i][1], _path[i][3])
+            
+        }
+
+    }
     
 
     
