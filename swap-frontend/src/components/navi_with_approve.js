@@ -62,7 +62,7 @@ async function ShowRouting (tokenA = '', tokenB = '', howmany = -1) {
     }
 }
 
-async function approveNAVI () = {
+async function approveNAVI () {
     let currentAllowance = await Kip7.methods.allowance(klaytn.selectedAddress, NAVI_ADDRESS).call();
     console.log("currentAllowance", currentAllowance, typeof(currentAllowance));
     
