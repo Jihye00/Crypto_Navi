@@ -12,6 +12,20 @@ const Kip7Abi = require('./Data/Kip7Abi.json');
 const empty = [];
 var data, data_full;
 var resratio;
+const NAVI_ADDRESS = "";
+
+async function approveNAVI() {
+    let currentAllowance = await Kip7.methods.allowance(klaytn.selectedAddress, NAVI_ADDRESS).call();
+    console.log("currentAllowance", currentAllowance, typeof(currentAllowance));
+    
+    if (currentAllowance === "0") {
+        console.log("current allowance is 0");
+        let allowance = new BigNumber("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        console.log("allowance",allowance)
+        await Kip7.methods.approve(NAVI_ADDRESS, allowance)
+            .send({from: klaytn.selectedAddress, gas: 1000000 });
+    }
+}
 
 async function approve(tokenname, dex) {
     const Kip7 = new caver.klay.Contract(Kip7Abi, test.TOKEN_ADDRESS[tokenname]);// 수정
