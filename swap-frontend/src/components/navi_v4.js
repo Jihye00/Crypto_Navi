@@ -153,6 +153,8 @@ async function SmartSwapRouting (tokenA, tokenB, howmany) {
         input.push([test.TOKEN_ADDRESS[params[0]], test.TOKEN_ADDRESS[params[1]], amount_Ksp, amount_Def]);
     }
     console.log(input)
+
+    // NAVI contract call
 }
 
 async function execute (tokenA, tokenB, amount) {
