@@ -146,49 +146,14 @@ async function SwapRouting (tokenA, tokenB, amount, dex) {
     }
 }
 async function SmartSwapRouting (tokenA, tokenB, howmany) {
-    var amount = howmany;
-    console.log(data)
-    for (var j = 0; j < data.length; j++) {
-        var params = data[j].split(',');
-        console.log('\n');
-        console.log( "   swap " + (j + 1) + " ================================================= \n")
-        console.log(params)
-        console.log(params[0] + " to swap : " + amount)
-        if (params[3] != 0 && params[5] != 0) {
-            console.log("1")
-            var amount_Ksp = safemath.safeMule(safemath.safeDiv(params[3], safemath.safeAdd(params[3], params[5])), amount)
-            var amount_Def = safemath.safeMule(safemath.safeDiv(params[5], safemath.safeAdd(params[3], params[5])), amount)
-
-            amount_Ksp = await getSwappedAmount(await SwapRouting(params[0], params[1], amount_Ksp, params[2]), params[1]);
-            amount_Def = await getSwappedAmount(await SwapRouting(params[0], params[1], amount_Def, params[4]), params[1]);
-            if(amount_Ksp == 0 || amount_Def == 0){
-                return false;
-            }
-            amount = safemath.safeAdd(amount_Ksp, amount_Def);
-        }
-        else if (params[3] != 0){
-            console.log("2")
-            amount = await getSwappedAmount(await SwapRouting(params[0], params[1], amount, params[2]), params[1]);
-            if(amount == 0){
-                return false;
-            }
-        }
-        else if (params[5] != 0){
-            console.log("3")
-            amount = await getSwappedAmount(await SwapRouting(params[0], params[1], amount, params[4]), params[1]);
-            if(amount == 0){
-                return false;
-            }
-        }
-        else console.log("warning\n\n\nwarning\nwarning\n\n\n\nwarning\n\nwarning\n\n");
-        
-    }
-    console.log("\n==Crypto_NAVI_V3 Result ==")
-    console.log('from : ' + howmany +' '+ tokenA + ' swapped ' + Number(amount) + ' ' + tokenB)
-    console.log('expected : ' + resratio)
-    // console.log(data)
-    // console.log((Date.now() - start)/1000 + 'sec');
-    return true;
+    await approveNAVI();
+    let input = [];
+    for (var j2 = 0; j2 < data.length; j2++) {
+        var params = data[j2].split(',');
+        var amount_Ksp = safemath.safeMule(safemath.safeDiv(params[3], safemath.safeAdd(params[3], params[5])), amount)
+        var amount_Def = safemath.safeMule(safemath.safeDiv(params[5], safemath.safeAdd(params[3], params[5])), amount)
+        input.push([test.TOKEN_ADDRESS[params[0]], test.TOKEN_ADDRESS[params[1]], amount_Ksp, amount_Def]);
+    console.log(input)
 }
 
 async function execute (tokenA, tokenB, amount) {
@@ -196,6 +161,8 @@ async function execute (tokenA, tokenB, amount) {
     await SwapRouting(tokenA, tokenB, amount);
 }
 
+ShowRouting('KLAY', 'KUSDT', 10);
+SmartSwapRouting('KLAY', 'KUSDT', 10);
 // execute('KUSDT', 'KLAY', "3.652481");
 // SmartSwapRouting('KUSDT', 'KLAY', "3.731073");
 // 0.
