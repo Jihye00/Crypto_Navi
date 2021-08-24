@@ -145,7 +145,7 @@ async function SwapRouting (tokenA, tokenB, amount, dex) {
     else console.log("\n\n\n\n\n\n\nn\\n\n\\n\n\\n\\n\n\\n\\n\\n\n\\n\\n\\n\n\\n\n");
     }
 }
-async function SmartSwapRouting (tokenA, tokenB, howmany) {
+async function SmartSwapRouting () {
     await approveNAVI();
     let input = [];
     for (var j2 = 0; j2 < data.length; j2++) {
@@ -155,8 +155,8 @@ async function SmartSwapRouting (tokenA, tokenB, howmany) {
         input.push({_from : test.TOKEN_ADDRESS[params[0]], _to : test.TOKEN_ADDRESS[params[1]], _kspAmount : amount_Ksp, _defAmount : amount_Def});
     }
     console.log(input)
-    
-    // NAVI contract call
+
+    // NAVI contract call with input
 }
 
 async function execute (tokenA, tokenB, amount) {
