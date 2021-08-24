@@ -27,4 +27,6 @@ This ends early if there is nothing to update so it is usually less than 10 * n^
 #### How To Start ####
 1. Download all the files by ``` git clone https://github.com/Mingyu-Lucif/Crypto_NAVI.git```
 2. ``` npm install ``` at swap_frontend
-3. ``` npm start ``` at swap_frontend
+3. Make your own api key at https://www.klaytnapi.com/ko/landing/main
+4. You can change api key and some constants at (file_name)
+5. ``` npm start ``` at swap_frontend
