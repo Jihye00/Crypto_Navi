@@ -1,5 +1,6 @@
 import {klaytn, caver} from "./caver";
 import {BigNumber} from 'bignumber.js';
+// const BigNumber = require('bignumber.js');
 
 const test = require('./Data/test_v4.js');
 const type = require('./Algorithm/type_v4.js');
@@ -145,12 +146,15 @@ async function SwapRouting (tokenA, tokenB, amount, dex) {
 }
 async function SmartSwapRouting (tokenA, tokenB, howmany) {
     await approveNAVI();
+    // await ShowRouting(tokenA, tokenB, howmany);
     let input = [];
     for (var j2 = 0; j2 < data.length; j2++) {
         var params = data[j2].split(',');
-        var amount_Ksp = safemath.safeMule(safemath.safeDiv(params[3], safemath.safeAdd(params[3], params[5])), amount)
-        var amount_Def = safemath.safeMule(safemath.safeDiv(params[5], safemath.safeAdd(params[3], params[5])), amount)
-        input.push([test.TOKEN_ADDRESS[params[0]], test.TOKEN_ADDRESS[params[1]], amount_Ksp, amount_Def]);
+        // var amount_Ksp = BigNumber(await shifts.lshift(safemath.safeMule(safemath.safeDiv(params[3], safemath.safeAdd(params[3], params[5])), amount).toString(), -1*test.TOKEN_DECIMAL[params[0]]));
+        // var amount_Def = BigNumber(await shifts.lshift(safemath.safeMule(safemath.safeDiv(params[5], safemath.safeAdd(params[3], params[5])), amount).toString(), -1*test.TOKEN_DECIMAL[params[0]]));
+        var amount_Ksp = BigNumber(await shifts.lshift(params[3].toString(), -1*test.TOKEN_DECIMAL[params[0]]));
+        var amount_Def = BigNumber(await shifts.lshift(params[5].toString(), -1*test.TOKEN_DECIMAL[params[0]]));
+        input.push({from:test.TOKEN_ADDRESS[params[0]], to:test.TOKEN_ADDRESS[params[1]], kspAmount:amount_Ksp, defAmount:amount_Def});
     }
     console.log(input)
 
