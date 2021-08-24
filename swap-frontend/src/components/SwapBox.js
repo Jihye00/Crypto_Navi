@@ -112,6 +112,7 @@ export const SwapBox = (props) => {
                 setTokenInAmount(undefined);
                 setRouting([])
             }
+            console.log("routingPath",routingPath)
             setRouting(routingPath);
 
             const estimated = routing.money;
@@ -152,6 +153,7 @@ export const SwapBox = (props) => {
                 setTokenInAmount(undefined);
                 setRouting([])
             }
+            console.log("routingPath",routingPath)
             setRouting(routingPath);
 
             const estimated = routing.money;

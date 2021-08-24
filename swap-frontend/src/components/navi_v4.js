@@ -1,18 +1,20 @@
-// import {klaytn, caver} from "./caver";
-// import {BigNumber} from 'bignumber.js';
-const BigNumber = require('bignumber.js');
+import {klaytn, caver} from "./caver";
+import {BigNumber} from 'bignumber.js';
+// const BigNumber = require('bignumber.js');
 
 const test = require('./Data/test_v4.js');
 const type = require('./Algorithm/type_v4.js');
 const safemath = require("safemath");
 const shifts = require('./Data/shifts.js')
-// const abi = require('./Data/FactoryImpl.json');
-// const abi_definix = require('./Data/DefinixRouter.json');
-// const Kip7Abi = require('./Data/Kip7Abi.json');
+const abi = require('./Data/FactoryImpl.json');
+const abi_definix = require('./Data/DefinixRouter.json');
+const Kip7Abi = require('./Data/Kip7Abi.json');
 
 const empty = [];
 var data, data_full;
 const NAVI_ADDRESS = "";
+
+let Path = [{_from:'', _to: '', _kspAmount : 0, _defAmount : 0}];
 
 async function approveNAVI(contractAddress = NAVI_ADDRESS) {
     let currentAllowance = await Kip7.methods.allowance(klaytn.selectedAddress, contractAddress).call();
@@ -144,9 +146,9 @@ async function SwapRouting (tokenA, tokenB, amount, dex) {
     else console.log("\n\n\n\n\n\n\nn\\n\n\\n\n\\n\\n\n\\n\\n\\n\n\\n\\n\\n\n\\n\n");
     }
 }
-async function SmartSwapRouting (tokenA, tokenB, howmany) {
-    // await approveNAVI();
-    await ShowRouting(tokenA, tokenB, howmany);
+async function SmartSwapRouting () {
+    await approveNAVI();
+    // await ShowRouting(tokenA, tokenB, howmany);
     let input = [];
     for (var j2 = 0; j2 < data.length; j2++) {
         var params = data[j2].split(',');
@@ -159,7 +161,7 @@ async function SmartSwapRouting (tokenA, tokenB, howmany) {
     }
     console.log(input)
 
-    // NAVI contract call
+    // NAVI contract call with input
 }
 
 async function execute (tokenA, tokenB, amount) {
@@ -170,10 +172,10 @@ async function execute (tokenA, tokenB, amount) {
 // ShowRouting('KLAY', 'KUSDT', 10);
 // SmartSwapRouting('KLAY', 'KUSDT', 10);
 // execute('KUSDT', 'KLAY', "3.652481");
-SmartSwapRouting('KUSDT', 'KLAY', "3.731073");
+// SmartSwapRouting('KUSDT', 'KLAY', "3.731073");
 
-// export {
-//     SwapRouting,
-//     ShowRouting,
-//     SmartSwapRouting
-// }
+export {
+    SwapRouting,
+    ShowRouting,
+    SmartSwapRouting
+}
