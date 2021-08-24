@@ -1,11 +1,7 @@
 // SPDX-License-Identifier: MIT
-// origin: https://github.com/bluewhale-protocol/bluewhale-trust/contracts
+pragma solidity ^0.8.0;
 
-pragma solidity >=0.6.0;
-
-import "./IERC20WithMetadata.sol";
-
-interface IKSLP is IERC20WithMetadata {
+interface IKSLP {
     function tokenA() external view returns (address);
 
     function tokenB() external view returns (address);
@@ -36,6 +32,4 @@ interface IKSLP is IERC20WithMetadata {
         uint256 minAmountA,
         uint256 minAmountB
     ) external;
-
-    function userRewardSum(address account) external view returns (uint256);
 }

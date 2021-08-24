@@ -1,10 +1,239 @@
 {
 	"compiler": {
-		"version": "0.8.6+commit.11564f7e"
+		"version": "0.8.0+commit.c7dfd78e"
 	},
 	"language": "Solidity",
 	"output": {
 		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "allowance",
+						"type": "uint256"
+					}
+				],
+				"name": "allowed",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amountB",
+						"type": "uint256"
+					}
+				],
+				"name": "swapped",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "WKLAY",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenA",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "tokenB",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amountA",
+						"type": "uint256"
+					}
+				],
+				"name": "defSwapKct",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "amountB",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenB",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amountA",
+						"type": "uint256"
+					}
+				],
+				"name": "defSwapKlay",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "amountB",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "definixRouter",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "klayswapFactory",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "kslp",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenA",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "tokenB",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "kspSwapKct",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenB",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "kspSwapKlay",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "_from",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "_to",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "_kspAmount",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "_defAmount",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address",
+								"name": "_kspLP",
+								"type": "address"
+							}
+						],
+						"internalType": "struct NaviSwap.Swap[]",
+						"name": "_path",
+						"type": "tuple[]"
+					}
+				],
+				"name": "main",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
 			{
 				"inputs": [],
 				"name": "owner",
@@ -17,6 +246,73 @@
 				],
 				"stateMutability": "view",
 				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenA",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "tokenB",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amountA",
+						"type": "uint256"
+					}
+				],
+				"name": "swapDefinix",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenA",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "tokenB",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amountA",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "lpAddress",
+						"type": "address"
+					}
+				],
+				"name": "swapKlayswap",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "amountB",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
 			}
 		],
 		"devdoc": {
@@ -32,74 +328,82 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/NaviSwap.sol": "NaviSwap"
+			"NaviSwap.sol": "NaviSwap"
 		},
-		"evmVersion": "berlin",
+		"evmVersion": "istanbul",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": false,
+			"enabled": true,
 			"runs": 200
 		},
 		"remappings": []
 	},
 	"sources": {
-		"contracts/NaviOptimizer.sol": {
-			"keccak256": "0x4dda5e9e64d85aab906bf7f7b7c4f140c0cb8ecd4877c4abcf711428531b51d9",
+		"@openzeppelin/contracts/token/ERC20/ERC20.sol": {
+			"keccak256": "0xb03df8481a954604ad0c9125680893b2e3f7ff770fe470e38b89ac61b84e8072",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://7ba183a1bf37b56c6c940d901c5450d4afe50881b77c19791ac01d24d609e757",
-				"dweb:/ipfs/QmXwwmSiz7ZReVZsdCvboDRkeUEEqS6vU89ignUS7EkVFo"
+				"bzz-raw://b34655953d18ba3a45b762fb6bdbb6549af69a27435e10ece178742bf70baf45",
+				"dweb:/ipfs/QmcqjUoFLLMyx7dbwSHUnDBH6aphkVHXWQvQRRev5EAWEh"
 			]
 		},
-		"contracts/NaviSwap.sol": {
-			"keccak256": "0xc1d3e41a9e69372171a325ead84188cb343d5c918f061653764f4b20193feab6",
+		"@openzeppelin/contracts/token/ERC20/IERC20.sol": {
+			"keccak256": "0x027b891937d20ccf213fdb9c31531574256de774bda99d3a70ecef6e1913ed2a",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d2f073d0cd127f89a653e16f5fb038a4ba1303bc547c28fd4037e8cff025933f",
-				"dweb:/ipfs/QmWXGfhCFWvAJ87Q5mGK84XY5HPBi3A29BgbFzm1p3nUMZ"
+				"bzz-raw://087318b21c528119f649899f5b5580566dd8d7b0303d4904bd0e8580c3545f14",
+				"dweb:/ipfs/Qmbn5Mj7aUn8hJuQ8VrQjjEXRsXyJKykgnjR9p4C3nfLtL"
 			]
 		},
-		"contracts/interfaces/IDefinixFactory.sol": {
-			"keccak256": "0x983759f471e7a6b6d991ad57b3fa692be5c04884c1523bddf51ae4c5a23496e7",
+		"@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol": {
+			"keccak256": "0x83fe24f5c04a56091e50f4a345ff504c8bff658a76d4c43b16878c8f940c53b2",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c02dbba52c54a6e759ab7c1e0f598d2a0de8cb8855eb9e8c75389f3d14263f8c",
-				"dweb:/ipfs/QmX2zGdt7npaCEw2tdnUMJUPnPf7qdP9nbNMg8kVz3J8Ta"
+				"bzz-raw://d4c3df1a7ca104b633a7d81c6c6f5192367d150cd5a32cba81f7f27012729013",
+				"dweb:/ipfs/QmSim72e3ZVsfgZt8UceCvbiSuMRHR6WDsiamqNzZahGSY"
 			]
 		},
-		"contracts/interfaces/IDefinixPair.sol": {
-			"keccak256": "0x0ce571c08bf0504bcc1d6fe7576a52c349f1268ec43e5c9c438e37cfa22b87a1",
+		"@openzeppelin/contracts/utils/Context.sol": {
+			"keccak256": "0x90565a39ae45c80f0468dc96c7b20d0afc3055f344c8203a0c9258239f350b9f",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://e4a8f2f60000e2198e5c4a748b0ec99ef0079d2ebea5c1324918f3b7bee7af2e",
-				"dweb:/ipfs/QmQmL5D7qwuADvXQXPeLrd5RcVQJbcEc5KLLdGqVT9iGYT"
+				"bzz-raw://26e8b38a7ac8e7b4463af00cf7fff1bf48ae9875765bf4f7751e100124d0bc8c",
+				"dweb:/ipfs/QmWcsmkVr24xmmjfnBQZoemFniXjj3vwT78Cz6uqZW1Hux"
 			]
 		},
-		"contracts/interfaces/IERC20WithMetadata.sol": {
-			"keccak256": "0x588b4404a0784ec192c8370a294e32e0684bc4527a93416e5edecc920b71859d",
+		"NaviSwap.sol": {
+			"keccak256": "0x4718bea264a2232b8fd306c12e4445f93db1f5045695008976f8670909398f12",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://55dca771924c329eaf469a0f3ff0e7997e57b6454e25eac9cc833dd8e918edaa",
-				"dweb:/ipfs/QmW886NhxLBx5PDARyMc6j8WKwAyToGejxA3nA5DZQ8fCr"
+				"bzz-raw://3256f6698ff754d89a77ffc9d6a22c225d142311c78f6ee1e76d6c192e05e554",
+				"dweb:/ipfs/QmNnaU8X8WV9aDV9D6R1JzHFUssEFMvizT5WVB8fKy891H"
 			]
 		},
-		"contracts/interfaces/IKSLP.sol": {
-			"keccak256": "0x9c8db751232e085bab4d106edbbcb70737ffd19cf7db36c4b1915a9b40acbfe7",
+		"interfaces/IKSLP.sol": {
+			"keccak256": "0x2f9fa2e0248dd9d69b69de2a8a94be11a1bb85ca0249e5c7ed65e58f00db5146",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c616bf3279b97fa151edc973e46284d47162cc44108e712434f7e806bd3d4e65",
-				"dweb:/ipfs/QmWbytbTaGQD7G4Q4B4kJ3BFUtT9uXD3pKBFZkjt5M5Tfn"
+				"bzz-raw://eea18ec87463474ae9cd09a9a9e25c64ac339904e9d7f9d567bca0ad3d421340",
+				"dweb:/ipfs/QmNaFb7hpe3e4WKhbVVW8epA9azun88tbnGg2iCQsqed1q"
 			]
 		},
-		"contracts/interfaces/IKSP.sol": {
-			"keccak256": "0xad540e53703033f452a99fbff80042b6153e56c0d62da9febd2bf93f08ff6afb",
+		"interfaces/IKSP.sol": {
+			"keccak256": "0xf7a08d273961f0d964a8e5be80ef3339444e9084967ada86ced6a64b82a3d8e9",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://0ef7609e26b2c1611cc96e5520058aea76426b7a2103d9b104e6308d629195f1",
-				"dweb:/ipfs/QmU4tT3TkgJampSk3VLsQmrTZcCwhUWqzjcuphWDQz2MbZ"
+				"bzz-raw://8a1ffe8eb4fce0f1bb01bbe10e69ab3416691109da4c60de3f00dd3bc2402627",
+				"dweb:/ipfs/QmRtkuDfZK4beS79wZzez6gaMBoXyPfGumhE4V87tyZf2m"
+			]
+		},
+		"interfaces/artifacts/IDefinixRouter.sol": {
+			"keccak256": "0xfccf2169a7e8dec0704c2778d9681e4a1744cbaa2b71ad756790be3d53e324cc",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://be373c39e098753680368664a3088c65e17c7311495968e4960bbbdcf7f92ee5",
+				"dweb:/ipfs/QmcWePuGzMzNBxmdEokaKo4tzn5tS5eXaRhp8LNcHGrhAu"
 			]
 		}
 	},
