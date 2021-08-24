@@ -13,6 +13,8 @@ const empty = [];
 var data, data_full;
 const NAVI_ADDRESS = "";
 
+let Path = [{_from:'', _to: '', _kspAmount : 0, _defAmount : 0}];
+
 async function approveNAVI(contractAddress = NAVI_ADDRESS) {
     let currentAllowance = await Kip7.methods.allowance(klaytn.selectedAddress, contractAddress).call();
     console.log("currentAllowance", currentAllowance, typeof(currentAllowance));
@@ -150,10 +152,10 @@ async function SmartSwapRouting (tokenA, tokenB, howmany) {
         var params = data[j2].split(',');
         var amount_Ksp = safemath.safeMule(safemath.safeDiv(params[3], safemath.safeAdd(params[3], params[5])), amount)
         var amount_Def = safemath.safeMule(safemath.safeDiv(params[5], safemath.safeAdd(params[3], params[5])), amount)
-        input.push([test.TOKEN_ADDRESS[params[0]], test.TOKEN_ADDRESS[params[1]], amount_Ksp, amount_Def]);
+        input.push({_from : test.TOKEN_ADDRESS[params[0]], _to : test.TOKEN_ADDRESS[params[1]], _kspAmount : amount_Ksp, _defAmount : amount_Def});
     }
     console.log(input)
-
+    
     // NAVI contract call
 }
 
