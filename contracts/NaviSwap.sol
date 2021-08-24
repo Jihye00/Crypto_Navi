@@ -83,19 +83,20 @@ contract NaviSwap {
     // 각 swapKlayswap 이랑 swapDefinix 에서 수량이 0 이라면 그냥 0을 리턴해주어야함
     function main(Swap[] _path) external payable {
         uint n = _path.length;
-        uint kspAmount;
-        uint defAmount;
-        uint total = 0;
-
-        total = total + swapKlayswap(_path[0]._from, _path[0]._to, _path[0]._kspAmount); 
-        total = total + swapDefinix(_path[0]._from, _path[0]._to, _path[0]._defAmount);
-        for (uint i = 1; i < n; i++) {
-            total = 0;
+        uint kspAmount = _path[0]._kspAmount;
+        uint defAmount = _path[0]._defAmount;
+        
+        for (uint i = 0; i < n - 1; i++) {
+            uint total = 0;
             // 그 외의 경우에는 이전 iteration 에서 얻은 amount를 
             // 비율에 따라 나눔 값을 토대로 swap을 진행
             // approve()
-            total = total + swapKlayswap(_path[0]._from, _path[0]._to, _path[0]._kspAmount); 
-            total = total + swapDefinix(_path[0]._from, _path[0]._to, _path[0]._defAmount);
+            total = total + swapKlayswap(_path[i]._from, _path[i]._to, kspAmount); 
+            total = total + swapDefinix(_path[i]._from, _path[i]._to, defAmount);
+            kspAmount = total * _path[i + 1]._kspAmount / (_path[i+1]._kspAmount + _path[i+1]._defAmount);
+            defAmount = total - kspAmount;
         }
+        swapKlayswap(_path[n-1]._from, _path[n-1]._to, kspAmount);
+        swapDefinix(_path[n-1]._from, _path[n-1]._to, defAmount);
     }
 }
