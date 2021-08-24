@@ -164,6 +164,16 @@ async function SmartSwapRouting () {
     console.log(input)
 
     // NAVI contract call with input
+    // Haven't Checked!!!!!!!!!!!!!!!!
+    try{
+        const NAVICONTRACT_ABI = require('./'); //ABI file address
+        const navi_contract = new caver.contract(NAVICONTRACT_ABI, NAVI_ADDRESS);
+        await navi_contract.methods.main(input).send({from: klaytn.selectedAddress, gas:1000000});
+    } catch(err){
+        console.log(err);
+        return false;
+    }
+    return true;
 }
 
 async function execute (tokenA, tokenB, amount) {
