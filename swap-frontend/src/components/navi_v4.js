@@ -157,7 +157,9 @@ async function SmartSwapRouting () {
         var amount_Ksp = BigNumber(await shifts.lshift(params[3].toString(), -1*test.TOKEN_DECIMAL[params[0]]));
         var amount_Def = BigNumber(await shifts.lshift(params[5].toString(), -1*test.TOKEN_DECIMAL[params[0]]));
         var kspLP = (params[0]+'_'+params[1]+'_ADDRESS' in test.KSLP_ADDRESS) ? test.KSLP_ADDRESS[params[0]+'_'+params[1]+'_ADDRESS'] : test.KSLP_ADDRESS[params[1]+'_'+params[0]+'_ADDRESS'];
-        input.push({_from : test.TOKEN_ADDRESS[params[0]], _to : test.TOKEN_ADDRESS[params[1]], _kspAmount : amount_Ksp, _defAmount : amount_Def, _kspLP : kspLP});
+        var from = params[0] === 'KLAY' ? "0x0000000000000000000000000000000000000000" : test.TOKEN_ADDRESS[params[0]];
+        var to = params[1] === 'KLAY' ? "0x0000000000000000000000000000000000000000" : test.TOKEN_ADDRESS[params[1]];
+        input.push({_from : from, _to : to, _kspAmount : amount_Ksp, _defAmount : amount_Def, _kspLP : kspLP});
     }
     console.log(input)
 
