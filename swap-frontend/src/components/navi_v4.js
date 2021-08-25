@@ -16,16 +16,20 @@ const NAVI_ADDRESS = "";
 
 let Path = [{_from:'', _to: '', _kspAmount : 0, _defAmount : 0}];
 
-async function approveNAVI(contractAddress = NAVI_ADDRESS) {
-    let currentAllowance = await Kip7.methods.allowance(klaytn.selectedAddress, contractAddress).call();
-    console.log("currentAllowance", currentAllowance, typeof(currentAllowance));
+async function approveNAVI(tokenAddress, contractAddress = NAVI_ADDRESS) {
+    // let currentAllowance = await Kip7.methods.allowance(klaytn.selectedAddress, contractAddress).call();
+    // console.log("currentAllowance", currentAllowance, typeof(currentAllowance));
     
+    const tokenInstance = new caver.contract(kip7Abi, tokenAddress);
+
     if (currentAllowance === "0") {
         console.log("current allowance is 0");
         let allowance = new BigNumber("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         console.log("allowance",allowance)
-        await Kip7.methods.approve(contractAddress, allowance)
-            .send({from: klaytn.selectedAddress, gas: 1000000 });
+        // await Kip7.methods.approve(contractAddress, allowance)
+            // .send({from: klaytn.selectedAddress, gas: 1000000 });
+        await tokenInstance.methods.approve(contractAddress, allowance)
+            .send({from: klaytn.selectedAddress, gas: 1000000});
     }
 }
 
@@ -147,7 +151,7 @@ async function SwapRouting (tokenA, tokenB, amount, dex) {
     }
 }
 async function SmartSwapRouting () {
-    await approveNAVI();
+    // await approveNAVI();
     // await ShowRouting(tokenA, tokenB, howmany);
     let input = [];
     for (var j2 = 0; j2 < data.length; j2++) {
@@ -159,6 +163,11 @@ async function SmartSwapRouting () {
         var kspLP = (params[0]+'_'+params[1]+'_ADDRESS' in test.KSLP_ADDRESS) ? test.KSLP_ADDRESS[params[0]+'_'+params[1]+'_ADDRESS'] : test.KSLP_ADDRESS[params[1]+'_'+params[0]+'_ADDRESS'];
         var from = params[0] === 'KLAY' ? "0x0000000000000000000000000000000000000000" : test.TOKEN_ADDRESS[params[0]];
         var to = params[1] === 'KLAY' ? "0x0000000000000000000000000000000000000000" : test.TOKEN_ADDRESS[params[1]];
+        if(params[0] !== 'KLAY') {
+            approveNAVI(from);
+        } else{
+            approveNAVI(test.TOKEN_ADDRESS['KLAY']);
+        }
         input.push({_from : from, _to : to, _kspAmount : amount_Ksp, _defAmount : amount_Def, _kspLP : kspLP});
     }
     console.log(input)
@@ -168,7 +177,8 @@ async function SmartSwapRouting () {
     try{
         const NAVICONTRACT_ABI = require('./'); //ABI file address
         const navi_contract = new caver.contract(NAVICONTRACT_ABI, NAVI_ADDRESS);
-        await navi_contract.methods.main(input).send({from: klaytn.selectedAddress, gas:1000000});
+        await navi_contract.methods.main(input)
+            .send({from: klaytn.selectedAddress, gas:1000000});
     } catch(err){
         console.log(err);
         return false;
