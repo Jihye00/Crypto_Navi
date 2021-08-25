@@ -5,12 +5,11 @@ pragma experimental ABIEncoderV2;
 import "./interfaces/IKSP.sol";
 import "./interfaces/IKSLP.sol";
 
-import "./interfaces/artifacts/IDefinixRouter.sol";
+import "./interfaces/IDefinixRouter.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-
-contract NaviSwap {
+contract GithubNaviSwap {
     event allowed(uint256 allowance);
     event swapped(uint256 amountB);
 
