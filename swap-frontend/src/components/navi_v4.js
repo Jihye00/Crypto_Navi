@@ -158,8 +158,8 @@ async function SmartSwapRouting () {
         var params = data[j2].split(',');
         // var amount_Ksp = BigNumber(await shifts.lshift(safemath.safeMule(safemath.safeDiv(params[3], safemath.safeAdd(params[3], params[5])), amount).toString(), -1*test.TOKEN_DECIMAL[params[0]]));
         // var amount_Def = BigNumber(await shifts.lshift(safemath.safeMule(safemath.safeDiv(params[5], safemath.safeAdd(params[3], params[5])), amount).toString(), -1*test.TOKEN_DECIMAL[params[0]]));
-        var amount_Ksp = BigNumber(await shifts.lshift(params[3].toString(), -1*test.TOKEN_DECIMAL[params[0]]));
-        var amount_Def = BigNumber(await shifts.lshift(params[5].toString(), -1*test.TOKEN_DECIMAL[params[0]]));
+        var amount_Ksp = BigNumber(await shifts.lshift(params[3], -1*test.TOKEN_DECIMAL[params[0]]));
+        var amount_Def = BigNumber(await shifts.lshift(params[5], -1*test.TOKEN_DECIMAL[params[0]]));
         var kspLP
         if (params[0]+'_'+params[1]+'_ADDRESS' in test.KSLP_ADDRESS){
             kspLP = test.KSLP_ADDRESS[params[0]+'_'+params[1]+'_ADDRESS'];
@@ -185,7 +185,7 @@ async function SmartSwapRouting () {
         const NAVICONTRACT_ABI = require('./'); //ABI file address
         const navi_contract = new caver.contract(NAVICONTRACT_ABI, NAVI_ADDRESS);
         await navi_contract.methods.main(input)
-            .send({from: klaytn.selectedAddress, gas:1000000});
+            .send({from: klaytn.selectedAddress, gas:1000000, value:0});
     } catch(err){
         console.log(err);
         return false;
