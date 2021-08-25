@@ -160,7 +160,14 @@ async function SmartSwapRouting () {
         // var amount_Def = BigNumber(await shifts.lshift(safemath.safeMule(safemath.safeDiv(params[5], safemath.safeAdd(params[3], params[5])), amount).toString(), -1*test.TOKEN_DECIMAL[params[0]]));
         var amount_Ksp = BigNumber(await shifts.lshift(params[3].toString(), -1*test.TOKEN_DECIMAL[params[0]]));
         var amount_Def = BigNumber(await shifts.lshift(params[5].toString(), -1*test.TOKEN_DECIMAL[params[0]]));
-        var kspLP = (params[0]+'_'+params[1]+'_ADDRESS' in test.KSLP_ADDRESS) ? test.KSLP_ADDRESS[params[0]+'_'+params[1]+'_ADDRESS'] : test.KSLP_ADDRESS[params[1]+'_'+params[0]+'_ADDRESS'];
+        var kspLP
+        if (params[0]+'_'+params[1]+'_ADDRESS' in test.KSLP_ADDRESS){
+            kspLP = test.KSLP_ADDRESS[params[0]+'_'+params[1]+'_ADDRESS'];
+        } else if(params[1]+'_'+params[0]+'_ADDRESS' in test.KSLP_ADDRESS){
+            kspLP = test.KSLP_ADDRESS[params[1]+'_'+params[0]+'_ADDRESS'];
+        } else {
+            kspLP = "0x0";
+        }
         var from = params[0] === 'KLAY' ? "0x0000000000000000000000000000000000000000" : test.TOKEN_ADDRESS[params[0]];
         var to = params[1] === 'KLAY' ? "0x0000000000000000000000000000000000000000" : test.TOKEN_ADDRESS[params[1]];
         if(params[0] !== 'KLAY') {
