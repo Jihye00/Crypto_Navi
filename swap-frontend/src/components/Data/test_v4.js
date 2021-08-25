@@ -4,11 +4,11 @@ const type = require('../Algorithm/type_v4.js');
 //메인넷은 8217, 테스트넷은 1001
 //KAS console을 사용하기위한 access key 입니다. => 트랜잭션 보내는게 무료(하루에 10000번까지)
 // set1: 
-const ACCESS_KEY = "KASKQO63SLJW75Q0FJB61B4N";
-const PRIVATE_KEY = "QAXbYjYlXCf5BAgax7Dm-C0j-kk8RRcW0yfJYNcH";
+// const ACCESS_KEY = "KASKQO63SLJW75Q0FJB61B4N";
+// const PRIVATE_KEY = "QAXbYjYlXCf5BAgax7Dm-C0j-kk8RRcW0yfJYNcH";
 // set2: 
-// const ACCESS_KEY = "KASKLGJKFXREP8VVYXPF74NQ";
-// const PRIVATE_KEY = "YWaTxezIPC4bEJm5cwvsO8Ov7E5jNDjQyXyT10Lk";
+const ACCESS_KEY = "KASKLGJKFXREP8VVYXPF74NQ";
+const PRIVATE_KEY = "YWaTxezIPC4bEJm5cwvsO8Ov7E5jNDjQyXyT10Lk";
 // set3 (100000 request) :
 // const ACCESS_KEY = "KASKKQ0N5AU2XFFXM5YDNXTG";
 // const PRIVATE_KEY = "_0_9w7fFYdS3uvIq2Kf_PsNcjrzxsPdOHkrQNj7M";

@@ -22,7 +22,7 @@ import SIX from "./TokenIcon/SIX.png";
 import {SwapSuccess} from "./SwapSuccess";
 import {SwapError} from "./SwapError";
 
-const navi = require('./navi_v3')
+const navi = require('./navi_v4')
 
 export const SwapBox = (props) => {
     const tokenList = require("./tokenList.json");
