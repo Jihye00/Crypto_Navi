@@ -164,9 +164,9 @@ async function SmartSwapRouting () {
         var from = params[0] === 'KLAY' ? "0x0000000000000000000000000000000000000000" : test.TOKEN_ADDRESS[params[0]];
         var to = params[1] === 'KLAY' ? "0x0000000000000000000000000000000000000000" : test.TOKEN_ADDRESS[params[1]];
         if(params[0] !== 'KLAY') {
-            approveNAVI(from);
+            await approveNAVI(from);
         } else{
-            approveNAVI(test.TOKEN_ADDRESS['KLAY']);
+            await approveNAVI(test.TOKEN_ADDRESS['KLAY']);
         }
         input.push({_from : from, _to : to, _kspAmount : amount_Ksp, _defAmount : amount_Def, _kspLP : kspLP});
     }
