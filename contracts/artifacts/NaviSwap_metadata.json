@@ -99,7 +99,7 @@
 						"type": "uint256"
 					}
 				],
-				"stateMutability": "nonpayable",
+				"stateMutability": "payable",
 				"type": "function"
 			},
 			{
@@ -375,11 +375,19 @@
 			]
 		},
 		"NaviSwap.sol": {
-			"keccak256": "0x4718bea264a2232b8fd306c12e4445f93db1f5045695008976f8670909398f12",
+			"keccak256": "0x332031feadd44d60100851ae4f78efd958e007e97ac43ed863ac057fa59817c2",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3256f6698ff754d89a77ffc9d6a22c225d142311c78f6ee1e76d6c192e05e554",
-				"dweb:/ipfs/QmNnaU8X8WV9aDV9D6R1JzHFUssEFMvizT5WVB8fKy891H"
+				"bzz-raw://2baed4134d49715019f55596a421a66479764cb21bd1c2e5a62c0ce18a760edb",
+				"dweb:/ipfs/QmXpiffqcJsxVG6Zq2GuRoQjSYnig3r8encJxwSHG5JhkS"
+			]
+		},
+		"interfaces/IDefinixRouter.sol": {
+			"keccak256": "0xfccf2169a7e8dec0704c2778d9681e4a1744cbaa2b71ad756790be3d53e324cc",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://be373c39e098753680368664a3088c65e17c7311495968e4960bbbdcf7f92ee5",
+				"dweb:/ipfs/QmcWePuGzMzNBxmdEokaKo4tzn5tS5eXaRhp8LNcHGrhAu"
 			]
 		},
 		"interfaces/IKSLP.sol": {
@@ -396,14 +404,6 @@
 			"urls": [
 				"bzz-raw://8a1ffe8eb4fce0f1bb01bbe10e69ab3416691109da4c60de3f00dd3bc2402627",
 				"dweb:/ipfs/QmRtkuDfZK4beS79wZzez6gaMBoXyPfGumhE4V87tyZf2m"
-			]
-		},
-		"interfaces/artifacts/IDefinixRouter.sol": {
-			"keccak256": "0xfccf2169a7e8dec0704c2778d9681e4a1744cbaa2b71ad756790be3d53e324cc",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://be373c39e098753680368664a3088c65e17c7311495968e4960bbbdcf7f92ee5",
-				"dweb:/ipfs/QmcWePuGzMzNBxmdEokaKo4tzn5tS5eXaRhp8LNcHGrhAu"
 			]
 		}
 	},

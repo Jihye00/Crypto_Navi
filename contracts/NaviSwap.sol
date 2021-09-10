@@ -9,7 +9,7 @@ import "./interfaces/IDefinixRouter.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract GithubNaviSwap {
+contract NaviSwap {
     event allowed(uint256 allowance);
     event swapped(uint256 amountB);
 
@@ -90,8 +90,9 @@ contract GithubNaviSwap {
     // swap Klay
     // tokenA is Klay
     function defSwapKlay(address tokenB, uint256 amountA)
-    public
-    payable returns (uint256 amountB)
+        public
+        payable
+        returns (uint256 amountB)
     {
         if (msg.value != 0) {
             amountA = msg.value;
@@ -104,7 +105,7 @@ contract GithubNaviSwap {
 
         uint256[] memory amounts;
         amounts = IDefinixRouter(definixRouter).swapExactETHForTokens{
-        value: amountA
+            value: amountA
         }(0, path, msg.sender, deadline);
         emit swapped(amounts[1]);
         return amounts[1];
@@ -153,7 +154,11 @@ contract GithubNaviSwap {
         return amountOut;
     }
 
-    function kspSwapKlay(address tokenB, uint256 amount) public payable returns(uint) {
+    function kspSwapKlay(address tokenB, uint256 amount)
+        public
+        payable
+        returns (uint256)
+    {
         if (msg.value != 0) {
             amount = msg.value;
         }
@@ -194,20 +199,35 @@ contract GithubNaviSwap {
         }
     }
 
-    function main(Swap[] memory _path) external payable{
+    function main(Swap[] memory _path) external payable {
         uint256 n = _path.length;
         uint256 kspAmount = _path[0]._kspAmount;
         uint256 defAmount = _path[0]._defAmount;
 
         for (uint256 i = 0; i < n - 1; i++) {
-            uint total = 0;
-            total = total + swapKlayswap(_path[i]._from, _path[i]._to, kspAmount, _path[i]._kspLP);
-            total = total + swapDefinix(_path[i]._from, _path[i]._to, defAmount);
-            kspAmount = (total * _path[i + 1]._kspAmount) / (_path[i + 1]._kspAmount + _path[i + 1]._defAmount);
+            uint256 total = 0;
+            total =
+                total +
+                swapKlayswap(
+                    _path[i]._from,
+                    _path[i]._to,
+                    kspAmount,
+                    _path[i]._kspLP
+                );
+            total =
+                total +
+                swapDefinix(_path[i]._from, _path[i]._to, defAmount);
+            kspAmount =
+                (total * _path[i + 1]._kspAmount) /
+                (_path[i + 1]._kspAmount + _path[i + 1]._defAmount);
             defAmount = total - kspAmount;
         }
-        swapKlayswap(_path[n - 1]._from, _path[n - 1]._to, kspAmount, _path[n-1]._kspLP);
+        swapKlayswap(
+            _path[n - 1]._from,
+            _path[n - 1]._to,
+            kspAmount,
+            _path[n - 1]._kspLP
+        );
         swapDefinix(_path[n - 1]._from, _path[n - 1]._to, defAmount);
-
     }
 }
