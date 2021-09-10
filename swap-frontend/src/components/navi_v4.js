@@ -16,7 +16,7 @@ const NAVI_ADDRESS = "0xC8Dd190b69934eA599bDb2A8cd63253E30331ec0";
 
 let Path = [{_from:'', _to: '', _kspAmount : 0, _defAmount : 0}];
 
-async function approveNAVI(tokenAddress) {
+async function approveNAVI(tokenAddress, allowance) {
     // const Kip7 = new caver.klay.Contract(Kip7Abi, tokenAddress);
     console.log("--------------1111111---------------------------")
     const tokenInstance = new caver.klay.Contract(Kip7Abi, tokenAddress);
@@ -24,15 +24,23 @@ async function approveNAVI(tokenAddress) {
     let currentAllowance = await tokenInstance.methods.allowance(klaytn.selectedAddress, NAVI_ADDRESS).call();
 
     console.log("currentAllowance", currentAllowance, typeof(currentAllowance));
-    
+
+    // await tokenInstance.methods.decreaseAllowance(NAVI_ADDRESS, Number(currentAllowance))
+    //         .send({from: klaytn.selectedAddress, gas: 1000000});
+
+    // await tokenInstance.methods.increaseAllowance(NAVI_ADDRESS, Number(allowance))
+    //         .send({from: klaytn.selectedAddress, gas: 1000000});
+
+    await tokenInstance.methods.approve(NAVI_ADDRESS, allowance)
+        .send({from: klaytn.selectedAddress, gas: 1000000});
+
     if (currentAllowance === "0") {
         console.log("current allowance is 0");
-        let allowance = new BigNumber("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        console.log("allowance",allowance)
+        // let allowance = new BigNumber("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        console.log("allowance", allowance);
         // await Kip7.methods.approve(NAVI_ADDRESS, allowance)
             // .send({from: klaytn.selectedAddress, gas: 1000000 });
-        await tokenInstance.methods.approve(NAVI_ADDRESS, allowance)
-            .send({from: klaytn.selectedAddress, gas: 1000000});
+        
     }
 }
 
@@ -71,7 +79,7 @@ async function prepareMatrix(tokenA, tokenB, howmany){
     await test.test();
     var route_row = new type.Route_Row(type.CurrencyLists, tokenA);
 
-    route_row.calc(20, howmany);
+    route_row.calc(5, howmany);
     var indexB = type.index_finder(tokenB);
     console.log('NAVI RESULT: ', route_row.row[indexB]);
     // data['slippage'] = 100 * (1 - data['slippage'])
@@ -181,16 +189,19 @@ async function SmartSwapRouting () {
         console.log("--------------333333---------------------------", from)
 
         var to = (params[1] === 'KLAY') ? "0x0000000000000000000000000000000000000000" : test.TOKEN_ADDRESS[params[1]];
-        console.log("--------------444444---------------------------", to)
+        console.log("--------------444444---------------------------", to);
+        console.log("--------------555555---------------------------", ((Number(params[3])+Number(params[5]))*1.1).toString());
+        let allowance = await shifts.lshift(((Number(params[3])+Number(params[5]))*1.1).toString(), -1*test.TOKEN_DECIMAL[params[0]]);
+        console.log("--------------555555---------------------------", BigNumber(allowance));
         if(params[0] !== 'KLAY') {
-            await approveNAVI(from);
+            await approveNAVI(from, allowance);
         } 
         else{
-            await approveNAVI(test.TOKEN_ADDRESS['KLAY']);
+            await approveNAVI(test.TOKEN_ADDRESS['KLAY'], allowance);
         }
         input.push({_from : from, _to : to, _kspAmount : amount_Ksp, _defAmount : amount_Def, _kspLP : kspLP});
-        console.log("--------------555555---------------------------", amount_Ksp);
-        console.log("--------------555555---------------------------", amount_Def);
+        console.log("--------------666666---------------------------", amount_Ksp);
+        console.log("--------------666666---------------------------", amount_Def);
     }
     console.log(input)
     if (input[0]['_from'] == "0x0000000000000000000000000000000000000000") {
